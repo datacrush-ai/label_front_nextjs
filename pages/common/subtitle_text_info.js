@@ -20,9 +20,9 @@ export const TextAreaContainer = (data) => {
                     // TextCheck(e, text_check);
                 }} 
                 className={styles.subtitle_board} 
-                defaultValue={subtitle.arr.subCn == undefined ? '' : subtitle.arr.subCn}
+                defaultValue={subtitle.arr?.subCn == undefined ? '' : subtitle.arr?.subCn}
                 readOnly
-                key={`${subtitle.arr.subSnm}_${subtitle.arr.subBgnHrMs}`}
+                key={`${subtitle.arr?.subSnm}_${subtitle.arr?.subBgnHrMs}`}
                 >
                 </textarea>
             </div>
@@ -38,7 +38,7 @@ export const TextAreaContainer = (data) => {
                 className={styles.subtitle_board} 
                 defaultValue={''}
                 readOnly
-                key={`${subtitle.arr.subSnm}_${subtitle.arr.subBgnHrMs}`}
+                key={`${subtitle.arr?.subSnm}_${subtitle.arr?.subBgnHrMs}`}
                 >
                 </textarea>
             </div>
