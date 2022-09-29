@@ -4,7 +4,7 @@ import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { setCue, getCue } from '../../store/nia_layout/StoreCueSlice';
 import { humanReadableTime, subtitleSectionElementClick, ToastMsg, updateRegionFromCustomEvent, setSubtitleChildren } from './common_script';
 import _, { debounce } from "lodash";
-// import SubtitleTextInfo from './subtitle_text_info';
+import SubtitleTextInfo from './subtitle_text_info';
 import { getCommentListRefElement, getCommentRefElement, getStartTImeRefElement, getVidElement } from './video_layout';
 import { getReplacePopupElement } from './edit';
 import { getPlatform } from '../../config/serverconfig';
@@ -205,7 +205,7 @@ export default function Subtitle({ info }) {
                       <div className={styles.time_font}>시작시간 {humanReadableTime(arr.subBgnHrMs)}</div>
                       <div className={styles.time_font}>종료시간 {humanReadableTime(arr.subEndHrMs)}</div>
                     </div>
-                    {/* <SubtitleTextInfo id={idx} arr={arr}></SubtitleTextInfo> */}
+                    <SubtitleTextInfo id={idx} arr={arr}></SubtitleTextInfo>
                     <SelectItem key={`age_${idx}`} response={age_list} setitem={arr.subtileSelLabelInfo.speakerAge} types={'subtitle'}></SelectItem>
                     <SelectItem key={`sex_${idx}`} response={sex_list} setitem={arr.subtileSelLabelInfo.speakerSex} types={'subtitle'}></SelectItem>
                     <SelectItem key={`place_${idx}`} response={place_list} setitem={arr.subtileSelLabelInfo.placeType} types={'subtitle'}></SelectItem>
