@@ -2,6 +2,9 @@
   "name": "nia_client",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "16.14.2"
+  },
   "scripts": {
     "dev": "next dev -p 80",
     "build": "next build",
