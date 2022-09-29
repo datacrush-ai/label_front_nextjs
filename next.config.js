@@ -1,7 +1,49 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  // reactStrictMode: true,
   swcMinify: true,
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/uuid',
+  //       destination: '/',
+  //     },
+  //   ]
+  // },
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: '/uuid/*',
+  //       has: [
+  //         {
+  //           type: 'header',
+  //           key: 'x-nia-user-id',
+  //         }
+  //       ],
+  //       destination: '/',
+  //       permanent: true,
+  //     },
+  //   ]
+  // },
+  // async headers() {
+  //   return [
+  //     {
+  //       source: '/uuid/:uuid*',
+  //       has: [
+  //         {
+  //           type: 'header',
+  //           key: 'x-nia-user-id',
+  //         }
+  //       ],
+  //       headers: [
+  //         {
+  //           key: 'x-nia-user-id',
+  //           value: ':uuid*',
+  //         },
+  //       ]
+  //     },
+  //   ]
+  // },
 }
 
 module.exports = nextConfig
