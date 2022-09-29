@@ -268,7 +268,7 @@ export default function VideoLayout({ video_info }) {
       xhrSetup: function (xhr,url) {
         xhr.withCredentials = true; // do send cookie
         xhr.setRequestHeader("Access-Control-Allow-Headers","*");
-        xhr.setRequestHeader("Access-Control-Allow-Origin","https://wooki.vivo.best");
+        xhr.setRequestHeader("Access-Control-Allow-Origin","https://wooki.vivo.best, https://prodlabelfront.datacrs.ai");
         xhr.setRequestHeader("X-Custom-PSK", "predatacrush");
         xhr.setRequestHeader("Access-Control-Allow-Credentials","true");
       }
@@ -324,7 +324,7 @@ export default function VideoLayout({ video_info }) {
         // withCredentials: true,
         headers: { 
           'Content-Type': 'text/plain',
-          'Access-Control-Allow-Origin':'https://wooki.vivo.best',
+          'Access-Control-Allow-Origin':'https://wooki.vivo.best, https://prodlabelfront.datacrs.ai',
           'Access-Control-Allow-Credentials': true,
           // 'X-Custom-PSK': 'predatacrush'
         },

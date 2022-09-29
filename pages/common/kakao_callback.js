@@ -33,7 +33,7 @@ export async function getServerSideProps(context) {
     const query_code = context.query.code;
     const res = await fetch(`https://datacrush.asuscomm.com:31500/auth?code=${query_code}`, {
         headers: {
-            'Access-Control-Allow-Origin':'https://wooki.vivo.best',
+            'Access-Control-Allow-Origin':'https://wooki.vivo.best, https://prodlabelfront.datacrs.ai',
         },
     });
     let code;
