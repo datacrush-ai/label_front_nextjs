@@ -776,10 +776,8 @@
 .subtitle_edit_layout {
     display: flex;
     /* min-width: 20vw; */
-    width: 100%;
-    min-width: 470px;
     height: 55vh;
-    /* justify-content: center; */
+    justify-content: space-around;
     background-color: #ebecf2;
     /* overflow: scroll; */
     overflow: auto;
@@ -874,8 +872,8 @@
 
 .subtitle_edit_section {
     /* width: calc(65% - -5vw); */
-    width: calc(100% - -5vw);
-    min-width: 470px;
+    /* width: calc(100% - -5vw); */
+        /* min-width: 470px; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -938,10 +936,14 @@
 }
 
 .subtitle_edit_content_row {
+    width: 97vw;
     display: grid;
-    grid-template-rows: auto auto auto auto auto auto auto;
+    /* grid-template-rows: auto auto auto auto auto auto auto auto; */
     /* grid-template-columns: 40px minmax(50px, 150px) minmax(250px, 2fr); */
-    grid-template-columns: 40px minmax(50px, 1.5fr) minmax(300px, 3fr) minmax(260px, 2.3fr) minmax(150px, 1.8fr) minmax(200px, 1fr);
+    /* grid-template-columns: minmax(40px, 40px) minmax(160px, 1.1fr) minmax(300px, 3fr) minmax(260px, 1.5fr) minmax(190px, 1.2fr) minmax(260px, 1.5fr) minmax(200px, 1.3fr); */
+    
+        grid-template-columns: 0.4fr 1.6fr 3fr 2.6fr 1.9fr 2.6fr 2fr;
+        /* grid-template-columns: 0.4fr 1.6fr minmax(3fr, 300px) 2.6fr 1.9fr 2.6fr 2fr; */
     align-items: center;
     grid-template-areas:
         "checkbox thumb words . time"
@@ -956,7 +958,6 @@
     border-radius: 8px;
     transition: box-shadow .4s ease-in-out;
     padding: 15px 10px;
-    width: 100%;
 
 }
 

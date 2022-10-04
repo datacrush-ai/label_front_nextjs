@@ -106,16 +106,14 @@ const LayoutPosition = (info) => {
               <span style={{'gridArea': 'sex3', 'border': '1px solid'}}>w</span>  <span style={{'gridArea': 'sex4', 'border': '1px solid'}}>여자</span>
               
               <span className={styles.header_tips} style={{'gridArea': 'place0'}}>장소</span>
-              <span style={{'gridArea': 'place1', 'border': '1px solid'}}>a</span>  <span style={{'gridArea': 'place2', 'border': '1px solid'}}>가정</span>
-              <span style={{'gridArea': 'place3', 'border': '1px solid'}}>b</span>  <span style={{'gridArea': 'place4', 'border': '1px solid'}}>교실</span>
-              <span style={{'gridArea': 'place5', 'border': '1px solid'}}>d</span>  <span style={{'gridArea': 'place6', 'border': '1px solid'}}>독서관</span>
-              <span style={{'gridArea': 'place7', 'border': '1px solid'}}>f</span>  <span style={{'gridArea': 'place8', 'border': '1px solid'}}>박물관</span>
-              <span style={{'gridArea': 'place9', 'border': '1px solid'}}>g</span>  <span style={{'gridArea': 'place10', 'border': '1px solid'}}>학원</span>
-              <span style={{'gridArea': 'place11', 'border': '1px solid'}}>h</span>  <span style={{'gridArea': 'place12', 'border': '1px solid'}}>놀이터</span>
-              <span style={{'gridArea': 'place13', 'border': '1px solid'}}>j</span>  <span style={{'gridArea': 'place14', 'border': '1px solid'}}>식당</span>
-              <span style={{'gridArea': 'place15', 'border': '1px solid'}}>k</span>  <span style={{'gridArea': 'place16', 'border': '1px solid'}}>마트</span>
-              <span style={{'gridArea': 'place17', 'border': '1px solid'}}>l</span>  <span style={{'gridArea': 'place18', 'border': '1px solid'}}>스튜디오</span>
-              <span style={{'gridArea': 'place19', 'border': '1px solid'}}>;</span>  <span style={{'gridArea': 'place20', 'border': '1px solid'}}>길거리</span>
+              <span style={{'gridArea': 'place1', 'border': '1px solid'}}>a</span>  <span style={{'gridArea': 'place2', 'border': '1px solid'}}>집</span>
+              <span style={{'gridArea': 'place3', 'border': '1px solid'}}>b</span>  <span style={{'gridArea': 'place4', 'border': '1px solid'}}>학교/학원</span>
+              <span style={{'gridArea': 'place5', 'border': '1px solid'}}>d</span>  <span style={{'gridArea': 'place6', 'border': '1px solid'}}>식당/카페</span>
+              <span style={{'gridArea': 'place7', 'border': '1px solid'}}>f</span>  <span style={{'gridArea': 'place8', 'border': '1px solid'}}>상점</span>
+              <span style={{'gridArea': 'place9', 'border': '1px solid'}}>g</span>  <span style={{'gridArea': 'place10', 'border': '1px solid'}}>교통수단</span>
+              <span style={{'gridArea': 'place11', 'border': '1px solid'}}>h</span>  <span style={{'gridArea': 'place12', 'border': '1px solid'}}>스튜디오</span>
+              <span style={{'gridArea': 'place13', 'border': '1px solid'}}>j</span>  <span style={{'gridArea': 'place14', 'border': '1px solid'}}>실외</span>
+              <span style={{'gridArea': 'place15', 'border': '1px solid'}}>k</span>  <span style={{'gridArea': 'place16', 'border': '1px solid'}}>기타상세</span>
 
               <span className={styles.header_tips} style={{'gridArea': 'util0'}}>기타</span>
               <span style={{'gridArea': 'util1', 'border': '1px solid'}}>shift + enter</span>  <span style={{'gridArea': 'util2', 'border': '1px solid'}}>저장</span>

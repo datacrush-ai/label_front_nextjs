@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { setCue } from '../../store/nia_layout/StoreCueSlice';
 import styles from '../../styles/Layout.module.css'
 import { getCueFunc } from './subtitle';
+import { createTmpJSON, getTmpJSON } from './video_layout';
 
 export default function SelectItem({response, setitem, types}) {
     const dispatch = useDispatch();
@@ -13,21 +14,56 @@ export default function SelectItem({response, setitem, types}) {
         const id = e.target.parentElement.parentElement.parentElement.parentElement.id.split('_')[0];
         setSelected(e.target.value);
 
-        if( e.target.value.includes('21') ) {
+        if( e.target.value.includes('KND_11') ) {
+            getTmpJSON().scenarioSelLabelInfo.category.labelCd = e.target.value;
+            getTmpJSON().scenarioSelLabelInfo.category.labelNm = e.target.selectedOptions[0].text;
+            createTmpJSON(getTmpJSON());
+        }
+        else if( e.target.value.includes('KND_12') ) {
+            getTmpJSON().scenarioSelLabelInfo.subCategory.labelCd = e.target.value;
+            getTmpJSON().scenarioSelLabelInfo.subCategory.labelNm = e.target.selectedOptions[0].text;
+            createTmpJSON(getTmpJSON());
+        }
+        else if( e.target.value.includes('KND_13') ) {
+            getTmpJSON().scenarioSelLabelInfo.keyword.labelCd = e.target.value;
+            getTmpJSON().scenarioSelLabelInfo.keyword.labelNm = e.target.selectedOptions[0].text;
+            createTmpJSON(getTmpJSON());
+        }
+        else if( e.target.value.includes('KND_14') ) {
+            getTmpJSON().scenarioSelLabelInfo.opinion.labelCd = e.target.value;
+            getTmpJSON().scenarioSelLabelInfo.opinion.labelNm = e.target.selectedOptions[0].text;
+            createTmpJSON(getTmpJSON());
+        }
+        else if( e.target.value.includes('KND_15') ) {
+            getTmpJSON().scenarioSelLabelInfo.conversationSpeakers.labelCd = e.target.value;
+            getTmpJSON().scenarioSelLabelInfo.conversationSpeakers.labelNm = e.target.selectedOptions[0].text;
+            createTmpJSON(getTmpJSON());
+        }
+        else if( e.target.value.includes('KND_21') ) {
+            //발화자 연령
             cue[id].subtileSelLabelInfo.speakerAge.labelCd = e.target.value;
             cue[id].subtileSelLabelInfo.speakerAge.labelNm = e.target.selectedOptions[0].text;
         }
-        else if( e.target.value.includes('2') ) {
+        else if( e.target.value.includes('KND_22') ) {
+            //성별
             cue[id].subtileSelLabelInfo.speakerSex.labelCd = e.target.value;
             cue[id].subtileSelLabelInfo.speakerSex.labelNm = e.target.selectedOptions[0].text;
         }
-        else if( e.target.value.includes('16') ) {
+        else if( e.target.value.includes('KND_23') ) {
+            //장소
             cue[id].subtileSelLabelInfo.placeType.labelCd = e.target.value;
             cue[id].subtileSelLabelInfo.placeType.labelNm = e.target.selectedOptions[0].text;
         }
-
-        dispatch(setCue({cue}))
+        else if( e.target.value.includes('KND_24') ) {
+            //중첩음
+            cue[id].subtileSelLabelInfo.speakerOvrVoc.labelCd = e.target.value;
+            cue[id].subtileSelLabelInfo.speakerOvrVoc.labelNm = e.target.selectedOptions[0].text;
+        }
+        
+        dispatch(setCue({cue}));
     }
+
+    // console.log(selected)
     
     if( types == 'subtitle' ) {
         return (
