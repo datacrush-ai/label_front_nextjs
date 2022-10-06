@@ -4,8 +4,10 @@ import Script from "next/script";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCue, setCue } from "../../store/nia_layout/StoreCueSlice";
+import { createKeyValueSet } from "./searchbox_autocomplete";
+import { getScenarioSelLabelInfo } from "./select_item";
 import { createCueFunc, getCueFunc } from "./subtitle";
-import { getAgeCurrentElement, getPlaceCurrentElement, getSelectIndex, getSexCurrentElement, getTmpJSON, getUniqeId, getVidElement } from "./video_layout";
+import { createTmpJSON, getAgeCurrentElement, getPlaceCurrentElement, getSelectIndex, getSexCurrentElement, getTmpJSON, getUniqeId, getVidElement } from "./video_layout";
 
 let _subtitle_children; 
 let _sectionEndtime;
@@ -222,17 +224,22 @@ export default function CommonScript() {
                             'placeType': {
                                 'labelCd': cue[idx].subtileSelLabelInfo.placeType.labelCd,
                                 'labelNm': cue[idx].subtileSelLabelInfo.placeType.labelNm,
+                            },
+                            'speakerOvrVoc': {
+                                'labelCd': cue[idx].subtileSelLabelInfo.speakerOvrVoc.labelCd,
+                                'labelNm': cue[idx].subtileSelLabelInfo.speakerOvrVoc.labelNm,
                             }
                         }
                     });
                     
                 }
                 const tmpJSON = getTmpJSON();
+                // tmpJSON.scenarioSelLabelInfo = getScenarioSelLabelInfo();
                 tmpJSON.subtitleList = result;
                 dispatch(setCue({'cue': result}))
                 // localStorage.setItem(getUniqeId(), JSON.stringify(result));
                 sendFetch('/labeltool/tmpSaveLabelJob', tmpJSON, {method: 'POST'})
-
+                
                 ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
             }, 200);
         }
@@ -268,24 +275,45 @@ export default function CommonScript() {
                         cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelCd = getSexCurrentElement().options[getSexCurrentElement().selectedIndex].value;
                         cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelNm = getSexCurrentElement().options[getSexCurrentElement().selectedIndex].textContent;
                     }
-                    else if( e.key == 'a' || e.key == 's' || e.key == 'd' || e.key == 'f' || e.key == 'g' || e.key == 'h' 
-                        || e.key == 'j' || e.key == 'k' || e.key == 'l' || e.key == ';') {
+                    else if( e.key == 'a' || e.key == 's' || e.key == 'd' || e.key == 'f' || e.key == 'g' || e.key == 'h' || e.key == 'j' || e.key == 'k') {
+                        let key = '';
+                        let value = '';
                         const convertKey = {
-                            'a': 1,
-                            's': 2,
-                            'd': 3,
-                            'f': 4,
-                            'g': 5,
-                            'h': 6,
-                            'j': 7,
-                            'k': 8,
-                            'l': 9,
-                            ';': 10,
+                            'a': getTmpJSON().subtitleLabelInfo.placeType[1].labelNm,
+                            's': getTmpJSON().subtitleLabelInfo.placeType[2].labelNm,
+                            'd': getTmpJSON().subtitleLabelInfo.placeType[3].labelNm,
+                            'f': getTmpJSON().subtitleLabelInfo.placeType[4].labelNm,
+                            'g': getTmpJSON().subtitleLabelInfo.placeType[5].labelNm,
+                            'h': getTmpJSON().subtitleLabelInfo.placeType[6].labelNm,
+                            'j': getTmpJSON().subtitleLabelInfo.placeType[7].labelNm,
+                            'k': getTmpJSON().subtitleLabelInfo.placeType[8].labelNm,
                         };
-                        getPlaceCurrentElement().selectedIndex = convertKey[e.key];
-                        cue[getSelectIndex()].subtileSelLabelInfo.placeType.labelCd = getPlaceCurrentElement().options[getPlaceCurrentElement().selectedIndex].value;
-                        cue[getSelectIndex()].subtileSelLabelInfo.placeType.labelNm = getPlaceCurrentElement().options[getPlaceCurrentElement().selectedIndex].textContent;
-
+                        const convertValue = {
+                            'a': getTmpJSON().subtitleLabelInfo.placeType[1].labelCd,
+                            's': getTmpJSON().subtitleLabelInfo.placeType[2].labelCd,
+                            'd': getTmpJSON().subtitleLabelInfo.placeType[3].labelCd,
+                            'f': getTmpJSON().subtitleLabelInfo.placeType[4].labelCd,
+                            'g': getTmpJSON().subtitleLabelInfo.placeType[5].labelCd,
+                            'h': getTmpJSON().subtitleLabelInfo.placeType[6].labelCd,
+                            'j': getTmpJSON().subtitleLabelInfo.placeType[7].labelCd,
+                            'k': getTmpJSON().subtitleLabelInfo.placeType[8].labelCd,
+                        };
+                        
+                        key = convertKey[e.key];
+                        value = convertValue[e.key];
+                        
+                        if( key == undefined && value == undefined ) {
+                            key = getTmpJSON().subtitleLabelInfo.placeType[0].labelNm;
+                            value = getTmpJSON().subtitleLabelInfo.placeType[0].labelCd;
+                        }
+                        getPlaceCurrentElement().children[0].value = key;
+                        cue[getSelectIndex()].subtileSelLabelInfo.placeType.labelCd = value;
+                        cue[getSelectIndex()].subtileSelLabelInfo.placeType.labelNm = getPlaceCurrentElement().children[0].value;
+                    }
+                    else if(e.key == 'l' || e.key == ';') {
+                        getPlaceCurrentElement().children[0].text = '';
+                        getPlaceCurrentElement().children[0].value = '';
+                        getPlaceCurrentElement().children[0].focus();
                     }
                     createCueFunc(cue);
                     // console.log(cue[getSelectIndex()].subtileSelLabelInfo.speakerAge);

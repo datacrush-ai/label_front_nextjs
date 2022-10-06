@@ -22,8 +22,30 @@ let _uniqeId;
 let _ageElement;
 let _sexElement;
 let _placeElement;
-let _tmpJSON = {};
+//let _tmpJSON = {};
 let _select_index = 0;
+let _scenarioSelLabelInfo = {
+  'category': {
+      'labelCd': '',
+      'labelNm': '',
+  },
+  'conversationSpeakers': {
+      'labelCd': '',
+      'labelNm': '',
+  },
+  'keyword': {
+      'labelCd': '',
+      'labelNm': '',
+  },
+  'opinion': {
+      'labelCd': '',
+      'labelNm': '',
+  },
+  'subCategory': {
+      'labelCd': '',
+      'labelNm': '',
+  },
+};
 /**
  * 
  * @param {} data 
@@ -63,11 +85,11 @@ function createVidElement(data) {
 export function getVidElement() {
   return _vidElement;
 }
-function createTmpJSON(data) {
-  _tmpJSON = data;
+export function createTmpJSON(data) {
+  _scenarioSelLabelInfo = data;
 }
 export function getTmpJSON() {
-  return _tmpJSON;
+  return _scenarioSelLabelInfo;
 }
 
 function createAgeCurrentElement(data) {
@@ -230,6 +252,10 @@ export default function VideoLayout({ video_info }) {
           'placeType': {
             'labelCd': data[idx].subtileSelLabelInfo?.placeType?.labelCd,
             'labelNm': data[idx].subtileSelLabelInfo?.placeType?.labelNm,
+          },
+          'speakerOvrVoc': {
+            'labelCd': data[idx].subtileSelLabelInfo?.speakerOvrVoc?.labelCd,
+            'labelNm': data[idx].subtileSelLabelInfo?.speakerOvrVoc?.labelNm,
           }
         }
       });
@@ -245,6 +271,8 @@ export default function VideoLayout({ video_info }) {
       'subtitleLabelInfo': video_info.subtitleLabelInfo,
       'subtitleList': cue,
     };
+
+    console.log(tmpSaveLabelJSON)
 
     const tmpSaveLabelUrl = '/labeltool/tmpSaveLabelJob';
     const tmpSave = async () => {
@@ -433,7 +461,7 @@ export default function VideoLayout({ video_info }) {
               subtitle_edit_layout.scrollTop = target.offsetTop - (subtitle_edit_layout.clientHeight / 0.8);
               createAgeCurrentElement(target.children[0].children[0].children[3].children[1]);
               createSexCurrentElement(target.children[0].children[0].children[4].children[1]);
-              createPlaceCurrentElement(target.children[0].children[0].children[5].children[1]);
+              createPlaceCurrentElement(target.children[0].children[0].children[5].children[0]);
             }
             else {
               target.children[0].children[0].style.backgroundColor = "";

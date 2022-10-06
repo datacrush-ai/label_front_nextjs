@@ -22,6 +22,10 @@ const initialState = {
             'placeType': {
                 'labelCd': '', 
                 'labelNm': ''
+            },
+            'speakerOvrVoc': {
+                'labelCd': '', 
+                'labelNm': ''
             }
         }
         // "speakerCd": '',
@@ -113,7 +117,11 @@ export const getCue = ((state) => {
                 'placeType': {
                     'labelCd': arr.subtileSelLabelInfo.placeType?.labelCd,
                     'labelNm': arr.subtileSelLabelInfo.placeType?.labelNm
-                }
+                },
+                'speakerOvrVoc': {
+                    'labelCd': arr.subtileSelLabelInfo.speakerOvrVoc?.labelCd,
+                    'labelNm': arr.subtileSelLabelInfo.speakerOvrVoc?.labelNm
+                },
             }
         });
         // _result.push({
