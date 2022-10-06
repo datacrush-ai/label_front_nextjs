@@ -4,6 +4,7 @@ import styles from '../../styles/Layout.module.css';
 import Image from 'next/image';
 import { setCue } from '../../store/nia_layout/StoreCueSlice';
 import { getCueFunc } from './subtitle';
+import { createTmpJSON, getTmpJSON } from './video_layout';
 
 let href = '';
 let _result = [];
@@ -30,7 +31,7 @@ const convertValueKey = (key) => {
 }
 
 
-export default function SearchBoxAutoComplete({dataList, dataListName, placeholder, index, setItem}) {
+export default function SearchBoxAutoComplete({dataList, dataListName, placeholder, index, setItem, title, minWidth}) {
     const dataListElement = useRef(null);
     const dispatch = useDispatch();
 
@@ -39,7 +40,23 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
             if (e.target.value != '' && e.target.value != undefined) {
                 // console.log(e.target.id, e.target.value);
                 let cue = getCueFunc();
-                if( convertValueKey(e.target.value).includes('KND_23') ) {
+                console.log(e.target.value, convertValueKey(e.target.value));
+                if(e.target.list.id.includes('subcategory')) {
+                    getTmpJSON().scenarioSelLabelInfo.subCategory.labelCd = convertValueKey(e.target.value);
+                    getTmpJSON().scenarioSelLabelInfo.subCategory.labelNm = e.target.value;
+                    createTmpJSON(getTmpJSON());
+                }
+                else if(e.target.list.id.includes('keyword')) {
+                    getTmpJSON().scenarioSelLabelInfo.keyword.labelCd = convertValueKey(e.target.value);
+                    getTmpJSON().scenarioSelLabelInfo.keyword.labelNm = e.target.value;
+                    createTmpJSON(getTmpJSON());
+                }
+                else if(e.target.list.id.includes('opinion')) {
+                    getTmpJSON().scenarioSelLabelInfo.opinion.labelCd = convertValueKey(e.target.value);
+                    getTmpJSON().scenarioSelLabelInfo.opinion.labelNm = e.target.value;
+                    createTmpJSON(getTmpJSON());
+                }
+                else if( convertValueKey(e.target.value).includes('KND_23') ) {
                     cue[index].subtileSelLabelInfo.placeType.labelCd = convertValueKey(e.target.value);
                     cue[index].subtileSelLabelInfo.placeType.labelNm = e.target.value;
                     console.log(cue[index]?.subtileSelLabelInfo?.placeType);
@@ -77,10 +94,11 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
             dataListElement.current.appendChild(option);
         }
     }, [dataList?.itemlist]);
-    // console.log(setItem.labelCd, setItem.labelCd.includes('_000'))
+    
     if( setItem?.labelCd?.includes('_000')) {
         return (
-            <section className={styles.search_container}>
+            <section style={{'display':'flex', 'justifyContent': 'center', 'alignItems': 'center', 'padding': '10px'}} className={styles.search_container}>
+                <div style={{'whiteSpace': 'nowrap', 'paddingRight': '10px', 'minWidth': minWidth}}>{title}</div>
                 <div className={styles.ibx_search_container}>
                     <input id={index} onSelect={(e) => {autocompleteKeyDown(e)}} onKeyDown={autocompleteKeyDown} type={"text"} list={dataListName} className={styles.ibx_product} placeholder={placeholder}/>
                     <datalist ref={dataListElement} id={dataListName}></datalist>
@@ -88,9 +106,11 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
             </section>
         )
     }
+    
     else {
         return (
-            <section className={styles.search_container}>
+            <section style={{'display':'flex', 'justifyContent': 'center', 'alignItems': 'center', 'padding': '10px'}} className={styles.search_container}>
+                <div style={{'whiteSpace': 'nowrap', 'paddingRight': '10px', 'minWidth': minWidth}}>{title}</div>
                 <div className={styles.ibx_search_container}>
                     <input id={index} onSelect={(e) => {autocompleteKeyDown(e)}} onKeyDown={autocompleteKeyDown} type={"text"} list={dataListName} className={styles.ibx_product} placeholder={placeholder} defaultValue={setItem?.labelNm}/>
                     <datalist ref={dataListElement} id={dataListName}></datalist>

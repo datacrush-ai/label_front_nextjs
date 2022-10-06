@@ -217,9 +217,7 @@ export default function Subtitle({ info }) {
                     <SubtitleTextInfo id={idx} arr={arr}></SubtitleTextInfo>
                     <SelectItem key={`age_${idx}`} response={age_list} setitem={arr.subtileSelLabelInfo.speakerAge} types={'subtitle'}></SelectItem>
                     <SelectItem key={`sex_${idx}`} response={sex_list} setitem={arr.subtileSelLabelInfo.speakerSex} types={'subtitle'}></SelectItem>
-                    {/* <SelectItem key={`place_${idx}`} response={place_list} setitem={arr.subtileSelLabelInfo.placeType} types={'subtitle'}></SelectItem> */}
-                    <SearchBoxAutoComplete key={`place_${idx}`} placeholder={'장소를 입력하세요'} dataListName={'comment-options'} dataList={place_list} index={idx} setItem={arr.subtileSelLabelInfo.placeType}></SearchBoxAutoComplete>
-                    {/* <SearchBoxAutoComplete key={`ovrvoc_${idx}`} placeholder={'중첩음을 입력하세요'} dataListName={'ovrvoc-options'} dataList={ovrvoc_list} index={idx} setItem={arr.subtileSelLabelInfo.speakerOvrVoc}></SearchBoxAutoComplete> */}
+                    <SearchBoxAutoComplete key={`place_${idx}`} placeholder={'장소를 입력하세요'} dataListName={'comment-options'} dataList={place_list} index={idx} setItem={arr.subtileSelLabelInfo.placeType} title={'장소'}></SearchBoxAutoComplete>
                     <SelectItem key={`ovrvoc_${idx}`} response={ovrvoc_list} setitem={arr.subtileSelLabelInfo.speakerOvrVoc} types={'subtitle'}></SelectItem>
                   </div>
                 </div>
