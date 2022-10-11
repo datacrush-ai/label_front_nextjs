@@ -286,7 +286,6 @@ export default function CommonScript() {
                             'g': getTmpJSON().subtitleLabelInfo.placeType[5].labelNm,
                             'h': getTmpJSON().subtitleLabelInfo.placeType[6].labelNm,
                             'j': getTmpJSON().subtitleLabelInfo.placeType[7].labelNm,
-                            'k': getTmpJSON().subtitleLabelInfo.placeType[8].labelNm,
                         };
                         const convertValue = {
                             'a': getTmpJSON().subtitleLabelInfo.placeType[1].labelCd,
@@ -296,7 +295,6 @@ export default function CommonScript() {
                             'g': getTmpJSON().subtitleLabelInfo.placeType[5].labelCd,
                             'h': getTmpJSON().subtitleLabelInfo.placeType[6].labelCd,
                             'j': getTmpJSON().subtitleLabelInfo.placeType[7].labelCd,
-                            'k': getTmpJSON().subtitleLabelInfo.placeType[8].labelCd,
                         };
                         
                         key = convertKey[e.key];

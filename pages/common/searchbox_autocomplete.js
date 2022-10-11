@@ -36,52 +36,50 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
     const dispatch = useDispatch();
 
     const autocompleteKeyDown = ((e) => {
-        if (e.key == 'Enter' || e.key == undefined) {
-            if (e.target.value != '' && e.target.value != undefined) {
-                // console.log(e.target.id, e.target.value);
-                let cue = getCueFunc();
-                console.log(e.target.value, convertValueKey(e.target.value));
-                if(e.target.list.id.includes('subcategory')) {
-                    getTmpJSON().scenarioSelLabelInfo.subCategory.labelCd = convertValueKey(e.target.value);
-                    getTmpJSON().scenarioSelLabelInfo.subCategory.labelNm = e.target.value;
-                    createTmpJSON(getTmpJSON());
-                }
-                else if(e.target.list.id.includes('keyword')) {
-                    getTmpJSON().scenarioSelLabelInfo.keyword.labelCd = convertValueKey(e.target.value);
-                    getTmpJSON().scenarioSelLabelInfo.keyword.labelNm = e.target.value;
-                    createTmpJSON(getTmpJSON());
-                }
-                else if(e.target.list.id.includes('opinion')) {
-                    getTmpJSON().scenarioSelLabelInfo.opinion.labelCd = convertValueKey(e.target.value);
-                    getTmpJSON().scenarioSelLabelInfo.opinion.labelNm = e.target.value;
-                    createTmpJSON(getTmpJSON());
-                }
-                else if( convertValueKey(e.target.value).includes('KND_23') ) {
-                    cue[index].subtileSelLabelInfo.placeType.labelCd = convertValueKey(e.target.value);
-                    cue[index].subtileSelLabelInfo.placeType.labelNm = e.target.value;
-                    console.log(cue[index]?.subtileSelLabelInfo?.placeType);
-                    dispatch(setCue({cue}));
-                }
-                
-
-                // let _feedback = {
-                //     'feedback': e.target.value,
-                //     'SUB_BGN_HR_MS': e.target.parentElement.parentElement.parentElement.children[0].id,
-                //     'userCheck': false,
-                //     'inspectCheck': false,
-                // };
-                // dispatch(setFeedback({ 'feedback': _feedback }));
-                // if (href.indexOf('work_template') == -1) {
-                //     createDisplayNoneElement(e.target.parentElement.parentElement.parentElement);
-                //     e.target.value = '';
-                // }
-                // createDisplayEmptyElement(e.target.parentElement.parentElement.parentElement.previousSibling);
+        if (e.target.value != undefined) {
+        // if (e.target.value != '' && e.target.value != undefined) {
+            // console.log(e.target.id, e.target.value);
+            let cue = getCueFunc();
+            // console.log(e.target.value, convertValueKey(e.target.value));
+            if(e.target.list.id.includes('subcategory')) {
+                getTmpJSON().scenarioSelLabelInfo.subCategory.labelCd = convertValueKey(e.target.value);
+                getTmpJSON().scenarioSelLabelInfo.subCategory.labelNm = e.target.value;
+                createTmpJSON(getTmpJSON());
             }
-            //풀스크린이였으면 다시 풀스크린으로
-            // if (getIsFullScreen()) {
-            //     videoFullScreen();
+            else if(e.target.list.id.includes('keyword')) {
+                getTmpJSON().scenarioSelLabelInfo.keyword.labelCd = convertValueKey(e.target.value);
+                getTmpJSON().scenarioSelLabelInfo.keyword.labelNm = e.target.value;
+                createTmpJSON(getTmpJSON());
+            }
+            else if(e.target.list.id.includes('opinion')) {
+                getTmpJSON().scenarioSelLabelInfo.opinion.labelCd = convertValueKey(e.target.value);
+                getTmpJSON().scenarioSelLabelInfo.opinion.labelNm = e.target.value;
+                createTmpJSON(getTmpJSON());
+            }
+            else if( convertValueKey(e.target.value).includes('KND_23') ) {
+                cue[index].subtileSelLabelInfo.placeType.labelCd = convertValueKey(e.target.value);
+                cue[index].subtileSelLabelInfo.placeType.labelNm = e.target.value;
+                dispatch(setCue({cue}));
+            }
+            
+
+            // let _feedback = {
+            //     'feedback': e.target.value,
+            //     'SUB_BGN_HR_MS': e.target.parentElement.parentElement.parentElement.children[0].id,
+            //     'userCheck': false,
+            //     'inspectCheck': false,
+            // };
+            // dispatch(setFeedback({ 'feedback': _feedback }));
+            // if (href.indexOf('work_template') == -1) {
+            //     createDisplayNoneElement(e.target.parentElement.parentElement.parentElement);
+            //     e.target.value = '';
             // }
+            // createDisplayEmptyElement(e.target.parentElement.parentElement.parentElement.previousSibling);
         }
+        //풀스크린이였으면 다시 풀스크린으로
+        // if (getIsFullScreen()) {
+        //     videoFullScreen();
+        // }
     });
     createKeyValueSet(dataList);
 
@@ -91,9 +89,12 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
         for (let idx = 0; idx < dataList?.itemlist?.length; idx++) {
             let option = document.createElement('option');
             option.value = dataList?.itemlist[idx]?.labelNm;
-            dataListElement.current.appendChild(option);
+            if( option.value != '기타상세' ) {
+                dataListElement.current.appendChild(option);
+            }
         }
     }, [dataList?.itemlist]);
+    
     
     if( setItem?.labelCd?.includes('_000')) {
         return (
@@ -106,8 +107,8 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
             </section>
         )
     }
-    
     else {
+    // else if(setItem?.labelCd != 'LBL_KND_23_999') {
         return (
             <section style={{'display':'flex', 'justifyContent': 'center', 'alignItems': 'center', 'padding': '10px'}} className={styles.search_container}>
                 <div style={{'whiteSpace': 'nowrap', 'paddingRight': '10px', 'minWidth': minWidth}}>{title}</div>
