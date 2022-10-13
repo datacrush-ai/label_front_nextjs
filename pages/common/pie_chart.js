@@ -57,6 +57,7 @@ function updateConfigByMutating(drawChart, process_data) {
   })
   
   drawChart.options.plugins.title.text = process_data.process_name;
+  console.log(drawChart.data)
   drawChart.data.labels = statNm;
   drawChart.data.datasets[0].data = statCnt;
   drawChart.data.datasets[0].code_list = process_data.process_list;
@@ -102,10 +103,10 @@ export default function PieChart() {
       datasets: [{
         data: statCnt,
         backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(255, 92, 76)',
-          'rgb(255, 205, 86)',
-          'rgb(146 232 236)',
+          '#f4cccc',
+          '#d9ead3',
+          '#d9d9d9',
+          // 'rgb(146 232 236)',
         ],
         //   hoverOffset: 1,
         datalabels: {
@@ -127,6 +128,14 @@ export default function PieChart() {
             enabled: false
       },
       plugins: {
+        legend: {
+          labels: {
+            font: {
+              size: 20,
+              weight: 'bold'
+            }
+          }
+        },
         title: {
             display: true,
             text: process_data.process_name,
@@ -134,7 +143,7 @@ export default function PieChart() {
             color: "#FF5C4C",
             font: {
                 // family: "AvenirNextLTW01-Regular",
-                size: 25,
+                size: 40,
                 style: 'normal'
             },
         },

@@ -175,7 +175,10 @@ export default function Dashboard({response, param, cookie}) {
       <main className={"flex flex-row px-6 py-6 h-[95vh]"}>
         {/* 왼쪽 프로그램 목록 */}
         <section className={"w-1/3 min-w-[340px] px-3 py-3 bg-whiteblue100"}>
-          <SearchBox></SearchBox>
+          {/* <SearchBox></SearchBox> */}
+          <div style={{'textAlign': 'center', 'height': '40px'}}>
+            <span style={{'color': 'var(--theme-blue-color)', 'fontSize': '20px'}}>{response.userInfo.prtNm}</span>
+            님 환영합니다.</div>
           <ProgramList response={data?.prgList}></ProgramList>
         </section>
         

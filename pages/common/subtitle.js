@@ -81,96 +81,11 @@ export default function Subtitle({ info }) {
     'itemlist': info.subtitleLabelInfo.speakerOvrVoc
   }
 
-  // console.log(sex_list)
-  // console.log(place_list)
-  // console.log(age_list)
-
-
   const data = useSelector(getCue);
   const articleElement = useRef(null);
   const sectionElement = useRef(null);
-  const rowAddElement = useRef(null);
   const dispatch = useDispatch();
   
-  // console.log('info@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-  // console.log(info)
-  // console.log('data##################################')
-  // console.log(data)
-
-  // console.log(initialize)
- 
-  /*
-  const lineRemoveClickDebounce = useCallback(() => {
-    let data = getCueFunc();
-    let section_info = getSectionElement().id.split('_');
-    let insert_idx = section_info[0];
-    if (confirm(`${JSON.stringify(data[insert_idx].subCn)}문장을 삭제하시겠습니까?`)) {
-      data.splice(insert_idx, 1);
-      data = _.sortBy(data, ['subBgnHrMs', 'subEndHrMs']);
-      let cue = updateRegionFromCustomEvent(data);
-      setSubtitleFromCustomEvent(info.data.layout);
-      dispatch(setCue({ cue }));
-      ToastMsg('문장을 삭제했습니다.', 3000, null, null, 'pass');
-    }
-  }, [dispatch, info.data.layout]);
-
-  const lineAddClickDebounce = useCallback(() => {
-    let data = getCueFunc();
-    let section_info = getSectionElement().id.split('_');
-    let insert_idx = parseInt(section_info[0]);
-    let newline_time = 0.5
-    let bef_endtime = parseFloat(data[insert_idx].subEndHrMs);
-    let aft_endtime = parseFloat(data[insert_idx+1].subBgnHrMs);
-    
-    console.log(aft_endtime - bef_endtime)
-    // /*
-    if( (aft_endtime - bef_endtime) < newline_time*2 ) {
-      ToastMsg(`빈라인 추가를 하기 위해서는 앞, 뒤의 간격이 ${newline_time*2}초보다 커야 합니다.`, 3000, null, null, 'warn');            
-    }
-    else {
-      let subBgnHrMs = parseFloat((parseFloat(section_info[2]) + newline_time).toFixed(3));
-      let subEndHrMs = subBgnHrMs + newline_time;
-      data.splice(insert_idx, 0, { "subSnm": insert_idx, "subCn": "", "subBgnHrMs": subBgnHrMs, "subEndHrMs": subEndHrMs });
-      data = _.sortBy(data, ['subBgnHrMs', 'subEndHrMs']);
-      let cue = updateRegionFromCustomEvent(data);
-      setSubtitleFromCustomEvent(info.data.layout);
-      dispatch(setCue({ cue }));
-      // ToastMsg('변경사항을 저장했습니다.', 3000, null, null, 'pass');
-      setIsCurrentUpdate(false);
-    }
-  }, [dispatch, info.data.layout]);
-
-
-  const lineAddClick = useCallback((e) => {
-    setSectionElement(e.target.parentElement.parentElement);
-    if (saveLineAddAction == null || saveLineAddAction == undefined) {
-      saveLineAddAction = debounce(lineAddClickDebounce, 300);
-    }
-
-    if (getIsCurrentUpdate() == false) {
-      saveLineAddAction();
-    }
-    else {
-      ToastMsg('변경사항을 저장해야 합니다.', 3000, null, null, 'warn');
-    }
-  }, [lineAddClickDebounce]);
-
-  const lineRemoveClick = useCallback((e) => {
-    setSectionElement(e.target.parentElement.parentElement);
-    if (saveLineRemoveAction == null || saveLineRemoveAction == undefined) {
-      saveLineRemoveAction = debounce(lineRemoveClickDebounce, 50);
-    }
-
-    if (getIsCurrentUpdate() == false) {
-      saveLineRemoveAction();
-    }
-    else {
-      ToastMsg('변경사항을 저장해야 합니다.', 3000, null, null, 'warn');
-    }
-  }, [lineRemoveClickDebounce]);
-
-  */
-
   useEffect(() => {
     if (articleElement.current != null) {
       setSubtitleChildren(articleElement.current.children);
@@ -226,22 +141,6 @@ export default function Subtitle({ info }) {
           })
         }
       </article>
-      {/* <article className={styles.subtitle_label_section}>
-        {
-          data.map((arr, idx) => {
-            return(
-              <section key={`label_${idx}`} className={styles.subtitle_edit_line}>
-                <div className={styles.subtitle_edit_content}>
-                  <div className={styles.subtitle_label_content_row} style={{'display':'flex', 'flexDirection': 'column', 'padding': '10px'}}>
-                  <SelectItem key={`age_${arr.subBgnHrMs}_${idx}`} response={age_list} setitem={'subtitle'}></SelectItem>
-                  <SelectItem key={`sex_${arr.subEndHrMs}_${idx}`} response={sex_list} setitem={'subtitle'}></SelectItem>
-                  </div>
-                </div>
-              </section>
-            )
-          })
-        }  
-      </article> */}
     </>
   )
 }

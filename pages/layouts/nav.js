@@ -1,3 +1,4 @@
+import { deleteCookie } from "cookies-next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -19,7 +20,17 @@ const Viewport = ({ info }) => {
     }
   }
   return (
-    <></>
+    <ul className={styles.tabbed_primary_navigation}>
+      <li className={styles.navigation_tab}>
+        <Link href="/">
+          <a onClick={(e) => {
+            deleteCookie('tmp')
+          }}>로그아웃</a>
+        </Link>
+      </li>
+    </ul>
+    // <div>로그아웃</div>
+    // deleteCookie('tmp');
     // <MenuItem></MenuItem>
   )
 }
@@ -59,7 +70,7 @@ export default function NavBar({ info }) {
           </Link>
         </li> */}
       </ul>
-      <div style={{ 'width': '70%' }}>
+      <div style={{ 'width': '150px' }}>
         <li className={styles.navigation_tab}>
           <Viewport info={info}></Viewport>
         </li>

@@ -27,11 +27,6 @@ async function loginAuth(result) {
             prtNm: result.userInfo.prtNm,
         }
         setCookie('tmp', cookie_data);
-        // localStorage.setItem('tmp', JSON.stringify({
-        //     prtAin: result.userInfo.prtAin,
-        //     prtEml: result.userInfo.prtEml,
-        //     prtNm: result.userInfo.prtNm,
-        // }));
         ToastMsg(`${result.userInfo.prtNm}님 환영합니다.`, 3000, null, null, 'pass');
         return true;
     }

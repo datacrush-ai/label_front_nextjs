@@ -1,5 +1,5 @@
 import styles from '../../styles/Layout.module.css';
-import VideoLayout from './video_layout';
+import VideoLayout, { getTmpJSON } from './video_layout';
 // import Subtitle, { getCueFunc } from './subtitle';
 // import CustomEvent, { createDisplayNoneElement, getRegionBlock } from '../../custom_event';
 import React, { useCallback, useEffect } from "react";
@@ -99,11 +99,17 @@ const LayoutPosition = (info) => {
             
             <div className={styles.tips}>
               <span style={{'gridArea': 'form1', 'border': '1px solid', 'backgroundColor': 'antiquewhite'}}>입력 키</span>  <span style={{'gridArea': 'form2', 'border': '1px solid', 'backgroundColor': 'antiquewhite'}}>선택효과</span>
+              
+              <span className={styles.header_tips} style={{'gridArea': 'util0'}}>기타</span>
+              <span style={{'gridArea': 'util1', 'border': '1px solid'}}>shift + enter</span>  <span style={{'gridArea': 'util2', 'border': '1px solid'}}>저장</span>
+              <span style={{'gridArea': 'util3', 'border': '1px solid'}}>ctrl + .</span>  <span style={{'gridArea': 'util4', 'border': '1px solid'}}>배속증가</span>
+              <span style={{'gridArea': 'util5', 'border': '1px solid'}}>ctrl + ,</span>  <span style={{'gridArea': 'util6', 'border': '1px solid'}}>배속감소</span>
+              <span style={{'gridArea': 'util7', 'border': '1px solid'}}>\ 또는 &#93;</span>  <span style={{'gridArea': 'util8', 'border': '1px solid'}}>일시정지 상태면 재생, 재생 상태면 일시정지</span>
+              
               <span className={styles.header_tips} style={{'gridArea': 'age0'}}>발화자 연령</span>
               <span style={{'gridArea': 'age1', 'border': '1px solid'}}>1</span>  <span style={{'gridArea': 'age2', 'border': '1px solid'}}>미취학(5~7)</span>
-              <span style={{'gridArea': 'age3', 'border': '1px solid'}}>2</span>  <span style={{'gridArea': 'age4', 'border': '1px solid'}}>초등저학년(8~10)</span>
-              <span style={{'gridArea': 'age5', 'border': '1px solid'}}>3</span>  <span style={{'gridArea': 'age6', 'border': '1px solid'}}>초등고학년(11~13)</span>
-              <span style={{'gridArea': 'age7', 'border': '1px solid'}}>4</span>  <span style={{'gridArea': 'age8', 'border': '1px solid'}}>청소년및성인(14이상)</span>
+              <span style={{'gridArea': 'age3', 'border': '1px solid'}}>2</span>  <span style={{'gridArea': 'age4', 'border': '1px solid'}}>초등학생</span>
+              <span style={{'gridArea': 'age5', 'border': '1px solid'}}>3</span>  <span style={{'gridArea': 'age6', 'border': '1px solid'}}>청소년및성인(14이상)</span>
               
               <span className={styles.header_tips} style={{'gridArea': 'sex0'}}>성별</span>
               <span style={{'gridArea': 'sex1', 'border': '1px solid'}}>q</span>  <span style={{'gridArea': 'sex2', 'border': '1px solid'}}>남자</span>
@@ -111,19 +117,19 @@ const LayoutPosition = (info) => {
               
               <span className={styles.header_tips} style={{'gridArea': 'place0'}}>장소</span>
               <span style={{'gridArea': 'place1', 'border': '1px solid'}}>a</span>  <span style={{'gridArea': 'place2', 'border': '1px solid'}}>집</span>
-              <span style={{'gridArea': 'place3', 'border': '1px solid'}}>b</span>  <span style={{'gridArea': 'place4', 'border': '1px solid'}}>학교/학원</span>
+              <span style={{'gridArea': 'place3', 'border': '1px solid'}}>s</span>  <span style={{'gridArea': 'place4', 'border': '1px solid'}}>학교/학원</span>
               <span style={{'gridArea': 'place5', 'border': '1px solid'}}>d</span>  <span style={{'gridArea': 'place6', 'border': '1px solid'}}>식당/카페</span>
               <span style={{'gridArea': 'place7', 'border': '1px solid'}}>f</span>  <span style={{'gridArea': 'place8', 'border': '1px solid'}}>상점</span>
               <span style={{'gridArea': 'place9', 'border': '1px solid'}}>g</span>  <span style={{'gridArea': 'place10', 'border': '1px solid'}}>교통수단</span>
               <span style={{'gridArea': 'place11', 'border': '1px solid'}}>h</span>  <span style={{'gridArea': 'place12', 'border': '1px solid'}}>스튜디오</span>
               <span style={{'gridArea': 'place13', 'border': '1px solid'}}>j</span>  <span style={{'gridArea': 'place14', 'border': '1px solid'}}>실외</span>
-              <span style={{'gridArea': 'place15', 'border': '1px solid'}}>k</span>  <span style={{'gridArea': 'place16', 'border': '1px solid'}}>기타상세</span>
-
-              <span className={styles.header_tips} style={{'gridArea': 'util0'}}>기타</span>
-              <span style={{'gridArea': 'util1', 'border': '1px solid'}}>shift + enter</span>  <span style={{'gridArea': 'util2', 'border': '1px solid'}}>저장</span>
-              <span style={{'gridArea': 'util3', 'border': '1px solid'}}>ctrl + .</span>  <span style={{'gridArea': 'util4', 'border': '1px solid'}}>배속증가</span>
-              <span style={{'gridArea': 'util5', 'border': '1px solid'}}>ctrl + ,</span>  <span style={{'gridArea': 'util6', 'border': '1px solid'}}>배속감소</span>
-              <span style={{'gridArea': 'util7', 'border': '1px solid'}}>\ 또는 &#93;</span>  <span style={{'gridArea': 'util8', 'border': '1px solid'}}>일시정지 상태면 재생, 재생 상태면 일시정지</span>
+              
+              <span className={styles.header_tips} style={{'gridArea': 'ovr0'}}>중첩음</span>
+              <span style={{'gridArea': 'ovr1', 'border': '1px solid'}}>7</span>  <span style={{'gridArea': 'ovr2', 'border': '1px solid'}}>없음</span>
+              <span style={{'gridArea': 'ovr3', 'border': '1px solid'}}>8</span>  <span style={{'gridArea': 'ovr4', 'border': '1px solid'}}>다화자</span>
+              <span style={{'gridArea': 'ovr5', 'border': '1px solid'}}>9</span>  <span style={{'gridArea': 'ovr6', 'border': '1px solid'}}>배경음</span>
+              <span style={{'gridArea': 'ovr7', 'border': '1px solid'}}>0</span>  <span style={{'gridArea': 'ovr8', 'border': '1px solid'}}>기타</span>
+              
             </div>
 
       </section>
@@ -155,7 +161,10 @@ export default function Edit({ data }) {
     localStorage.setItem('scenarioSelLabelInfo', JSON.stringify(data.label_info.scenarioSelLabelInfo));
     localStorage.setItem('subtitleLabelInfo', JSON.stringify(data.label_info.subtitleLabelInfo));
 
+    // console.log(getTmpJSON());
   }, [data]);
+
+  
 
   return (
     <>
@@ -163,11 +172,9 @@ export default function Edit({ data }) {
         <LayoutPosition video_position={data.video_position} data={data.label_info}></LayoutPosition>
       </article>
       <section style={{'display': 'flex', 'justifyContent': 'center', 'maxHeight': '30px'}}>
-          <span>
-            문장 라벨
-            <span className={'mr-3 ml-3'}>{`0/${data.label_info.subtitleList.length}`}</span>
-            입력 완료
-          </span>
+        <span className={'mr-3 ml-3'} style={{'color': 'var(--theme-blue-color)'}}>
+          {data.label_info.episodDTO.prgNm}-{data.label_info.episodDTO.epNm}-{data.label_info.episodDTO.epVdoSnm}화
+        </span>
       </section>
       <article id={"subtitle_edit_layout"} className={styles.subtitle_edit_layout} style={{'height': 'calc(55vh - 30px)'}}>
           <Subtitle info={data.label_info} key={data.EP_AIN}></Subtitle>

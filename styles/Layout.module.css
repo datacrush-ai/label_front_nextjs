@@ -824,11 +824,11 @@
     text-align: center;
     grid-template-areas:
         "form1 form2"
-        "age0 age0"
-        "age1 age2"
-        "age3 age4"
-        "age5 age6"
-        "age7 age8"
+        "util0 util0"
+            "util1 util2"
+            "util3 util4"
+            "util5 util6"
+            "util7 util8"
         "sex0 sex0"
         "sex1 sex2"
         "sex3 sex4"
@@ -843,11 +843,16 @@
         "place15 place16"
         "place17 place18"
         "place19 place20"
-        "util0 util0"
-        "util1 util2"
-        "util3 util4"
-        "util5 util6"
-        "util7 util8"
+        "age0 age0"
+            "age1 age2"
+            "age3 age4"
+            "age5 age6"
+            "age7 age8"
+            "ovr0 ovr0"
+            "ovr1 ovr2"
+            "ovr3 ovr4"
+            "ovr5 ovr6"
+            "ovr7 ovr8"
 }
 
 .header_tips {
