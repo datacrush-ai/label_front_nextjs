@@ -22,6 +22,7 @@ let _uniqeId;
 let _ageElement;
 let _sexElement;
 let _placeElement;
+let _ovrVocElement;
 //let _tmpJSON = {};
 let _select_index = 0;
 let _scenarioSelLabelInfo = {
@@ -109,6 +110,12 @@ function createPlaceCurrentElement(data) {
 }
 export function getPlaceCurrentElement(data) {
   return _placeElement;
+}
+function createOvrVocCurrentElement(data) {
+  _ovrVocElement = data;
+}
+export function getOvrVocCurrentElement(data) {
+  return _ovrVocElement;
 }
 
 function createUniqeId(data) {
@@ -271,8 +278,6 @@ export default function VideoLayout({ video_info }) {
       'subtitleLabelInfo': video_info.subtitleLabelInfo,
       'subtitleList': cue,
     };
-
-    console.log(tmpSaveLabelJSON)
 
     const tmpSaveLabelUrl = '/labeltool/tmpSaveLabelJob';
     const tmpSave = async () => {
@@ -462,6 +467,7 @@ export default function VideoLayout({ video_info }) {
               createAgeCurrentElement(target.children[0].children[0].children[3].children[1]);
               createSexCurrentElement(target.children[0].children[0].children[4].children[1]);
               createPlaceCurrentElement(target.children[0].children[0].children[5].children[1]);
+              createOvrVocCurrentElement(target.children[0].children[0].children[6].children[1]);
             }
             else {
               target.children[0].children[0].style.backgroundColor = "";

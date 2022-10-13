@@ -7,7 +7,7 @@ import { getCue, setCue } from "../../store/nia_layout/StoreCueSlice";
 import { createKeyValueSet } from "./searchbox_autocomplete";
 import { getScenarioSelLabelInfo } from "./select_item";
 import { createCueFunc, getCueFunc } from "./subtitle";
-import { createTmpJSON, getAgeCurrentElement, getPlaceCurrentElement, getSelectIndex, getSexCurrentElement, getTmpJSON, getUniqeId, getVidElement } from "./video_layout";
+import { createTmpJSON, getAgeCurrentElement, getOvrVocCurrentElement, getPlaceCurrentElement, getSelectIndex, getSexCurrentElement, getTmpJSON, getUniqeId, getVidElement } from "./video_layout";
 
 let _subtitle_children; 
 let _sectionEndtime;
@@ -82,7 +82,17 @@ export const subtitleSectionElementClick = (e) => {
     let _target = e.target;
     let _startTime = -1;
     let _endTime = 0;
-
+    if( e.target.nodeName == 'DIV') {
+        if( e.target.parentElement.nodeName == 'SECTION' && (e.target.parentElement.id != '' || e.target.parentElement.id != undefined || e.target.parentElement.id != null)) {
+            e.target = e.target.parentElement;
+        }
+        else if( e.target.parentElement.parentElement.nodeName == 'SECTION' && (e.target.parentElement.parentElement.id != '' || e.target.parentElement.parentElement.id != undefined || e.target.parentElement.parentElement.id != null)) {
+            e.target = e.target.parentElement.parentElement;
+        }
+        else if( e.target.parentElement.parentElement.parentElement.nodeName == 'SECTION' && (e.target.parentElement.parentElement.parentElement.id != '' || e.target.parentElement.parentElement.parentElement.id != undefined || e.target.parentElement.parentElement.parentElement.id != null)) {
+            e.target = e.target.parentElement.parentElement.parentElement;
+        }
+    }
     if (e.target.nodeName != 'TEXTAREA') {
         while (_target.nodeName != 'SECTION') {
             _target = _target.parentElement;
@@ -90,7 +100,8 @@ export const subtitleSectionElementClick = (e) => {
         _startTime = _target.id.split('_')[1];
         _endTime = _target.id.split('_')[2];
         createPlaySectionStartTime(_startTime);
-        createPlaySectionEndTime(_endTime);
+        // createPlaySectionEndTime(_endTime);
+        createPlaySectionEndTime(9999999)
     }
 
     if (getPlaySectionStartTime() > 0 || getVidElement().current.currentTime > getPlaySectionEndTime()) {
@@ -261,7 +272,7 @@ export default function CommonScript() {
                 // console.log(cue[getSelectIndex()].subtileSelLabelInfo.placeType);
 
                 if( getAgeCurrentElement() != undefined && getSexCurrentElement() != undefined && getPlaceCurrentElement() != undefined ) {
-                    if( e.key == '1' || e.key == '2' || e.key == '3' || e.key == '4') {
+                    if( e.key == '1' || e.key == '2' || e.key == '3') {
                         getAgeCurrentElement().selectedIndex = e.key;
                         cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelCd = getAgeCurrentElement().options[getAgeCurrentElement().selectedIndex].value;
                         cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelNm = getAgeCurrentElement().options[getAgeCurrentElement().selectedIndex].textContent;
@@ -275,7 +286,7 @@ export default function CommonScript() {
                         cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelCd = getSexCurrentElement().options[getSexCurrentElement().selectedIndex].value;
                         cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelNm = getSexCurrentElement().options[getSexCurrentElement().selectedIndex].textContent;
                     }
-                    else if( e.key == 'a' || e.key == 's' || e.key == 'd' || e.key == 'f' || e.key == 'g' || e.key == 'h' || e.key == 'j' || e.key == 'k') {
+                    else if( e.key == 'a' || e.key == 's' || e.key == 'd' || e.key == 'f' || e.key == 'g' || e.key == 'h' || e.key == 'j') {
                         let key = '';
                         let value = '';
                         const convertKey = {
@@ -307,19 +318,25 @@ export default function CommonScript() {
                         getPlaceCurrentElement().children[0].value = key;
                         cue[getSelectIndex()].subtileSelLabelInfo.placeType.labelCd = value;
                         cue[getSelectIndex()].subtileSelLabelInfo.placeType.labelNm = getPlaceCurrentElement().children[0].value;
+                        e.preventDefault();
+                        e.stopPropagation();
                     }
-                    else if(e.key == 'l' || e.key == ';') {
-                        getPlaceCurrentElement().children[0].text = '';
-                        getPlaceCurrentElement().children[0].value = '';
-                        getPlaceCurrentElement().children[0].focus();
+                    else if (e.key == '7' || e.key == '8' || e.key == '9' || e.key == '0') {
+                        const convertKey = {
+                            '7': 0,
+                            '8': 1,
+                            '9': 2,
+                            '0': 3,
+                        };
+                        getOvrVocCurrentElement().selectedIndex = convertKey[e.key];
+                        cue[getSelectIndex()].subtileSelLabelInfo.speakerOvrVoc.labelCd = getOvrVocCurrentElement().options[getOvrVocCurrentElement().selectedIndex].value;
+                        cue[getSelectIndex()].subtileSelLabelInfo.speakerOvrVoc.labelNm = getOvrVocCurrentElement().options[getOvrVocCurrentElement().selectedIndex].textContent;
+
                     }
+
                     createCueFunc(cue);
-                    // console.log(cue[getSelectIndex()].subtileSelLabelInfo.speakerAge);
-                    // console.log(cue[getSelectIndex()].subtileSelLabelInfo.speakerSex);
-                    // console.log(cue[getSelectIndex()].subtileSelLabelInfo.placeType);
-                    
-                    // dispatch(setCue({cue}));
                 }
+                
 
 
                 //MAC
@@ -349,37 +366,9 @@ export default function CommonScript() {
                     e.preventDefault();
                     e.stopPropagation();
                 }
-                // else if (e.key == '\\' || e.key == '|') {
-                //     let isPlaying = getVidElement().current.currentTime > 0 && !getVidElement().current.paused && !getVidElement().current.ended && getVidElement().current.readyState > getVidElement().current.HAVE_CURRENT_DATA;
-                //     if (getPlaySectionEndTime() == 0) {
-                //         createPlaySectionEndTime(9999999);
-                //     }
-                //     if (getPlaySectionStartTime() > 0 || getVidElement().current.currentTime > getPlaySectionEndTime()) {
-                //         createVideoCurrentTime(getPlaySectionStartTime());
-                //     }
-                    
-                //     if (!isPlaying) {
-                //         //영상 재생
-                //         getVidElement().current.play();
-                //     }
-                //     else {
-                //         //영상 정지
-                //         getVidElement().current.pause();
-                //     }
-    
-                //     e.preventDefault();
-                //     e.stopPropagation();
-                // }
                 else if (e.key == ']' || e.key == '\\' || e.key == '|') {
                     let isPlaying = getVidElement().current.currentTime > 0 && !getVidElement().current.paused && !getVidElement().current.ended && getVidElement().current.readyState > getVidElement().current.HAVE_CURRENT_DATA;
                     createPlaySectionEndTime(9999999);
-                    // console.table({
-                    //     'currentTime': getVidElement().current.currentTime,
-                    //     'paused': !getVidElement().current.paused,
-                    //     'HAVE_CURRENT_DATA': getVidElement().current.HAVE_CURRENT_DATA,
-                    //     'ended': !getVidElement().current.ended,
-                    //     'readyState': getVidElement().current.readyState,
-                    // })
                     if (!isPlaying) {
                         //영상 재생
                         getVidElement().current.play();

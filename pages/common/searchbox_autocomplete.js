@@ -9,6 +9,8 @@ import { createTmpJSON, getTmpJSON } from './video_layout';
 let href = '';
 let _result = [];
 let _map = {};
+let saveAction;
+
 const createKeyValueSet = (dataList) => {
     for(let idx=0; idx<dataList?.itemlist?.length; idx++) {
         let key = dataList.itemlist[idx]?.labelNm;
@@ -59,7 +61,8 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
             else if( convertValueKey(e.target.value).includes('KND_23') ) {
                 cue[index].subtileSelLabelInfo.placeType.labelCd = convertValueKey(e.target.value);
                 cue[index].subtileSelLabelInfo.placeType.labelNm = e.target.value;
-                dispatch(setCue({cue}));
+                // dispatch(setCue({cue}));
+                saveAction(cue);
             }
             
 
@@ -84,8 +87,6 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
     createKeyValueSet(dataList);
 
     useEffect(() => {
-        // console.log(dataList)
-        // href = location.href;
         for (let idx = 0; idx < dataList?.itemlist?.length; idx++) {
             let option = document.createElement('option');
             option.value = dataList?.itemlist[idx]?.labelNm;
@@ -93,7 +94,12 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
                 dataListElement.current.appendChild(option);
             }
         }
-    }, [dataList?.itemlist]);
+
+        const saveSubtitle = (cue) => {
+            dispatch(setCue({cue}));
+        }
+        saveAction = _.debounce(saveSubtitle, 500);
+    }, [dataList?.itemlist, dispatch]);
     
     
     if( setItem?.labelCd?.includes('_000')) {
