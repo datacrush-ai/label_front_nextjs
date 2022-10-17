@@ -16,12 +16,9 @@ let saveAction;
 let last_click_dom;
 
 export const sendFetch = async(context, param, options) => {
-    let url = 'https://' + process.env.DEV_URL + context;
-    if(location.origin.includes('prod')) {
-        url = 'https://' + process.env.BASE_URL + context;
-    }
-
+    const url = 'https://' + process.env.BASE_URL + context;
     let result = {'message': 'fail'};
+    
     if( param ) {
         result = await fetch(url, {
             credentials: 'include',
