@@ -223,6 +223,7 @@ export async function getServerSideProps(context) {
 
   const label_info = await sendFetch(label_url, label_param, {method: 'POST'});
   
+  /*
   let shortcut_list = [];
   // let user_set = ['F3', 'F4', 'F8', 'F9', 'Shift + Enter', 'Ctrl + Enter', 'Alt + Enter', 'Ctrl + ,', 'Ctrl + .', '=', '방향키 왼쪽, 오른쪽'];
   let user_set = ['F8', 'F9', 'Shift + Enter', 'Ctrl + Enter', 'Alt + Enter', 'Ctrl + ,', 'Ctrl + .', '=', '방향키 왼쪽, 오른쪽'];
@@ -269,6 +270,7 @@ export async function getServerSideProps(context) {
 
     shortcut_list.push(shortcut);
   }
+  */
 
 
   if( label_info.subtitleList == null && jobStat != 'ING') {
@@ -287,10 +289,20 @@ export async function getServerSideProps(context) {
   }
 
   if( label_info?.rst?.rstCd == '301' ) {
+    //작업자에게 허용된 작업시간을 초과했을 때
     return {
       redirect: {
         permanent: false,
         destination: '/common/fulltask'
+      }
+    }
+  }
+  else if( label_info?.rst?.rstCd == '302' ) {
+    //허용된 작업 인원이 아닐 때
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/common/illegal'
       }
     }
   }
@@ -302,7 +314,7 @@ export async function getServerSideProps(context) {
     'prgAin': prgAin,
     'epVdoSnm': epVdoSnm,
     'label_info': label_info,
-    'shortcut': shortcut_list,
+    // 'shortcut': shortcut_list,
     'data': [{ "subSnm": 0, "subCn": "", "subBgnHrMs": "", "subEndHrMs": "" }]
   };
   // Pass data to the page via props

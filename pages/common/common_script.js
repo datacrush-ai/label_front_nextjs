@@ -194,7 +194,7 @@ export const ToastMsg = (text, duration, clickCallback, callback, color) => {
     }).showToast();
 };
 
-export default function CommonScript() {
+export default function CommonScript({url}) {
     // const cue = useSelector(getCue);
     const dispatch = useDispatch();
     
