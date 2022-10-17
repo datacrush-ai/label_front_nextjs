@@ -15,39 +15,31 @@ let _sectionStartTime;
 let saveAction;
 let last_click_dom;
 
-/*
-https://devlabelback.datacrs.ai/labeltool/getBasicInfoForDashboard
-https://devlabelback.datacrs.ai/labeltool/getBasicInfoForDashboard
-*/
-export const sendFetch = async(url, param, options) => {
-    // const send_url = 'https://devlabelback.datacrs.ai' + url;
-    const send_url = 'https://' + process.env.BASE_URL + url;
-    
-    if( url.includes('https') ) {
-        send_url = url;
+export const sendFetch = async(context, param, options) => {
+    let url = 'https://' + process.env.DEV_URL + context;
+    if(location.origin.includes('prod')) {
+        url = 'https://' + process.env.BASE_URL + context;
     }
-    
+
     let result = {'message': 'fail'};
     if( param ) {
-        result = await fetch(send_url, {
+        result = await fetch(url, {
             credentials: 'include',
             headers: { 
             'Content-Type': options.type || 'application/json',
             },
             body: JSON.stringify(param),
             method: options.method || 'POST',
-            // agent: agent,
         })
         .then( response => response.json());
     }
     else {
-        result = await fetch(send_url, {
+        result = await fetch(url, {
             credentials: 'include',
             headers: { 
             'Content-Type': options.type || 'application/json',
             },
             method: options.method || 'GET',
-            // agent: agent,
         })
         .then( response => response.json());
     }
