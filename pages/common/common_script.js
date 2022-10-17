@@ -15,10 +15,14 @@ let _sectionStartTime;
 let saveAction;
 let last_click_dom;
 
+/*
+https://devlabelback.datacrs.ai/labeltool/getBasicInfoForDashboard
+https://devlabelback.datacrs.ai/labeltool/getBasicInfoForDashboard
+*/
 export const sendFetch = async(url, param, options) => {
-    // console.log(' 여기로 오는 건가 요')
-    // const send_url = 'https://datacrush.asuscomm.com:30000' + url;
-    const send_url = 'https://devlabelback.datacrs.ai' + url;
+    // const send_url = 'https://devlabelback.datacrs.ai' + url;
+    const send_url = 'https://' + process.env.BASE_URL + url;
+    
     if( url.includes('https') ) {
         send_url = url;
     }
