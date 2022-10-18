@@ -7,8 +7,6 @@
   },
   "scripts": {
     "dev": "next dev -p 80",
-    "build:dev": "env-cmd -f .env.dev next build",
-    "build:prod": "env-cmd -f .env.prod next build",
     "build": "next build",
     "start": "next start -p 8080",
     "deploy": "npm ci && npm run build",
