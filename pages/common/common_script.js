@@ -16,7 +16,7 @@ let saveAction;
 let last_click_dom;
 
 export const sendFetch = async(context, param, options) => {
-    const url = 'https://' + process.env.BASE_URL + context;
+    const url = 'https://' + process.env.NEXT_PUBLIC_API_HOST + context;
     let result = {'message': 'fail'};
     
     if( param ) {

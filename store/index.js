@@ -24,9 +24,9 @@ const makeStore = (context) => configureStore({
     // }),
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(), 
     // middleware: (getDefaultMiddleware) => [getDefaultMiddleware().concat({serializableCheck: false})], 
-    devTools: process.env.NODE_ENV !== 'production',
+    // devTools: process.env.NODE_ENV !== 'production',
 });
 
 export const wrapper = createWrapper(makeStore, {
-    debug: process.env.NODE_ENV !== 'production',
+    // debug: process.env.NODE_ENV !== 'production',
 });
