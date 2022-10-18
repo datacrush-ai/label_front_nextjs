@@ -17,6 +17,7 @@ let last_click_dom;
 
 export const sendFetch = async(context, param, options) => {
     const url = 'https://' + process.env.NEXT_PUBLIC_API_HOST + context;
+    // const url = 'https://datacrush.asuscomm.com:30000' + context;
     let result = {'message': 'fail'};
     
     if( param ) {
@@ -243,7 +244,7 @@ export default function CommonScript({url}) {
                 dispatch(setCue({'cue': result}))
                 // localStorage.setItem(getUniqeId(), JSON.stringify(result));
                 sendFetch('/labeltool/tmpSaveLabelJob', tmpJSON, {method: 'POST'})
-                
+                console.log(tmpJSON)
                 ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
             }, 200);
         }
