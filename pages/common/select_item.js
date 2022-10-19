@@ -13,6 +13,7 @@ export default function SelectItem({response, setitem, types}) {
         const cue = getCueFunc();
         const id = e.target.parentElement.parentElement.parentElement.parentElement.id.split('_')[0];
         setSelected(e.target.value);
+        console.log(e.target.value, e.target.selectedOptions[0].text)
 
         if( e.target.value.includes('KND_11') ) {
             getTmpJSON().scenarioSelLabelInfo.category.labelCd = e.target.value;

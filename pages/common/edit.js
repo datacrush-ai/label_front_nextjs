@@ -1,9 +1,6 @@
 import styles from '../../styles/Layout.module.css';
 import VideoLayout, { getTmpJSON } from './video_layout';
-// import Subtitle, { getCueFunc } from './subtitle';
-// import CustomEvent, { createDisplayNoneElement, getRegionBlock } from '../../custom_event';
 import React, { useCallback, useEffect } from "react";
-// import Footer from "../../layouts/footer_wave";
 import { useRef } from 'react';
 import Image from 'next/image';
 import Subtitle from './subtitle';
@@ -13,9 +10,6 @@ import { useRouter } from 'next/router';
 import { NextResponse } from 'next/server';
 import { getCookie, setCookie } from 'cookies-next';
 import SearchBoxAutoComplete from './searchbox_autocomplete';
-// import CustomSetPopup from '../common/custom_set_popup';
-// import SubtitleReplacePopup from '../common/subtitle_replace_popup';
-// import CheckSubtitle from '../common/check_subtitle';
 
 let _layerPopupElement;
 let _replacePopupElement;
@@ -222,56 +216,6 @@ export async function getServerSideProps(context) {
   }
 
   const label_info = await sendFetch(label_url, label_param, {method: 'POST'});
-  
-  /*
-  let shortcut_list = [];
-  // let user_set = ['F3', 'F4', 'F8', 'F9', 'Shift + Enter', 'Ctrl + Enter', 'Alt + Enter', 'Ctrl + ,', 'Ctrl + .', '=', '방향키 왼쪽, 오른쪽'];
-  let user_set = ['F8', 'F9', 'Shift + Enter', 'Ctrl + Enter', 'Alt + Enter', 'Ctrl + ,', 'Ctrl + .', '=', '방향키 왼쪽, 오른쪽'];
-
-  for (let idx = 0; idx < user_set.length; idx++) {
-    let shortcut = {
-      'key': '',
-      'description': '',
-    };
-    shortcut.key = user_set[idx];
-    if (user_set[idx] == 'F8') {
-      shortcut.description = '[파형막대 기준] 뒤에있는 파형에서 가장 가까운 시작시간을 현재 파형막대의 위치에 이동합니다.';
-    }
-    else if (user_set[idx] == 'F9') {
-      shortcut.description = '[파형막대 기준] 가장 가까운 파형의 종료시간을 현재 파형막대의 위치에 이동합니다.';
-    }
-    // else if (user_set[idx] == 'F3') {
-    //   shortcut.description = '파형의 구간겹치기가 가능하게 변합니다.';
-    // }
-    // else if (user_set[idx] == 'F4') {
-    //   shortcut.description = '파형의 구간겹치기가 불가능하게 변합니다.';
-    // }
-    else if (user_set[idx] == 'Shift + Enter') {
-      shortcut.description = '임시저장을 합니다.';
-    }
-    else if (user_set[idx] == 'Ctrl + Enter') {
-      shortcut.description = '다음 자막과 병합을 합니다.';
-    }
-    else if (user_set[idx] == 'Alt + Enter') {
-      shortcut.description = '커서 기준으로 자막 분할을 합니다.';
-    }
-    else if (user_set[idx] == 'Ctrl + ,') {
-      shortcut.description = '영상의 배속을 0.1배 감소 시킵니다.';
-    }
-    else if (user_set[idx] == 'Ctrl + .') {
-      shortcut.description = '영상의 배속을 0.1배 증가 시킵니다.';
-    }
-    else if (user_set[idx] == '=') {
-      shortcut.description = '영상의 현재 시간에 피드백을 작성합니다.';
-    }
-    else if (user_set[idx] == '방향키 왼쪽, 오른쪽') {
-      shortcut.description = '파형을 클릭 한 후, 방향키 왼쪽과 오른쪽으로 영상의 시간을 변경합니다.';
-    }
-
-    shortcut_list.push(shortcut);
-  }
-  */
-
 
   if( label_info.subtitleList == null && jobStat != 'ING') {
     const _aspath = `/common/edit?epAin=${epAin}&epVdoSnm=${epVdoSnm}&prgAin=${prgAin}&jobStat=ING`;

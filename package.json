@@ -7,13 +7,13 @@
   },
   "scripts": {
     "dev": "next dev -p 80",
-    "build:dev": "env-cmd -f .env.development npm ci && npm run build",
-    "build": "next build",
+    "build:dev": "env-cmd -f .env.dev next build",
+    "build:prod": "env-cmd -f .env.prod next build",
+    "build": "env-cmd -f .env.prod next build",
     "start": "next start -p 8080",
     "deploy": "npm ci && npm run build",
     "lint": "next lint"
   },
-  
   "dependencies": {
     "@headlessui/react": "^1.6.6",
     "@reduxjs/toolkit": "^1.8.5",
