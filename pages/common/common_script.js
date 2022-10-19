@@ -271,10 +271,11 @@ export default function CommonScript({url}) {
                         cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelCd = getAgeCurrentElement().options[getAgeCurrentElement().selectedIndex].value;
                         cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelNm = getAgeCurrentElement().options[getAgeCurrentElement().selectedIndex].textContent;
                     }
-                    else if( e.key == 'q' || e.key == 'w') {
+                    else if( e.key == 'q' || e.key == 'w' || e.key == 'e') {
                         const convertKey = {
                             'q': 1,
                             'w': 2,
+                            'e': 3,
                         };
                         getSexCurrentElement().selectedIndex = convertKey[e.key];
                         cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelCd = getSexCurrentElement().options[getSexCurrentElement().selectedIndex].value;
