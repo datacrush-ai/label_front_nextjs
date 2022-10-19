@@ -108,6 +108,7 @@ const LayoutPosition = (info) => {
               <span className={styles.header_tips} style={{'gridArea': 'sex0'}}>성별</span>
               <span style={{'gridArea': 'sex1', 'border': '1px solid'}}>q</span>  <span style={{'gridArea': 'sex2', 'border': '1px solid'}}>남자</span>
               <span style={{'gridArea': 'sex3', 'border': '1px solid'}}>w</span>  <span style={{'gridArea': 'sex4', 'border': '1px solid'}}>여자</span>
+              <span style={{'gridArea': 'sex5', 'border': '1px solid'}}>e</span>  <span style={{'gridArea': 'sex6', 'border': '1px solid'}}>해당없음</span>
               
               <span className={styles.header_tips} style={{'gridArea': 'place0'}}>장소</span>
               <span style={{'gridArea': 'place1', 'border': '1px solid'}}>a</span>  <span style={{'gridArea': 'place2', 'border': '1px solid'}}>집</span>

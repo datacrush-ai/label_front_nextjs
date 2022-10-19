@@ -68,7 +68,7 @@ export default function MenuItem() {
                                         const context = '/labeltool/tmpSaveLabelJob';
                                         await sendFetch(context, param, {method:"POST"})
                                         .then(res => {
-                                            ToastMsg('저장했습니다.', 3000, null, null, 'pass');
+                                            ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
                                         });
                                     }}
                                     className={`${active ? 'bg-blue-500 text-white' : 'text-gray-900'
