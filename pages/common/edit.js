@@ -1,14 +1,11 @@
 import styles from '../../styles/Layout.module.css';
-import VideoLayout, { getTmpJSON } from './video_layout';
-import React, { useCallback, useEffect } from "react";
+import VideoLayout from './video_layout';
+import React, { useEffect } from "react";
 import { useRef } from 'react';
-import Image from 'next/image';
 import Subtitle from './subtitle';
 import SelectItem from './select_item';
 import { sendFetch } from './common_script';
-import { useRouter } from 'next/router';
-import { NextResponse } from 'next/server';
-import { getCookie, setCookie } from 'cookies-next';
+import { getCookie } from 'cookies-next';
 import SearchBoxAutoComplete from './searchbox_autocomplete';
 
 let _layerPopupElement;

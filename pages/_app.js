@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import '../styles/globals.css'
-import CommonScript, { sendFetch } from './common/common_script'
+import CommonScript from './common/common_script'
 import Layout from './layout'
 import { wrapper } from '../store'
 import { KAKAO_JS_KEY } from '../config/serverconfig'

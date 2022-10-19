@@ -1,5 +1,3 @@
-import styles from '../../styles/Home.module.css'
-import { getHost } from '../../config/serverconfig';
 import { getProcessDetail } from '../../store/nia_common/StoreProcessDetail';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useEffect, useRef } from 'react';

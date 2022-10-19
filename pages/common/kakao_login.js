@@ -2,7 +2,6 @@ import styles from '../../styles/Home.module.css'
 import { useSelector } from 'react-redux';
 import { getuuid } from '../../store/nia_common/StoreUUID';
 import { useEffect } from 'react';
-import { CLIENT_ID, LOGOUT_REDIRECT_URI } from '../../config/serverconfig';
 
 async function kakaoAuth() {
     window.Kakao.Auth.authorize({

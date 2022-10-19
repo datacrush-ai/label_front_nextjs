@@ -1,11 +1,8 @@
-import styles from '../../../styles/Home.module.css'
 import Image from 'next/image';
-// import PieChart from '../../common/pie_chart';
 import { setProcessDetail } from '../../../store/nia_common/StoreProcessDetail';
 import { useDispatch } from 'react-redux';
 import { sendFetch } from '../../common/common_script';
 import { getCookie } from 'cookies-next';
-import { useEffect } from 'react';
 
 const _user_info = undefined;
 const _arr = undefined;

@@ -1,10 +1,9 @@
 import { Menu, Transition } from '@headlessui/react'
-import { deleteCookie, getCookie } from 'cookies-next';
+import { deleteCookie } from 'cookies-next';
 import { Fragment, useEffect } from 'react'
 import { useSelector } from 'react-redux';
-import { getCue, saveServerCue } from '../../store/nia_layout/StoreCueSlice';
+import { getCue } from '../../store/nia_layout/StoreCueSlice';
 import { sendFetch, ToastMsg } from '../common/common_script';
-import { getCueFunc } from '../common/subtitle';
 import { getTmpJSON } from '../common/video_layout';
 
 export default function MenuItem() {

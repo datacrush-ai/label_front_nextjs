@@ -1,11 +1,4 @@
-import styles from '../../../styles/Home.module.css'
-import Image from 'next/image';
 import Link from 'next/link';
-import useSWR from 'swr';
-import { useEffect, useState } from 'react';
-
-// const fetcher = (url, param, options) => sendFetch(url, param, options);
-// const PROCESS_API = '/labeltool/getBasicInfoForDashboard';
 
 const UserDetail = ({response}) => {
     // console.log(response);

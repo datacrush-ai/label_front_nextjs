@@ -1,13 +1,10 @@
 import { getCookies } from "cookies-next";
 import { isNumber } from "lodash";
-import Script from "next/script";
-import { useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getCue, setCue } from "../../store/nia_layout/StoreCueSlice";
-import { createKeyValueSet } from "./searchbox_autocomplete";
-import { getScenarioSelLabelInfo } from "./select_item";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setCue } from "../../store/nia_layout/StoreCueSlice";
 import { createCueFunc, getCueFunc } from "./subtitle";
-import { createTmpJSON, getAgeCurrentElement, getOvrVocCurrentElement, getPlaceCurrentElement, getSelectIndex, getSexCurrentElement, getTmpJSON, getUniqeId, getVidElement } from "./video_layout";
+import { getAgeCurrentElement, getOvrVocCurrentElement, getPlaceCurrentElement, getSelectIndex, getSexCurrentElement, getTmpJSON, getVidElement } from "./video_layout";
 
 let _subtitle_children; 
 let _sectionEndtime;
