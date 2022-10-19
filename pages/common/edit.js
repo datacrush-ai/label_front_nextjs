@@ -95,7 +95,9 @@ const LayoutPosition = (info) => {
               <span style={{'gridArea': 'util1', 'border': '1px solid'}}>shift + enter</span>  <span style={{'gridArea': 'util2', 'border': '1px solid'}}>저장</span>
               <span style={{'gridArea': 'util3', 'border': '1px solid'}}>ctrl + .</span>  <span style={{'gridArea': 'util4', 'border': '1px solid'}}>배속증가</span>
               <span style={{'gridArea': 'util5', 'border': '1px solid'}}>ctrl + ,</span>  <span style={{'gridArea': 'util6', 'border': '1px solid'}}>배속감소</span>
-              <span style={{'gridArea': 'util7', 'border': '1px solid'}}>\ 또는 &#93;</span>  <span style={{'gridArea': 'util8', 'border': '1px solid'}}>일시정지 상태면 재생, 재생 상태면 일시정지</span>
+              <span style={{'gridArea': 'util7', 'border': '1px solid'}}>\ 또는 &#93;</span>  <span style={{'gridArea': 'util8', 'border': '1px solid'}}>(일시정지 상태) 재생 / (재생 상태) 일시정지</span>
+              <span style={{'gridArea': 'util9', 'border': '1px solid'}}>c</span>  <span style={{'gridArea': 'util10', 'border': '1px solid'}}>(라인 선택시) 해당 라인 라벨 복사</span>
+              <span style={{'gridArea': 'util11', 'border': '1px solid'}}>v</span>  <span style={{'gridArea': 'util12', 'border': '1px solid'}}>(라인 선택시) 복사한 라인 라벨을 해당라인에 붙여넣기</span>
               
               <span className={styles.header_tips} style={{'gridArea': 'age0'}}>발화자 연령</span>
               <span style={{'gridArea': 'age1', 'border': '1px solid'}}>1</span>  <span style={{'gridArea': 'age2', 'border': '1px solid'}}>미취학(5~7)</span>
@@ -113,7 +115,7 @@ const LayoutPosition = (info) => {
               <span style={{'gridArea': 'place5', 'border': '1px solid'}}>d</span>  <span style={{'gridArea': 'place6', 'border': '1px solid'}}>식당/카페</span>
               <span style={{'gridArea': 'place7', 'border': '1px solid'}}>f</span>  <span style={{'gridArea': 'place8', 'border': '1px solid'}}>상점</span>
               <span style={{'gridArea': 'place9', 'border': '1px solid'}}>g</span>  <span style={{'gridArea': 'place10', 'border': '1px solid'}}>교통수단</span>
-              <span style={{'gridArea': 'place11', 'border': '1px solid'}}>h</span>  <span style={{'gridArea': 'place12', 'border': '1px solid'}}>스튜디오</span>
+              <span style={{'gridArea': 'place11', 'border': '1px solid'}}>h</span>  <span style={{'gridArea': 'place12', 'border': '1px solid'}}>세트장</span>
               <span style={{'gridArea': 'place13', 'border': '1px solid'}}>j</span>  <span style={{'gridArea': 'place14', 'border': '1px solid'}}>실외</span>
               
               <span className={styles.header_tips} style={{'gridArea': 'ovr0'}}>중첩음</span>

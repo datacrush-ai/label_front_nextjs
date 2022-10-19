@@ -8,7 +8,7 @@ import { createTmpJSON, getTmpJSON } from './video_layout';
 export default function SelectItem({response, setitem, types}) {
     const dispatch = useDispatch();
     const [selected, setSelected] = useState(setitem?.labelCd);
-
+    
     const handleChangeSelect = (e) => {
         const cue = getCueFunc();
         const id = e.target.parentElement.parentElement.parentElement.parentElement.id.split('_')[0];
