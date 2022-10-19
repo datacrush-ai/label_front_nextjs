@@ -385,6 +385,9 @@ export default function CommonScript({url}) {
                 }
                 else if (e.key == 'c') {
                     last_copy_subtileSelLabelInfo = cue[getSelectIndex()].subtileSelLabelInfo;
+                    if( last_copy_subtileSelLabelInfo.speakerOvrVoc.labelCd == 'LBL_KND_00_000' ) {
+                        last_copy_subtileSelLabelInfo.speakerOvrVoc.labelCd = 'LBL_KND_24_001';
+                    }
                     ToastMsg(`${getSelectIndex()+1}라인 라벨을 복사 했습니다.`, 1500, null, null, 'pass');
                 }
                 else if (e.key == 'v') {
