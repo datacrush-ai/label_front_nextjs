@@ -389,6 +389,8 @@ export default function CommonScript({url}) {
                         last_copy_subtileSelLabelInfo.speakerOvrVoc.labelCd = 'LBL_KND_24_001';
                     }
                     ToastMsg(`${getSelectIndex()+1}라인 라벨을 복사 했습니다.`, 1500, null, null, 'pass');
+                    e.preventDefault();
+                    e.stopPropagation();
                 }
                 else if (e.key == 'v') {
                     cue[getSelectIndex()].subtileSelLabelInfo = last_copy_subtileSelLabelInfo;
@@ -397,6 +399,8 @@ export default function CommonScript({url}) {
                     paste_target.children[3].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelCd;
                     //성별
                     paste_target.children[4].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelCd;
+                    //장소
+                    paste_target.children[5].children[1].children[0].value = cue[getSelectIndex()].subtileSelLabelInfo.placeType.labelNm;
                     //중첩음
                     paste_target.children[6].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerOvrVoc.labelCd;
 
@@ -405,6 +409,8 @@ export default function CommonScript({url}) {
                     }, 100)
 
                     ToastMsg(`${getSelectIndex()+1}라인 라벨에 붙여넣기 했습니다.`, 1500, null, null, 'pass');
+                    e.preventDefault();
+                    e.stopPropagation();
                 }
             });
         }
