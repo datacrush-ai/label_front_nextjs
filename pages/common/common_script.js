@@ -241,7 +241,7 @@ export default function CommonScript({url}) {
                 dispatch(setCue({'cue': result}))
                 // localStorage.setItem(getUniqeId(), JSON.stringify(result));
                 sendFetch('/labeltool/tmpSaveLabelJob', tmpJSON, {method: 'POST'})
-                console.log(tmpJSON)
+                // console.log(tmpJSON)
                 ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
             }, 200);
         }
@@ -381,6 +381,12 @@ export default function CommonScript({url}) {
                     createVideoCurrentTime(getVidElement().current.currentTime - 0.5);
                     e.preventDefault();
                     e.stopPropagation();
+                }
+                else if (e.key == 'c') {
+                    console.log('c 클릭')
+                }
+                else if (e.key == 'v') {
+                    console.log('c 클릭')
                 }
             });
         }

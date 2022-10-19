@@ -12,51 +12,58 @@ export default function SelectItem({response, setitem, types}) {
     const handleChangeSelect = (e) => {
         const cue = getCueFunc();
         const id = e.target.parentElement.parentElement.parentElement.parentElement.id.split('_')[0];
-        setSelected(e.target.value);
+        const target_value = e.target.value;
+        const flag_value = 'LBL_KND_00_000';
+        setSelected(target_value);
 
-        if( e.target.value.includes('KND_11') ) {
-            getTmpJSON().scenarioSelLabelInfo.category.labelCd = e.target.value;
+        if( target_value.includes('KND_00') ) {
+            flag_value = e.target.children[1].value;
+            target_value = 'LBL_KND_00_000';
+        }
+        
+        if( target_value.includes('KND_11') || flag_value.includes('KND_11') ) {
+            getTmpJSON().scenarioSelLabelInfo.category.labelCd = target_value;
             getTmpJSON().scenarioSelLabelInfo.category.labelNm = e.target.selectedOptions[0].text;
             createTmpJSON(getTmpJSON());
         }
-        else if( e.target.value.includes('KND_12') ) {
-            getTmpJSON().scenarioSelLabelInfo.subCategory.labelCd = e.target.value;
+        else if( target_value.includes('KND_12') || flag_value.includes('KND_12') ) {
+            getTmpJSON().scenarioSelLabelInfo.subCategory.labelCd = target_value;
             getTmpJSON().scenarioSelLabelInfo.subCategory.labelNm = e.target.selectedOptions[0].text;
             createTmpJSON(getTmpJSON());
         }
-        else if( e.target.value.includes('KND_13') ) {
-            getTmpJSON().scenarioSelLabelInfo.keyword.labelCd = e.target.value;
+        else if( target_value.includes('KND_13') || flag_value.includes('KND_13') ) {
+            getTmpJSON().scenarioSelLabelInfo.keyword.labelCd = target_value;
             getTmpJSON().scenarioSelLabelInfo.keyword.labelNm = e.target.selectedOptions[0].text;
             createTmpJSON(getTmpJSON());
         }
-        else if( e.target.value.includes('KND_14') ) {
-            getTmpJSON().scenarioSelLabelInfo.opinion.labelCd = e.target.value;
+        else if( target_value.includes('KND_14') || flag_value.includes('KND_14') ) {
+            getTmpJSON().scenarioSelLabelInfo.opinion.labelCd = target_value;
             getTmpJSON().scenarioSelLabelInfo.opinion.labelNm = e.target.selectedOptions[0].text;
             createTmpJSON(getTmpJSON());
         }
-        else if( e.target.value.includes('KND_15') ) {
-            getTmpJSON().scenarioSelLabelInfo.conversationSpeakers.labelCd = e.target.value;
+        else if( target_value.includes('KND_15') || flag_value.includes('KND_15') ) {
+            getTmpJSON().scenarioSelLabelInfo.conversationSpeakers.labelCd = target_value;
             getTmpJSON().scenarioSelLabelInfo.conversationSpeakers.labelNm = e.target.selectedOptions[0].text;
             createTmpJSON(getTmpJSON());
         }
-        else if( e.target.value.includes('KND_21') ) {
+        else if( target_value.includes('KND_21') || flag_value.includes('KND_21') ) {
             //발화자 연령
-            cue[id].subtileSelLabelInfo.speakerAge.labelCd = e.target.value;
+            cue[id].subtileSelLabelInfo.speakerAge.labelCd = target_value;
             cue[id].subtileSelLabelInfo.speakerAge.labelNm = e.target.selectedOptions[0].text;
         }
-        else if( e.target.value.includes('KND_22') ) {
+        else if( target_value.includes('KND_22') || flag_value.includes('KND_22') ) {
             //성별
-            cue[id].subtileSelLabelInfo.speakerSex.labelCd = e.target.value;
+            cue[id].subtileSelLabelInfo.speakerSex.labelCd = target_value;
             cue[id].subtileSelLabelInfo.speakerSex.labelNm = e.target.selectedOptions[0].text;
         }
-        else if( e.target.value.includes('KND_23') ) {
+        else if( target_value.includes('KND_23') ) {
             //장소
-            cue[id].subtileSelLabelInfo.placeType.labelCd = e.target.value;
+            cue[id].subtileSelLabelInfo.placeType.labelCd = target_value;
             cue[id].subtileSelLabelInfo.placeType.labelNm = e.target.selectedOptions[0].text;
         }
-        else if( e.target.value.includes('KND_24') ) {
+        else if( target_value.includes('KND_24') ) {
             //중첩음
-            cue[id].subtileSelLabelInfo.speakerOvrVoc.labelCd = e.target.value;
+            cue[id].subtileSelLabelInfo.speakerOvrVoc.labelCd = target_value;
             cue[id].subtileSelLabelInfo.speakerOvrVoc.labelNm = e.target.selectedOptions[0].text;
         }
         
