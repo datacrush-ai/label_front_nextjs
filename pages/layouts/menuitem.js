@@ -4,39 +4,16 @@ import { Fragment, useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { getCue, saveServerCue } from '../../store/nia_layout/StoreCueSlice';
 import { sendFetch, ToastMsg } from '../common/common_script';
-// import { videoFullScreen, videoSplitScreen } from '../components/common/video_layout';
-// import { getLayerPopupElement, getSubtitleInfo } from '../components/edits/edit';
-// import { getCueFunc, lineCommentClick, lineReplaceClick } from '../components/edits/subtitle';
-let episodDTO = null;
-let scenarioLabelInfo = null;
-let scenarioSelLabelInfo = null;
-let subtitleLabelInfo = null;
-let rst = null;
-let userInfo = null;
-let param = null;
+import { getCueFunc } from '../common/subtitle';
+import { getTmpJSON } from '../common/video_layout';
 
 export default function MenuItem() {
     const subtitleList = useSelector(getCue);
+    let param = getTmpJSON();
     useEffect(() => {
-        episodDTO = JSON.parse(localStorage.getItem('episodDTO'));
-        scenarioLabelInfo = JSON.parse(localStorage.getItem('scenarioLabelInfo'));
-        scenarioSelLabelInfo = JSON.parse(localStorage.getItem('scenarioSelLabelInfo'));
-        subtitleLabelInfo = JSON.parse(localStorage.getItem('subtitleLabelInfo'));
-        rst = null;
-        userInfo = JSON.parse(getCookie('tmp'));
-        param = {
-            episodDTO,
-            scenarioLabelInfo,
-            scenarioSelLabelInfo,
-            subtitleLabelInfo,
-            subtitleList,
-            rst,
-            userInfo,
-        };
-    }, [subtitleList]);
+        param.subtitleList = subtitleList;
+    }, [subtitleList, param]);
     
-    
-
     return (
 
         <div className="text-right">
@@ -106,17 +83,39 @@ export default function MenuItem() {
                             <Menu.Item>
                                 {({ active }) => (
                                     <button onClick={async (e) => {
-                                        if(confirm('최종 완료를 하시겠습니까?')){
-                                            const context = '/labeltool/reqComplLabelJob';
-                                            await sendFetch(context, param, {method:"POST"})
-                                            .then(res => {
-                                                ToastMsg('작업을 완료했습니다.\n잠시 후 창이 닫힙니다.', 2000, null, function() {
-                                                    setTimeout(function() {
-                                                        window.close();
-                                                    },3000);
-                                                }, 'pass');
-    
-                                            });
+                                        let unable_save_idx = [];
+                                        let unable_save_list = [];
+                                        for(let idx=0; idx<subtitleList.length; idx++) {
+                                            if(  
+                                                (subtitleList[idx].subtileSelLabelInfo.placeType.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.placeType.labelCd == '') ||
+                                                (subtitleList[idx].subtileSelLabelInfo.speakerAge.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.speakerAge.labelCd == '') ||
+                                                (subtitleList[idx].subtileSelLabelInfo.speakerSex.labelCd == 'LBL_KND_00_000' || subtitleList[idx].subtileSelLabelInfo.speakerSex.labelCd == '')
+                                            ) {
+                                                unable_save_list.push(subtitleList[idx]);
+                                                unable_save_idx.push((parseInt(subtitleList[idx].subSnm)+ 1) + '라인 ');
+                                            }
+                                        }
+
+                                        if( unable_save_list.length > 0 ) {
+                                            ToastMsg(`저장하지 못했습니다.\n사유: 선택하지 않은 라벨이 존재합니다.\n${unable_save_idx}`, 10000, function() {
+                                                let line = parseInt(unable_save_idx[0]) - 1;
+                                                subtitle_edit_layout.scrollTop = 120 * line;
+                                            }, null, 'warn');
+                                            
+                                        }
+                                        else {
+                                            if(confirm('최종 완료를 하시겠습니까?')){
+                                                const context = '/labeltool/reqComplLabelJob';
+                                                await sendFetch(context, param, {method:"POST"})
+                                                .then(res => {
+                                                    ToastMsg('작업을 완료했습니다.\n잠시 후 창이 닫힙니다.', 2000, null, function() {
+                                                        setTimeout(function() {
+                                                            window.close();
+                                                        },3000);
+                                                    }, 'pass');
+        
+                                                });
+                                            }
                                         }
                                     }}
                                     className={`${active ? 'bg-blue-500 text-white' : 'text-gray-900'
