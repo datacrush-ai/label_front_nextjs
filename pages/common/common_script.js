@@ -11,6 +11,7 @@ let _sectionEndtime;
 let _sectionStartTime;
 let saveAction;
 let last_click_dom;
+let last_copy_subtileSelLabelInfo;
 
 export const sendFetch = async(context, param, options) => {
     const url = 'https://' + process.env.NEXT_PUBLIC_API_HOST + context;
@@ -383,10 +384,24 @@ export default function CommonScript({url}) {
                     e.stopPropagation();
                 }
                 else if (e.key == 'c') {
-                    console.log('c 클릭')
+                    last_copy_subtileSelLabelInfo = cue[getSelectIndex()].subtileSelLabelInfo;
+                    ToastMsg(`${getSelectIndex()+1}라인 라벨을 복사 했습니다.`, 1500, null, null, 'pass');
                 }
                 else if (e.key == 'v') {
-                    console.log('c 클릭')
+                    cue[getSelectIndex()].subtileSelLabelInfo = last_copy_subtileSelLabelInfo;
+                    const paste_target = document.querySelector('#subtitle_edit_layout').children[0].children[getSelectIndex()].children[0].children[0];
+                    //발화자 연령
+                    paste_target.children[3].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelCd;
+                    //성별
+                    paste_target.children[4].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelCd;
+                    //중첩음
+                    paste_target.children[6].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerOvrVoc.labelCd;
+
+                    setTimeout(function() { 
+                        dispatch(setCue({'cue': cue}));
+                    }, 100)
+
+                    ToastMsg(`${getSelectIndex()+1}라인 라벨에 붙여넣기 했습니다.`, 1500, null, null, 'pass');
                 }
             });
         }
@@ -394,10 +409,6 @@ export default function CommonScript({url}) {
     }, [dispatch])
     return(
         <>
-            {/* <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"></link>
-            <Script src='https://cdn.jsdelivr.net/npm/toastify-js' strategy='beforeInteractive'></Script>
-            <Script src="https://cdn.jsdelivr.net/npm/chart.js" strategy='beforeInteractive'></Script>
-            <Script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0-rc" strategy='beforeInteractive'></Script> */}
         </>
     )
 }
