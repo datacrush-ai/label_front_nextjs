@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // reactStrictMode: true,
-  // env: {
-  //   BASE_URL: process.env.BASE_URL
-  // },
+  env: {
+    BASE_URL: process.env.NEXT_PUBLIC_API_HOST
+  },
   swcMinify: true,
   // async rewrites() {
   //   return [
