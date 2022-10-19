@@ -55,7 +55,6 @@ function updateConfigByMutating(drawChart, process_data) {
   })
   
   drawChart.options.plugins.title.text = process_data.process_name;
-  console.log(drawChart.data)
   drawChart.data.labels = statNm;
   drawChart.data.datasets[0].data = statCnt;
   drawChart.data.datasets[0].code_list = process_data.process_list;
