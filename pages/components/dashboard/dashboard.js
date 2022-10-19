@@ -1,7 +1,5 @@
-import styles from '../../../styles/Home.module.css'
 import { getHost } from '../../../config/serverconfig';
 import ProgramList, { re_process_click } from './program_list';
-import SearchBox from '../../common/search_box';
 import PieChart, { re_pie_click } from '../../common/pie_chart';
 import DetailLabelList from './detail_label_list';
 import UserProcessList from './user_process_list';
@@ -9,10 +7,9 @@ import UserRejectList from './user_reject_list';
 import DetailAcceptList from './detail_accept_list';
 import AcceptProcessList from './accept_process_list';
 import AcceptRejectList from './accept_reject_list';
-import { getCookieToDecode, sendFetch } from '../../common/common_script';
+import { sendFetch } from '../../common/common_script';
 import { getCookie } from 'cookies-next';
 import useSWR, { SWRConfig, useSWRConfig } from 'swr';
-import useSWRImmutable from 'swr/immutable';
 import { useEffect } from 'react';
 
 const fetcher = (url, param, options) => sendFetch(url, param, options);

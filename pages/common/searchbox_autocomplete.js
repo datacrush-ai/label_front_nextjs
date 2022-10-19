@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import styles from '../../styles/Layout.module.css';
-import Image from 'next/image';
 import { setCue } from '../../store/nia_layout/StoreCueSlice';
 import { getCueFunc } from './subtitle';
 import { createTmpJSON, getTmpJSON } from './video_layout';

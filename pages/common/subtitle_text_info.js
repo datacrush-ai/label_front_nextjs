@@ -1,7 +1,4 @@
 import styles from '../../styles/Layout.module.css'
-import { useCallback, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCue, setCue } from '../../store/nia_layout/StoreCueSlice';
 
 export const TextAreaContainer = (data) => {
     let subtitle = data.subtitle;

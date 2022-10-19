@@ -1,20 +1,17 @@
 import styles from '../../styles/Layout.module.css'
-import { useCallback, useEffect, useRef } from 'react';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { setCue, getCue } from '../../store/nia_layout/StoreCueSlice';
-import { humanReadableTime, subtitleSectionElementClick, ToastMsg, updateRegionFromCustomEvent, setSubtitleChildren } from './common_script';
-import _, { debounce } from "lodash";
+import { useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getCue } from '../../store/nia_layout/StoreCueSlice';
+import { humanReadableTime, subtitleSectionElementClick, setSubtitleChildren } from './common_script';
+import _ from "lodash";
 import SubtitleTextInfo from './subtitle_text_info';
 import { getCommentListRefElement, getCommentRefElement, getStartTImeRefElement, getVidElement } from './video_layout';
 import { getReplacePopupElement } from './edit';
-import { getPlatform } from '../../config/serverconfig';
 import SelectItem from './select_item';
 import SearchBoxAutoComplete from './searchbox_autocomplete';
 
 let _cue = [];
 let refArticleElement;
-let saveLineAddAction;
-let saveLineRemoveAction;
 let _sectionElement;
 
 /**

@@ -1,9 +1,9 @@
 import styles from '../../styles/Layout.module.css'
-import { useEffect, useRef, useCallback, useState, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { completeVTT, getPlaySectionStartTime, getPlaySectionEndTime, createDisplayNoneElement, readableTimeToMilTime, humanReadableTime, sendFetch } from '../common/common_script';
+import { useEffect, useRef, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { getPlaySectionEndTime, readableTimeToMilTime, sendFetch } from '../common/common_script';
 import { useRouter } from 'next/router';
-import { getCue, setCue } from '../../store/nia_layout/StoreCueSlice';
+import { setCue } from '../../store/nia_layout/StoreCueSlice';
 import { getHost } from '../../config/serverconfig';
 import { createCueFunc, getCueFunc } from './subtitle';
 import { getCookie } from 'cookies-next';

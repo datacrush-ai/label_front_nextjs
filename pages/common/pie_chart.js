@@ -1,5 +1,3 @@
-import styles from '../../styles/Home.module.css'
-import { getHost } from '../../config/serverconfig';
 import { getProcessDetail } from '../../store/nia_common/StoreProcessDetail';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useEffect, useRef } from 'react';
@@ -7,7 +5,7 @@ import { sendFetch } from './common_script';
 import { setDetailList } from '../../store/nia_common/StoreDetailList';
 import { getCookie } from 'cookies-next';
 
-let program_detail_ctx;
+let program_detail_ctx = undefined;
 let doughnut;
 let _code_list; 
 let _user_info; 
@@ -57,7 +55,6 @@ function updateConfigByMutating(drawChart, process_data) {
   })
   
   drawChart.options.plugins.title.text = process_data.process_name;
-  console.log(drawChart.data)
   drawChart.data.labels = statNm;
   drawChart.data.datasets[0].data = statCnt;
   drawChart.data.datasets[0].code_list = process_data.process_list;
@@ -172,30 +169,6 @@ export default function PieChart() {
           let code_list = e.chart.data.datasets[0].code_list[e.chart.tooltip.dataPoints[0].dataIndex];
           const user_info = getCookie('tmp');
           pie_click(code_list, user_info, e);
-          /*
-          const user_info = getCookie('tmp');
-          let code_list = e.chart.data.datasets[0].code_list[e.chart.tooltip.dataPoints[0].dataIndex];
-          const url = '/labeltool/getEpListForDashboard';
-          const param = {
-            "userInfo": {
-                "prtEml": JSON.parse(user_info)?.prtEml
-                // "prtEml": "raelee@datacrush.ai"
-            },
-            "prg": {
-                "prgAin": e.chart.data.datasets[0].prg_ain,
-                "jobStat": {
-                    "jobPrrSttsScd": code_list.jobPrrSttsScd,
-                    "subJobScd": code_list.subJobScd
-                }
-            }
-          };
-          const options = {
-            'method': 'POST'
-          };
-          const result = await sendFetch(url, param, options);
-          // console.log(result);
-          action_setDetail(result.epListPerPrg);
-          */
         }
       }
     };
@@ -209,25 +182,8 @@ export default function PieChart() {
     return new Chart(program_detail_ctx, config);
   }, [])
 
-  // const action_setCue = useCallback((data) => {
-  //   let cue = [];
-  //   for (let idx = 0; idx < data.length; idx++) {
-  //     cue.push({
-  //       'subSnm': data[idx].subSnm,
-  //       'subCn': data[idx].subCn,
-  //       'subBgnHrMs': data[idx].subBgnHrMs,
-  //       'subEndHrMs': data[idx].subEndHrMs
-  //     });
-  //   }
-  //   dispatch(setCue({ cue }));
-  // }, [dispatch]);
-  
-  
-
-  // const programDetailChartRef = useRef(null);
   useEffect(() => {
-    
-    if( program_detail_ctx == undefined ) {
+    if( program_detail_chart.nextElementSibling == undefined ) {
       program_detail_ctx = document.createElement('canvas').getContext('2d').canvas;
       program_detail_ctx.setAttribute('id', 'chart_');
       program_detail_ctx.style.padding = '1rem';
@@ -236,7 +192,6 @@ export default function PieChart() {
       program_detail_ctx.height = detail_height;
       program_detail_ctx.style.width = '30vw';
       program_detail_ctx.style.height = '50vh';
-
       progressDetailRef.current.appendChild(program_detail_ctx)
       doughnut = DoughnutChart(process_detail);
     }
@@ -249,8 +204,7 @@ export default function PieChart() {
   return (
 
     <article ref={progressDetailRef} className={"h-[50vh] overflow-hidden"}>
-      <div id={"program_detail_chart"}></div>
-      {/* <div ref={programDetailChartRef} id={"program_detail_chart"}></div> */}
+      <div id={"program_detail_chart"}/>
     </article>
   )
 }

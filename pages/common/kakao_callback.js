@@ -1,8 +1,7 @@
-import styles from '../../styles/Home.module.css'
 import { useRouter } from 'next/router';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { setuuid } from '../../store/nia_common/StoreUUID';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 export default function KakaoCallback({login_uuid, context_path}) {
     const router = useRouter();
