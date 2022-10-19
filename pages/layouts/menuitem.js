@@ -84,6 +84,7 @@ export default function MenuItem() {
                                     <button onClick={async (e) => {
                                         let unable_save_idx = [];
                                         let unable_save_list = [];
+
                                         for(let idx=0; idx<subtitleList.length; idx++) {
                                             if(  
                                                 (subtitleList[idx].subtileSelLabelInfo.placeType.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.placeType.labelCd == '') ||
@@ -94,6 +95,29 @@ export default function MenuItem() {
                                                 unable_save_idx.push((parseInt(subtitleList[idx].subSnm)+ 1) + '라인 ');
                                             }
                                         }
+
+
+                                        if(param.scenarioSelLabelInfo.category.labelCd == 'LBL_KND_00_000' || param.scenarioSelLabelInfo.category.labelCd == '') {
+                                            unable_save_list.push('카테고리 ');
+                                            unable_save_idx.push('1 카테고리 ');
+                                        }
+                                        if(param.scenarioSelLabelInfo.subCategory.labelCd == 'LBL_KND_00_000' || param.scenarioSelLabelInfo.subCategory.labelCd == '') {
+                                            unable_save_list.push('하위 카테고리');
+                                            unable_save_idx.push('2 하위 카테고리');
+                                        }
+                                        if(param.scenarioSelLabelInfo.keyword.labelCd == 'LBL_KND_00_000' || param.scenarioSelLabelInfo.keyword.labelCd == '') {
+                                            unable_save_list.push('대화 주제 키워드');
+                                            unable_save_idx.push('3 대화 주제 키워드');
+                                        }
+                                        if(param.scenarioSelLabelInfo.conversationSpeakers.labelCd == 'LBL_KND_00_000' || param.scenarioSelLabelInfo.conversationSpeakers.labelCd == '') {
+                                            unable_save_list.push('대화 주체');
+                                            unable_save_idx.push('4 대화 주체');
+                                        }
+                                        if(param.scenarioSelLabelInfo.opinion.labelCd == 'LBL_KND_00_000' || param.scenarioSelLabelInfo.opinion.labelCd == '') {
+                                            unable_save_list.push('평판');
+                                            unable_save_idx.push('5 평판');
+                                        }
+
 
                                         if( unable_save_list.length > 0 ) {
                                             ToastMsg(`저장하지 못했습니다.\n사유: 선택하지 않은 라벨이 존재합니다.\n${unable_save_idx}`, 10000, function() {
