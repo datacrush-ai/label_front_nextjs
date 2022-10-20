@@ -135,6 +135,7 @@ export const getCue = ((state) => {
     // console.log(JSON.stringify(_.sortBy(_result, ['subBgnHrMs', 'subEndHrMs'])));
 
     // console.log('getCue Call');
+    result = _.uniqBy(result, 'subBgnHrMs', 'subEndHrMs');
     return _.sortBy(result, ['subBgnHrMs', 'subEndHrMs']);
     // return state.layoutStore.cueSlice.cue;
 });
