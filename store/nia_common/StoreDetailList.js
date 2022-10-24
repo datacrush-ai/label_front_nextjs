@@ -15,7 +15,7 @@ const detailListSlice = createSlice({
     initialState,
     reducers: {
         setDetailList: (state, action) => {
-            state.epListPerPrg = action.payload.map((arr, idx) => {
+            state.epListPerPrg = action.payload?.map((arr, idx) => {
                 if(arr.filePath == null || arr.filePath == undefined || arr.filePath.indexOf('https') != -1) {
                     arr.filePath = '/M4.jpeg';
                 }

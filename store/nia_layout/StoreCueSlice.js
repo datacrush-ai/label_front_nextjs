@@ -44,6 +44,7 @@ const cueSlice = createSlice({
             // action.payload.cue = _.sortBy(action.payload.cue, ['startTime', 'endTime']);
             state.cue = action.payload.cue;
         },
+        /*
         saveServerCue: async(state, action) => {
             const context = '/labeltool/reqComplLabelJob';
             const cue = getCueFunc();
@@ -52,45 +53,8 @@ const cueSlice = createSlice({
             // await sendFetch(context, action.payload.cue, {method: 'POST'});
             ToastMsg(`저장하였습니다.`, 3000, null, null, 'pass');
             return await sendFetch(context, cue, {method: 'POST'})
-            // .then(res => {
-            //     console.log(res);
-            // });
-            
-            // let host = 'http://116.120.27.245:30501/worklist/createSubtitle/';
-            // if(process.env.NODE_ENV !== 'development') {
-            //     host = 'http://vivoservernestjs-env.eba-p5f3fzvs.ap-northeast-2.elasticbeanstalk.com/worklist/createSubtitle/'
-            // }
-            /*
-            let host = getHost();
-            let param = {
-                'PRG_AIN': parseInt(action.payload.PRG_AIN),
-                'EP_AIN': parseInt(action.payload.EP_AIN),
-                'EP_SUB_VER_SNM': parseInt(action.payload.EP_SUB_VER_SNM),
-                'SUB_PRN_SNM': parseInt(action.payload.SUB_PRN_SNM),
-                'SUB_PRN_SUB_JSN_SNM': parseInt(action.payload.SUB_PRN_SUB_JSN_SNM),
-                'SUB_PRN_SUB_JSN': action.payload.SUB_PRN_SUB_JSN,
-            }
-            // console.log(param)
-            state.cue = action.payload.SUB_PRN_SUB_JSN;
-            fetch(`${host}/worklist/createSubtitle/`, {
-                credentials: 'same-origin',
-                headers: { 
-                    'Content-Type': 'application/json', 
-                    'Access-Control-Allow-Origin':'*',
-                },
-                method: 'POST',
-                body: JSON.stringify(param),
-                // body: param,
-                mode: 'cors' //no-cors, cors
-            }).then( res => {
-                ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
-            }).catch(e => {
-                ToastMsg('작업을 저장 하지 못했습니다.', 3000, null, null, 'warn');
-            })
-            */
-            
-              
         },
+        */
     }
 });
 
