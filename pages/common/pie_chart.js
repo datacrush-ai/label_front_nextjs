@@ -45,8 +45,6 @@ const pie_click = async(code_list, user_info, e) => {
 }
 
 function updateConfigByMutating(drawChart, process_data) {
-  // let selectColor = selectTitleClass();
-  console.log(process_data)
   const statNm = process_data.process_list.map((arr ,idx) => {
     return arr.statNm;
   });

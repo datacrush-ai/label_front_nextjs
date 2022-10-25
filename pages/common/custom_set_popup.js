@@ -10,15 +10,10 @@ const CompleteTask = ({list}) => {
     list.map((arr, idx) => {
         const complete_date = arr.jobLstEndDt.toString().split(' ')[0];
         if(jobLstEndDt[complete_date] == undefined) {
-            jobLstEndDt[complete_date] = [{'epNm': arr.epNm, 'playTime': arr.playTime}];
+            jobLstEndDt[complete_date] = [{'epNm': `${arr.epNm}-${arr.epVdoSnm}화`, 'playTime': arr.playTime}];
         }
         else {
-            // console.log(jobLstEndDt[complete_date])
-            // const before_idx = idx-1 < 0 ? 0 : idx-1;
-            // debugger
-            // console.log(list[complete_date][before_idx], before_idx)
-            // console.log(list[complete_date][before_idx]?.totalTime)
-            jobLstEndDt[complete_date].push({'epNm': arr.epNm, 'playTime': arr.playTime});
+            jobLstEndDt[complete_date].push({'epNm': `${arr.epNm}-${arr.epVdoSnm}화`, 'playTime': arr.playTime});
         }
     });
 
@@ -77,18 +72,6 @@ const CompleteTask = ({list}) => {
             )
         })
     )
-    // return (
-    //     <>
-    //         <ul style={{ 'padding': '20px 30px' }}>
-    //             <div className={styles.layout_title_container}>
-    //                 <span>영상 이동간격(초)</span>
-    //             </div>
-    //             <div className={styles.layout_setting_container}>
-    //                 <span>1초</span>
-    //             </div>
-    //         </ul>
-    //     </>
-    // )
 }
 
 export default function CustomSetPopup({response}) {
