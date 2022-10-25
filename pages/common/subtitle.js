@@ -12,7 +12,6 @@ import SearchBoxAutoComplete from './searchbox_autocomplete';
 
 let _cue = [];
 let refArticleElement;
-let _sectionElement;
 
 /**
  * 
@@ -53,13 +52,6 @@ export const lineReplaceClick = (e) => {
   createDisplayEmptyElement(getReplacePopupElement().current);
 };
 
-function setSectionElement(data) {
-  _sectionElement = data;
-}
-function getSectionElement() {
-  return _sectionElement;
-}
-
 export default function Subtitle({ info }) {
   const age_list = {
     'title': '발화자 연령', 
@@ -76,6 +68,10 @@ export default function Subtitle({ info }) {
   const ovrvoc_list = {
     'title': '중첩음',
     'itemlist': info.subtitleLabelInfo.speakerOvrVoc
+  }
+  const speaker_list = {
+    'title': '화자',
+    'itemlist': info.subtitleLabelInfo.speaker
   }
 
   const data = useSelector(getCue);
@@ -129,7 +125,8 @@ export default function Subtitle({ info }) {
                     <SubtitleTextInfo id={idx} arr={arr}></SubtitleTextInfo>
                     <SelectItem key={`age_${idx}`} response={age_list} setitem={arr.subtileSelLabelInfo.speakerAge} types={'subtitle'}></SelectItem>
                     <SelectItem key={`sex_${idx}`} response={sex_list} setitem={arr.subtileSelLabelInfo.speakerSex} types={'subtitle'}></SelectItem>
-                    <SearchBoxAutoComplete key={`place_${idx}`} placeholder={'장소를 입력하세요'} dataListName={'comment-options'} dataList={place_list} index={idx} setItem={arr.subtileSelLabelInfo.placeType} title={'장소'}></SearchBoxAutoComplete>
+                    <SearchBoxAutoComplete key={`place_${idx}`} placeholder={'장소를 입력하세요'} dataListName={'comment-options'} dataList={place_list} index={idx} setItem={arr.subtileSelLabelInfo.placeType} title={'장소'} maxWidth={'250px'}></SearchBoxAutoComplete>
+                    <SearchBoxAutoComplete key={`speaker_${idx}`} placeholder={'화자를 입력하세요'} dataListName={'speaker-options'} dataList={speaker_list} index={idx} setItem={arr.subtileSelLabelInfo.speaker} title={'화자'} maxWidth={'250px'}></SearchBoxAutoComplete>
                     <SelectItem key={`ovrvoc_${idx}`} response={ovrvoc_list} setitem={arr.subtileSelLabelInfo.speakerOvrVoc} types={'subtitle'}></SelectItem>
                   </div>
                 </div>

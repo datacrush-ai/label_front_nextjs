@@ -26,6 +26,10 @@ const initialState = {
             'speakerOvrVoc': {
                 'labelCd': '', 
                 'labelNm': ''
+            },
+            'speaker': {
+                'labelCd': '', 
+                'labelNm': ''
             }
         }
         // "speakerCd": '',
@@ -85,6 +89,10 @@ export const getCue = ((state) => {
                 'speakerOvrVoc': {
                     'labelCd': arr.subtileSelLabelInfo.speakerOvrVoc?.labelCd,
                     'labelNm': arr.subtileSelLabelInfo.speakerOvrVoc?.labelNm
+                },
+                'speaker': {
+                    'labelCd': arr.subtileSelLabelInfo.speaker?.labelCd,
+                    'labelNm': arr.subtileSelLabelInfo.speaker?.labelNm
                 },
             }
         });

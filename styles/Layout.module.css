@@ -950,7 +950,7 @@
     /* grid-template-columns: 40px minmax(50px, 150px) minmax(250px, 2fr); */
     /* grid-template-columns: minmax(40px, 40px) minmax(160px, 1.1fr) minmax(300px, 3fr) minmax(260px, 1.5fr) minmax(190px, 1.2fr) minmax(260px, 1.5fr) minmax(200px, 1.3fr); */
     
-        grid-template-columns: 0.4fr 1.6fr 3fr 2.6fr 1.9fr 2.6fr 2fr;
+        grid-template-columns: 0.4fr 1.6fr 3fr 2.6fr 1.9fr 1.6fr 1.6fr 1.6fr;
         /* grid-template-columns: 0.4fr 1.6fr minmax(3fr, 300px) 2.6fr 1.9fr 2.6fr 2fr; */
     align-items: center;
     grid-template-areas:

@@ -32,7 +32,7 @@ const convertValueKey = (key) => {
 }
 
 
-export default function SearchBoxAutoComplete({dataList, dataListName, placeholder, index, setItem, title, minWidth}) {
+export default function SearchBoxAutoComplete({dataList, dataListName, placeholder, index, setItem, title, minWidth, maxWidth, titleMinWidth}) {
     const dataListElement = useRef(null);
     const dispatch = useDispatch();
 
@@ -42,6 +42,7 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
             // console.log(e.target.id, e.target.value);
             let cue = getCueFunc();
             // console.log(e.target.value, convertValueKey(e.target.value));
+            
             if(e.target.list.id.includes('subcategory')) {
                 getTmpJSON().scenarioSelLabelInfo.subCategory.labelCd = convertValueKey(e.target.value);
                 getTmpJSON().scenarioSelLabelInfo.subCategory.labelNm = e.target.value;
@@ -57,13 +58,32 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
                 getTmpJSON().scenarioSelLabelInfo.opinion.labelNm = e.target.value;
                 createTmpJSON(getTmpJSON());
             }
-            else if( convertValueKey(e.target.value).includes('KND_23') ) {
-                cue[index].subtileSelLabelInfo.placeType.labelCd = convertValueKey(e.target.value);
-                cue[index].subtileSelLabelInfo.placeType.labelNm = e.target.value;
-                // dispatch(setCue({cue}));
+            
+            if( convertValueKey(e.target.value) == 'LBL_KND_23_999' ) {
+                //기타상세
+                const nextid = e.target.nextElementSibling.id;
+                if( nextid.includes('speaker') ) {
+                    cue[index].subtileSelLabelInfo.speaker.labelCd = convertValueKey(e.target.value);
+                    cue[index].subtileSelLabelInfo.speaker.labelNm = e.target.value;    
+                }
+                else if( nextid.includes('comment') ) {
+                    cue[index].subtileSelLabelInfo.placeType.labelCd = convertValueKey(e.target.value);
+                    cue[index].subtileSelLabelInfo.placeType.labelNm = e.target.value;
+                }
                 saveAction(cue);
             }
-            
+            else if( convertValueKey(e.target.value).includes('KND_25') ) {
+                //화자
+                cue[index].subtileSelLabelInfo.speaker.labelCd = convertValueKey(e.target.value);
+                cue[index].subtileSelLabelInfo.speaker.labelNm = e.target.value;
+                saveAction(cue);
+            }
+            else if( convertValueKey(e.target.value).includes('KND_23') ) {
+                //장소
+                cue[index].subtileSelLabelInfo.placeType.labelCd = convertValueKey(e.target.value);
+                cue[index].subtileSelLabelInfo.placeType.labelNm = e.target.value;
+                saveAction(cue);
+            }
 
             // let _feedback = {
             //     'feedback': e.target.value,
@@ -100,11 +120,10 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
         saveAction = _.debounce(saveSubtitle, 500);
     }, [dataList?.itemlist, dispatch]);
     
-    
     if( setItem?.labelCd?.includes('_000')) {
         return (
-            <section style={{'display':'flex', 'justifyContent': 'center', 'alignItems': 'center', 'padding': '10px'}} className={styles.search_container}>
-                <div style={{'whiteSpace': 'nowrap', 'paddingRight': '10px', 'minWidth': minWidth}}>{title}</div>
+            <section style={{'display':'flex', 'justifyContent': 'center', 'alignItems': 'center', 'padding': '10px', 'maxWidth': maxWidth, 'minWidth': minWidth}} className={styles.search_container}>
+                <div style={{'whiteSpace': 'nowrap', 'paddingRight': '10px', 'minWidth': titleMinWidth}}>{title}</div>
                 <div className={styles.ibx_search_container}>
                     <input id={index} onSelect={(e) => {autocompleteKeyDown(e)}} onKeyDown={autocompleteKeyDown} type={"text"} list={dataListName} className={styles.ibx_product} placeholder={placeholder}/>
                     <datalist ref={dataListElement} id={dataListName}></datalist>
@@ -115,8 +134,8 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
     else {
     // else if(setItem?.labelCd != 'LBL_KND_23_999') {
         return (
-            <section style={{'display':'flex', 'justifyContent': 'center', 'alignItems': 'center', 'padding': '10px'}} className={styles.search_container}>
-                <div style={{'whiteSpace': 'nowrap', 'paddingRight': '10px', 'minWidth': minWidth}}>{title}</div>
+            <section style={{'display':'flex', 'justifyContent': 'center', 'alignItems': 'center', 'padding': '10px', 'maxWidth': maxWidth, 'minWidth': minWidth}} className={styles.search_container}>
+                <div style={{'whiteSpace': 'nowrap', 'paddingRight': '10px', 'minWidth': titleMinWidth}}>{title}</div>
                 <div className={styles.ibx_search_container}>
                     <input id={index} onSelect={(e) => {autocompleteKeyDown(e)}} onKeyDown={autocompleteKeyDown} type={"text"} list={dataListName} className={styles.ibx_product} placeholder={placeholder} defaultValue={setItem?.labelNm}/>
                     <datalist ref={dataListElement} id={dataListName}></datalist>
