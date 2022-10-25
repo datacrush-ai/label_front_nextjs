@@ -7,7 +7,7 @@ import { humanReadableTime } from "./common_script";
 const CompleteTask = ({list}) => {
     let jobLstEndDt = {};
     let render_list = [];
-    list.map((arr, idx) => {
+    list?.map((arr, idx) => {
         const complete_date = arr.jobLstEndDt.toString().split(' ')[0];
         if(jobLstEndDt[complete_date] == undefined) {
             jobLstEndDt[complete_date] = [{'epNm': `${arr.epNm}-${arr.epVdoSnm}화`, 'playTime': arr.playTime}];
@@ -31,7 +31,7 @@ const CompleteTask = ({list}) => {
     }
 
     return(
-        render_list.map((arr, idx) => {
+        render_list?.map((arr, idx) => {
             return (
                 <ul key={idx} style={{ 'padding': '20px 30px' }}>
                     <div className={styles.layout_title_container}>
@@ -44,7 +44,7 @@ const CompleteTask = ({list}) => {
                                 <div style={{'width': '100%', 'border': '1px solid', 'backgroundColor': 'antiquewhite'}}>작업 시간</div>
                             </div>
                             {
-                                arr.itemlist.map((item, item_idx) => {
+                                arr.itemlist?.map((item, item_idx) => {
                                     if((arr.itemlist.length-1) == item_idx){
                                         return (
                                             <div key={item_idx}>
