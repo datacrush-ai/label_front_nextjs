@@ -263,6 +263,10 @@ export default function VideoLayout({ video_info }) {
           'speakerOvrVoc': {
             'labelCd': data[idx].subtileSelLabelInfo?.speakerOvrVoc?.labelCd,
             'labelNm': data[idx].subtileSelLabelInfo?.speakerOvrVoc?.labelNm,
+          },
+          'speaker': {
+            'labelCd': data[idx].subtileSelLabelInfo?.speaker?.labelCd,
+            'labelNm': data[idx].subtileSelLabelInfo?.speaker?.labelNm,
           }
         }
       });
@@ -467,7 +471,7 @@ export default function VideoLayout({ video_info }) {
               createAgeCurrentElement(target.children[0].children[0].children[3].children[1]);
               createSexCurrentElement(target.children[0].children[0].children[4].children[1]);
               createPlaceCurrentElement(target.children[0].children[0].children[5].children[1]);
-              createOvrVocCurrentElement(target.children[0].children[0].children[6].children[1]);
+              createOvrVocCurrentElement(target.children[0].children[0].children[7].children[1]);
             }
             else {
               target.children[0].children[0].style.backgroundColor = "";

@@ -4,10 +4,8 @@ import { useEffect } from 'react';
 import { getDetailList } from '../../../store/nia_common/StoreDetailList';
 
 const ProgramListDetail = ({response}) => {
-    // console.log(response);
-    
     return (
-        response.map((arr, idx) => {
+        response?.map((arr, idx) => {
             // {
             //     if(arr.filePath == null || arr.filePath == undefined || arr.filePath.indexOf('https') != -1) {
             //         arr.filePath = '/M4.jpeg';

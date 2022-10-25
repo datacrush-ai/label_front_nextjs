@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import styles from '../../styles/Layout.module.css'
+import { getLayerPopupRefElement } from "../components/dashboard/dashboard";
 import MenuItem from './menuitem';
 
 const Viewport = ({ info }) => {
@@ -26,6 +27,13 @@ const Viewport = ({ info }) => {
           <a onClick={(e) => {
             deleteCookie('tmp')
           }}>로그아웃</a>
+        </Link>
+      </li>
+      <li className={styles.navigation_tab}>
+        <Link href="">
+          <a onClick={(e) => {
+            getLayerPopupRefElement().current.style.display = 'block';
+          }}>완료목록</a>
         </Link>
       </li>
     </ul>
@@ -70,7 +78,7 @@ export default function NavBar({ info }) {
           </Link>
         </li> */}
       </ul>
-      <div style={{ 'width': '150px' }}>
+      <div style={{ 'width': '210px' }}>
         <li className={styles.navigation_tab}>
           <Viewport info={info}></Viewport>
         </li>

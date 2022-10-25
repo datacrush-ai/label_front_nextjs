@@ -398,12 +398,12 @@
 /* 버튼 table로 넓이 조절 */
 .btn_area {
     /* padding: 30px;  */
-    display: table;
-    table-layout: fixed;
-    width: 100%;
+    display: flex;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
     box-sizing: border-box;
     padding: 40px 30px 10px 30px;
-
     position: sticky;
     top: 0;
     bottom: 0;
@@ -666,7 +666,7 @@
     border-radius: 10px;
     border: 1px solid rgb(229, 232, 235);
     width: 100%;
-    padding: 10px 20px;
+    padding: 10px 10px;
 }
 
 .search_icon {
@@ -818,6 +818,19 @@
     height: 0px;
 }
 
+.complete_list {
+    display: flex;
+    background-color: #20a2db;
+    text-align: center;
+    border: 1px solid;
+}
+
+.complete_list_summary {
+    display: flex;
+    color: white;
+    background-color: var(--theme-surface-dark-color);
+    justify-content: center;
+}
 .tips {
     display: grid;
     background-color: #20a2db;
@@ -950,7 +963,8 @@
     /* grid-template-columns: 40px minmax(50px, 150px) minmax(250px, 2fr); */
     /* grid-template-columns: minmax(40px, 40px) minmax(160px, 1.1fr) minmax(300px, 3fr) minmax(260px, 1.5fr) minmax(190px, 1.2fr) minmax(260px, 1.5fr) minmax(200px, 1.3fr); */
     
-        grid-template-columns: 0.4fr 1.6fr 3fr 2.6fr 1.9fr 2.6fr 2fr;
+        /* grid-template-columns: 0.4fr 1.6fr 3fr 2.6fr 1.9fr 1.6fr 1.6fr 1.6fr; */
+            grid-template-columns: 50px 145px 2fr 2fr 1.2fr 1.3fr 1.6fr 1.3fr;
         /* grid-template-columns: 0.4fr 1.6fr minmax(3fr, 300px) 2.6fr 1.9fr 2.6fr 2fr; */
     align-items: center;
     grid-template-areas:

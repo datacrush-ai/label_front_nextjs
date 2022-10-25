@@ -10,10 +10,20 @@ import AcceptRejectList from './accept_reject_list';
 import { sendFetch } from '../../common/common_script';
 import { getCookie } from 'cookies-next';
 import useSWR, { SWRConfig, useSWRConfig } from 'swr';
-import { useEffect } from 'react';
+import { useRef, useEffect } from 'react';
+import CustomSetPopup from '../../common/custom_set_popup';
+import styles from '../../../styles/Layout.module.css'
 
 const fetcher = (url, param, options) => sendFetch(url, param, options);
 const DASHBOARD_API = '/labeltool/getBasicInfoForDashboard';
+let _layerPopupRefElement;
+
+const createLayerPopupRefElement = (data) => {
+  _layerPopupRefElement = data;
+}
+export const getLayerPopupRefElement = () => {
+  return _layerPopupRefElement;
+}
 
 /**
  * 프롣그램 상세 목록
@@ -80,6 +90,9 @@ const ConditionRejectList = ({userinfo, response}) => {
 export default function Dashboard({response, param, cookie}) {
   // /*
   const { mutate } = useSWRConfig();
+  const layerPopupRefElement = useRef(null);
+  createLayerPopupRefElement(layerPopupRefElement);
+
   mutate(DASHBOARD_API, async() => {
     await re_process_click();
     await re_pie_click();
@@ -212,7 +225,9 @@ export default function Dashboard({response, param, cookie}) {
           </section> */}
 
         </section>
-
+        <section ref={layerPopupRefElement} id={"help_layer_popup"} className={styles.layer_popup} style={{ "display": "none", 'zIndex': '40' }}>
+          <CustomSetPopup response={data?.epListJobCpl}></CustomSetPopup>
+        </section>
       </main>
     </SWRConfig>
   )

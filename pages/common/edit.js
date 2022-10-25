@@ -71,12 +71,12 @@ const LayoutPosition = (info) => {
         </section>
         <SelectItem key={`${category_list.title}`} response={category_list} setitem={info.data.scenarioSelLabelInfo.category}></SelectItem>
         {/* <SelectItem key={`${sub_category_list.title}`} response={sub_category_list} setitem={info.data.scenarioSelLabelInfo.subCategory}></SelectItem> */}
-        <SearchBoxAutoComplete key={`${sub_category_list.title}`} placeholder={'하위카테고리를 입력하세요'} dataListName={'subcategory-options'} dataList={sub_category_list} index={''} setItem={info.data.scenarioSelLabelInfo.subCategory} title={'하위 카테고리'} minWidth={'120px'}></SearchBoxAutoComplete>
+        <SearchBoxAutoComplete key={`${sub_category_list.title}`} placeholder={'하위카테고리를 입력하세요'} dataListName={'subcategory-options'} dataList={sub_category_list} index={''} setItem={info.data.scenarioSelLabelInfo.subCategory} title={'하위 카테고리'} minWidth={'250px'} titleMinWidth={'120px'}></SearchBoxAutoComplete>
         {/* <SelectItem key={`${keyword_list.title}`} response={keyword_list} setitem={info.data.scenarioSelLabelInfo.keyword}></SelectItem> */}
-        <SearchBoxAutoComplete key={`${keyword_list.title}`} placeholder={'대화주제 키워드를 입력하세요'} dataListName={'keyword-options'} dataList={keyword_list} index={''} setItem={info.data.scenarioSelLabelInfo.keyword} title={'대화 주제 키워드'} minWidth={'120px'}></SearchBoxAutoComplete>
+        <SearchBoxAutoComplete key={`${keyword_list.title}`} placeholder={'대화주제 키워드를 입력하세요'} dataListName={'keyword-options'} dataList={keyword_list} index={''} setItem={info.data.scenarioSelLabelInfo.keyword} title={'대화 주제 키워드'} minWidth={'250px'} titleMinWidth={'120px'}></SearchBoxAutoComplete>
         <SelectItem key={`${conversationSpeakers_list.title}`} response={conversationSpeakers_list} setitem={info.data.scenarioSelLabelInfo.conversationSpeakers}></SelectItem>
         {/* <SelectItem key={`${opinion_list.title}`} response={opinion_list} setitem={info.data.scenarioSelLabelInfo.opinion}></SelectItem> */}
-        <SearchBoxAutoComplete key={`${opinion_list.title}`} placeholder={'평판을 입력하세요'} dataListName={'opinion-options'} dataList={opinion_list} index={''} setItem={info.data.scenarioSelLabelInfo.opinion} title={'평판'} minWidth={'120px'}></SearchBoxAutoComplete>
+        <SearchBoxAutoComplete key={`${opinion_list.title}`} placeholder={'평판을 입력하세요'} dataListName={'opinion-options'} dataList={opinion_list} index={''} setItem={info.data.scenarioSelLabelInfo.opinion} title={'평판'} minWidth={'250px'} titleMinWidth={'120px'}></SearchBoxAutoComplete>
         {/* <SelectItem key={`${category_list.title}`} response={category_list} setitem={info.data.scenarioSelLabelInfo.category}></SelectItem> */}
         {
           // select_item_list.map((arr, idx) => {
@@ -247,6 +247,15 @@ export async function getServerSideProps(context) {
       redirect: {
         permanent: false,
         destination: '/common/illegal'
+      }
+    }
+  }
+  else if( label_info?.rst?.rstCd == '303' ) {
+    //최대 동시 작업 갯수 초과
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/common/maxtask'
       }
     }
   }

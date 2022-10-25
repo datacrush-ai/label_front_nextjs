@@ -3,7 +3,7 @@ import { isNumber } from "lodash";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setCue } from "../../store/nia_layout/StoreCueSlice";
-import { createCueFunc, getCueFunc } from "./subtitle";
+import { createCueFunc, getCueFunc, getSectionElement } from "./subtitle";
 import { getAgeCurrentElement, getOvrVocCurrentElement, getPlaceCurrentElement, getSelectIndex, getSexCurrentElement, getTmpJSON, getVidElement } from "./video_layout";
 
 let _subtitle_children; 
@@ -231,6 +231,10 @@ export default function CommonScript({url}) {
                             'speakerOvrVoc': {
                                 'labelCd': cue[idx].subtileSelLabelInfo.speakerOvrVoc.labelCd,
                                 'labelNm': cue[idx].subtileSelLabelInfo.speakerOvrVoc.labelNm,
+                            },
+                            'speaker': {
+                                'labelCd': cue[idx].subtileSelLabelInfo.speaker.labelCd,
+                                'labelNm': cue[idx].subtileSelLabelInfo.speaker.labelNm,
                             }
                         }
                     });
@@ -258,12 +262,14 @@ export default function CommonScript({url}) {
 
         if( exist_video_dom ) {
             document.addEventListener('keydown', async function (e) {
+                const nextid = e.target?.nextElementSibling?.id;
                 const cue = getCueFunc();
                 // console.log(cue[getSelectIndex()].subtileSelLabelInfo.speakerAge);
                 // console.log(cue[getSelectIndex()].subtileSelLabelInfo.speakerSex);
                 // console.log(cue[getSelectIndex()].subtileSelLabelInfo.placeType);
 
-                if( getAgeCurrentElement() != undefined && getSexCurrentElement() != undefined && getPlaceCurrentElement() != undefined ) {
+                if( getAgeCurrentElement() != undefined && getSexCurrentElement() != undefined && getPlaceCurrentElement() != undefined 
+                    && !(nextid?.includes('comment') || nextid?.includes('speaker')) ) {
                     if( e.key == '1' || e.key == '2' || e.key == '3') {
                         getAgeCurrentElement().selectedIndex = e.key;
                         cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelCd = getAgeCurrentElement().options[getAgeCurrentElement().selectedIndex].value;
@@ -326,6 +332,38 @@ export default function CommonScript({url}) {
                         cue[getSelectIndex()].subtileSelLabelInfo.speakerOvrVoc.labelNm = getOvrVocCurrentElement().options[getOvrVocCurrentElement().selectedIndex].textContent;
 
                     }
+                    else if (e.key == 'c') {
+                        // debugger
+                        last_copy_subtileSelLabelInfo = cue[getSelectIndex()].subtileSelLabelInfo;
+                        if( last_copy_subtileSelLabelInfo.speakerOvrVoc.labelCd == 'LBL_KND_00_000' ) {
+                            last_copy_subtileSelLabelInfo.speakerOvrVoc.labelCd = 'LBL_KND_24_001';
+                        }
+                        ToastMsg(`${getSelectIndex()+1}라인 라벨을 복사 했습니다.`, 1500, null, null, 'pass');
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                    else if (e.key == 'v') {
+                        cue[getSelectIndex()].subtileSelLabelInfo = last_copy_subtileSelLabelInfo;
+                        const paste_target = document.querySelector('#subtitle_edit_layout').children[0].children[getSelectIndex()].children[0].children[0];
+                        //발화자 연령
+                        paste_target.children[3].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelCd;
+                        //성별
+                        paste_target.children[4].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelCd;
+                        //장소
+                        paste_target.children[5].children[1].children[0].value = cue[getSelectIndex()].subtileSelLabelInfo.placeType.labelNm;
+                        //화자
+                        paste_target.children[6].children[1].children[0].value = cue[getSelectIndex()].subtileSelLabelInfo.speaker.labelNm;
+                        //중첩음
+                        paste_target.children[7].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerOvrVoc.labelCd;
+    
+                        setTimeout(function() { 
+                            dispatch(setCue({'cue': cue}));
+                        }, 100)
+    
+                        ToastMsg(`${getSelectIndex()+1}라인 라벨에 붙여넣기 했습니다.`, 1500, null, null, 'pass');
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
 
                     createCueFunc(cue);
                 }
@@ -380,35 +418,6 @@ export default function CommonScript({url}) {
                 }
                 else if (e.key == 'ArrowLeft' && last_click_dom == 'VIDEO') {
                     createVideoCurrentTime(getVidElement().current.currentTime - 0.5);
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-                else if (e.key == 'c') {
-                    last_copy_subtileSelLabelInfo = cue[getSelectIndex()].subtileSelLabelInfo;
-                    if( last_copy_subtileSelLabelInfo.speakerOvrVoc.labelCd == 'LBL_KND_00_000' ) {
-                        last_copy_subtileSelLabelInfo.speakerOvrVoc.labelCd = 'LBL_KND_24_001';
-                    }
-                    ToastMsg(`${getSelectIndex()+1}라인 라벨을 복사 했습니다.`, 1500, null, null, 'pass');
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-                else if (e.key == 'v') {
-                    cue[getSelectIndex()].subtileSelLabelInfo = last_copy_subtileSelLabelInfo;
-                    const paste_target = document.querySelector('#subtitle_edit_layout').children[0].children[getSelectIndex()].children[0].children[0];
-                    //발화자 연령
-                    paste_target.children[3].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelCd;
-                    //성별
-                    paste_target.children[4].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelCd;
-                    //장소
-                    paste_target.children[5].children[1].children[0].value = cue[getSelectIndex()].subtileSelLabelInfo.placeType.labelNm;
-                    //중첩음
-                    paste_target.children[6].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerOvrVoc.labelCd;
-
-                    setTimeout(function() { 
-                        dispatch(setCue({'cue': cue}));
-                    }, 100)
-
-                    ToastMsg(`${getSelectIndex()+1}라인 라벨에 붙여넣기 했습니다.`, 1500, null, null, 'pass');
                     e.preventDefault();
                     e.stopPropagation();
                 }
