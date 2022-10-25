@@ -250,6 +250,15 @@ export async function getServerSideProps(context) {
       }
     }
   }
+  else if( label_info?.rst?.rstCd == '303' ) {
+    //최대 동시 작업 갯수 초과
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/common/maxtask'
+      }
+    }
+  }
 
   const data = {
     'layout': 'edit',

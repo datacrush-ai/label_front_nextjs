@@ -86,7 +86,6 @@ export default function PieChart() {
   }, [dispatch]);
 
   const DoughnutChart = useCallback((process_data) => {
-    console.log(process_data)
     const statCnt = process_data.process_list.map((arr,idx) => { 
       return arr.statCnt; 
     });
