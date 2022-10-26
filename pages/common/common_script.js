@@ -115,6 +115,28 @@ export const readableTimeToMilTime = (readable_time) => {
     // return parseFloat(parseFloat(readable_time.replaceAll(':', '')) * 1000).toFixed(0);
 }
 
+export const getUtilDate = (d) => {
+    let paramDate = new Date(d); // new Date('2021-06-08'): 화요일
+    let paramMonthDate = new Date(d);
+    let paramMondayDate = new Date(d);
+    let paramSundayDate = new Date(d);
+    let paramLastMondayDate = new Date(d);
+    let paramLastSundayDate = new Date(d);
+
+    let day = paramDate.getDay();
+    let diff = paramDate.getDate() - day + (day == 0 ? -6 : 1);
+    let nextSunday = paramDate.getDate() + 7 - day;
+    let result = {
+        'month' : new Date(paramMonthDate.setDate(diff)).toISOString().substring(5, 7),
+        'monday' : new Date(paramMondayDate.setDate(diff)).toISOString().substring(0, 10),
+        'sunday' : new Date(paramSundayDate.setDate(nextSunday)).toISOString().substring(0, 10),
+        'yesterday' : new Date(new Date().setDate(new Date().getDate()-1)).toISOString().substring(0,10),
+        'lastmonday' : new Date(paramLastMondayDate.setDate(diff-7)).toISOString().substring(0,10),
+        'lastsunday' : new Date(paramLastSundayDate.setDate(diff-1)).toISOString().substring(0,10),
+    }
+    return result;
+}
+
 // readableTimeToMilTime('00:00:12.00')
 
 export const humanReadableTime = function (seconds) {
