@@ -7,7 +7,7 @@ import UserRejectList from './user_reject_list';
 import DetailAcceptList from './detail_accept_list';
 import AcceptProcessList from './accept_process_list';
 import AcceptRejectList from './accept_reject_list';
-import { sendFetch } from '../../common/common_script';
+import { getUtilDate, sendFetch } from '../../common/common_script';
 import { getCookie } from 'cookies-next';
 import useSWR, { SWRConfig, useSWRConfig } from 'swr';
 import { useRef, useEffect } from 'react';
@@ -89,6 +89,7 @@ const ConditionRejectList = ({userinfo, response}) => {
 
 export default function Dashboard({response, param, cookie}) {
   // /*
+  const utilDate = getUtilDate(new Date());
   const { mutate } = useSWRConfig();
   const layerPopupRefElement = useRef(null);
   createLayerPopupRefElement(layerPopupRefElement);
@@ -226,7 +227,7 @@ export default function Dashboard({response, param, cookie}) {
 
         </section>
         <section ref={layerPopupRefElement} id={"help_layer_popup"} className={styles.layer_popup} style={{ "display": "none", 'zIndex': '40' }}>
-          <CustomSetPopup response={data?.epListJobCpl}></CustomSetPopup>
+          <CustomSetPopup response={data?.epListJobCpl} utilDate={utilDate}></CustomSetPopup>
         </section>
       </main>
     </SWRConfig>

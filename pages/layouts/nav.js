@@ -78,7 +78,7 @@ export default function NavBar({ info }) {
           </Link>
         </li> */}
       </ul>
-      <div style={{ 'width': '210px' }}>
+      <div style={{ 'minWidth': '210px' }}>
         <li className={styles.navigation_tab}>
           <Viewport info={info}></Viewport>
         </li>
