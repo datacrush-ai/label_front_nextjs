@@ -104,11 +104,11 @@ export default function MenuItem() {
                                             unable_save_list.push('카테고리 ');
                                             unable_save_idx.push('1 카테고리 ');
                                         }
-                                        if(param.scenarioSelLabelInfo.subCategory.labelCd == 'LBL_KND_00_000' || param.scenarioSelLabelInfo.subCategory.labelCd == '' || param.scenarioSelLabelInfo.subCategory.labelCd == 'LBL_KND_23_999') {
+                                        if(param.scenarioSelLabelInfo.subCategory.labelCd == 'LBL_KND_00_000' || param.scenarioSelLabelInfo.subCategory.labelCd == '') {
                                             unable_save_list.push('하위 카테고리');
                                             unable_save_idx.push('2 하위 카테고리');
                                         }
-                                        if(param.scenarioSelLabelInfo.keyword.labelCd == 'LBL_KND_00_000' || param.scenarioSelLabelInfo.keyword.labelCd == '' || param.scenarioSelLabelInfo.keyword.labelCd == 'LBL_KND_23_999') {
+                                        if(param.scenarioSelLabelInfo.keyword.labelCd == 'LBL_KND_00_000' || param.scenarioSelLabelInfo.keyword.labelCd == '') {
                                             unable_save_list.push('대화 주제 키워드');
                                             unable_save_idx.push('3 대화 주제 키워드');
                                         }
@@ -116,7 +116,7 @@ export default function MenuItem() {
                                             unable_save_list.push('대화 주체');
                                             unable_save_idx.push('4 대화 주체');
                                         }
-                                        if(param.scenarioSelLabelInfo.opinion.labelCd == 'LBL_KND_00_000' || param.scenarioSelLabelInfo.opinion.labelCd == '' || param.scenarioSelLabelInfo.opinion.labelCd == 'LBL_KND_23_999') {
+                                        if(param.scenarioSelLabelInfo.opinion.labelCd == 'LBL_KND_00_000' || param.scenarioSelLabelInfo.opinion.labelCd == '') {
                                             unable_save_list.push('평판');
                                             unable_save_idx.push('5 평판');
                                         }

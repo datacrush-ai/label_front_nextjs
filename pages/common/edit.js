@@ -241,7 +241,7 @@ export async function getServerSideProps(context) {
       }
     }
   }
-  else if( label_info?.rst?.rstCd == '302' ) {
+  else if( label_info?.rst?.rstCd == '300' || label_info?.rst?.rstCd == '302' ) {
     //허용된 작업 인원이 아닐 때
     return {
       redirect: {
