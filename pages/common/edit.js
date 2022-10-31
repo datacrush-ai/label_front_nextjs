@@ -7,10 +7,21 @@ import SelectItem from './select_item';
 import { sendFetch } from './common_script';
 import { getCookie } from 'cookies-next';
 import SearchBoxAutoComplete from './searchbox_autocomplete';
+import { getMacro } from '../../store/nia_layout/StoreMacroSlice';
+import { useSelector } from 'react-redux';
 
 let _layerPopupElement;
 let _replacePopupElement;
 let _getSubtitleInfo;
+let _macro;
+
+export const getFuncMacro = () => {
+  return _macro;
+}
+
+const createFuncMacro = (data) => {
+  _macro = data;
+}
 
 const createSubtitleInfo = (data) => {
   _getSubtitleInfo = data;
@@ -140,13 +151,45 @@ const LayoutPosition = (info) => {
   )
 }
 
+const MacroLayer = () => {
+  let macro = getFuncMacro();
+  let resultHtml = '';
+  let convertKey = {
+    '1': '!',
+    '2': '@',
+    '3': '#',
+    '4': '$',
+    '5': '%',
+    '6': '^',
+    '7': '&',
+    '8': '*',
+  };
+  for(let idx=1; idx<10; idx++) {
+    if( macro ) {
+      if( macro[idx]?.speakerAge?.labelNm ) {
+        if( macro[idx]?.speakerOvrVoc?.labelNm == '선택하세요' ) {
+          resultHtml += `<p>${idx}번매크로 [입력 키: ${convertKey[idx]}]: ${macro[idx]?.speakerAge?.labelNm}-${macro[idx]?.speakerSex?.labelNm}-${macro[idx]?.placeType?.labelNm}-${macro[idx]?.speaker?.labelNm}-없음</p>`
+        }
+        else {
+          resultHtml += `<p>${idx}번매크로 [입력 키: ${convertKey[idx]}]: ${macro[idx]?.speakerAge?.labelNm}-${macro[idx]?.speakerSex?.labelNm}-${macro[idx]?.placeType?.labelNm}-${macro[idx]?.speaker?.labelNm}-${macro[idx]?.speakerOvrVoc?.labelNm}</p>`
+        }
+      }
+    }
+  }
+  return (
+    <div dangerouslySetInnerHTML={{ __html: resultHtml }}></div>
+  )
+}
+
 export default function Edit({ data }) {
   // console.log(data.label_info)
   const layerPopupRefElement = useRef(null);
   // const searchStringRefElement = useRef(null);
   const replacePopupRefElement = useRef(null);
-  createSubtitleInfo(data);
-  
+  const macro = useSelector(getMacro);
+
+  createFuncMacro(macro);
+  createSubtitleInfo(data);  
   useEffect(() => {
     createLayerPopupElement(layerPopupRefElement);
     createReplacePopupElement(replacePopupRefElement);
@@ -154,20 +197,20 @@ export default function Edit({ data }) {
     localStorage.setItem('scenarioLabelInfo', JSON.stringify(data.label_info.scenarioLabelInfo));
     localStorage.setItem('scenarioSelLabelInfo', JSON.stringify(data.label_info.scenarioSelLabelInfo));
     localStorage.setItem('subtitleLabelInfo', JSON.stringify(data.label_info.subtitleLabelInfo));
-
-    // console.log(getTmpJSON());
-  }, [data]);
-
-  
+  }, [data, macro]);
 
   return (
     <>
       <article id={"edit_top_layout"} className={styles.container} style={{'backgroundColor': '#ebecf2', 'overflow': 'auto'}}>
         <LayoutPosition video_position={data.video_position} data={data.label_info}></LayoutPosition>
       </article>
-      <section style={{'display': 'flex', 'justifyContent': 'center', 'maxHeight': '30px'}}>
+      {/* <section style={{'display': 'flex', 'justifyContent': 'center', 'maxHeight': '30px'}}> */}
+      <section style={{'display': 'flex', 'justifyContent': 'center'}}>
         <span className={'mr-3 ml-3'} style={{'color': 'var(--theme-blue-color)'}}>
           {data.label_info.episodDTO.prgNm}-{data.label_info.episodDTO.epNm}-{data.label_info.episodDTO.epVdoSnm}화
+          <br></br>
+          <MacroLayer></MacroLayer>
+          {/* {`2번매크로: ${macro['2']?.speakerAge?.labelNm}-${macro['2']?.speakerSex?.labelNm}-${macro['2']?.placeType?.labelNm}-${macro['2']?.speaker?.labelNm}-${macro['2']?.speakerOvrVoc?.labelNm}`} */}
         </span>
       </section>
       <article id={"subtitle_edit_layout"} className={styles.subtitle_edit_layout} style={{'height': 'calc(55vh - 30px)'}}>

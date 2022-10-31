@@ -2,6 +2,7 @@ import { combineReducers } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 import cueSlice from './StoreCueSlice';
 import videoSlice from './StoreVideoSlice';
+import macroSlice from './StoreMacroSlice';
 
 const layoutReducer = (state, action) => {
     //SSR작업 수행 시 HYDRATE라는 액션을 통해서 서버의 스토어와 클라이언트의 스토어를 합쳐주는 작업을 수행한다.
@@ -25,6 +26,7 @@ const layoutReducer = (state, action) => {
         // 여기에 추가 
         cueSlice,
         videoSlice,
+        macroSlice,
     })(state, action);
 
     // return combineReducers({

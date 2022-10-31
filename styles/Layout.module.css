@@ -775,6 +775,7 @@
 
 .subtitle_edit_layout {
     display: flex;
+    flex-wrap: wrap;
     /* min-width: 20vw; */
     height: 55vh;
     justify-content: space-around;

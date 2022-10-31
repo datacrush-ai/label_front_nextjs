@@ -2,7 +2,7 @@ import styles from '../../styles/Layout.module.css'
 import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCue } from '../../store/nia_layout/StoreCueSlice';
-import { humanReadableTime, subtitleSectionElementClick, setSubtitleChildren } from './common_script';
+import { humanReadableTime, subtitleSectionElementClick, setSubtitleChildren, subtitleContext, subtitleContextClick } from './common_script';
 import _ from "lodash";
 import SubtitleTextInfo from './subtitle_text_info';
 import { getCommentListRefElement, getCommentRefElement, getStartTImeRefElement, getVidElement } from './video_layout';
@@ -53,6 +53,7 @@ export const lineReplaceClick = (e) => {
 };
 
 export default function Subtitle({ info }) {
+  const contextmenuRef = useRef(null);
   const age_list = {
     'title': '발화자 연령', 
     'itemlist': info.subtitleLabelInfo.speakerAge
@@ -77,8 +78,7 @@ export default function Subtitle({ info }) {
   const data = useSelector(getCue);
   const articleElement = useRef(null);
   const sectionElement = useRef(null);
-  const dispatch = useDispatch();
-  
+  // const dispatch = useDispatch();
   useEffect(() => {
     if (articleElement.current != null) {
       setSubtitleChildren(articleElement.current.children);
@@ -107,8 +107,19 @@ export default function Subtitle({ info }) {
                         ref={sectionElement}
                         className={styles.subtitle_edit_line}
                         style={{'minWidth': '480px'}}
-                        onClick={subtitleSectionElementClick} 
-                        // onBlur={(e) => createHideCheckSubtitleWrap(e)}
+                        // onClick={subtitleSectionElementClick}
+                        onClick={(e) => {
+                          contextmenuRef.current.style.display = 'none';
+                          subtitleSectionElementClick(e);
+                        }}
+                        onMouseLeave={(e) => {
+                          e.className = 'hidden';
+                        }}
+                        onContextMenu={(e) => {
+                          subtitleContext(contextmenuRef, e);
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }}
               >
                 <div className={styles.subtitle_edit_content}>
                   <div className={styles.subtitle_edit_content_row} datacrush-color={"nocolor"}>
@@ -134,6 +145,50 @@ export default function Subtitle({ info }) {
             )
           })
         }
+        <div ref={contextmenuRef} id={"subtitle-contextmenu"}> 
+          <div className={"bg-white w-60 border border-gray-300 rounded-lg flex flex-col text-sm py-4 px-2 text-gray-500 shadow-lg"}>
+            <div id={'macro_1'} 
+                onClick={(e) => { subtitleContextClick(contextmenuRef, e); }} 
+                className={"flex hover:bg-gray-100 py-1 px-2 rounded"}>
+              <div id={'macro_1'}>1번 매크로 저장</div>
+            </div>
+            <div id={'macro_2'}
+                onClick={(e) => { subtitleContextClick(contextmenuRef, e); }} 
+                className={"flex hover:bg-gray-100 py-1 px-2 rounded"}>
+              <div id={'macro_2'}>2번 매크로 저장</div>
+            </div>
+            <div id={'macro_3'} 
+                onClick={(e) => { subtitleContextClick(contextmenuRef, e); }} 
+                className={"flex hover:bg-gray-100 py-1 px-2 rounded"}>
+              <div id={'macro_3'}>3번 매크로 저장</div>
+            </div>
+            <div id={'macro_4'}
+                onClick={(e) => { subtitleContextClick(contextmenuRef, e); }} 
+                className={"flex hover:bg-gray-100 py-1 px-2 rounded"}>
+              <div id={'macro_4'}>4번 매크로 저장</div>
+            </div>
+            <div id={'macro_5'}
+                onClick={(e) => { subtitleContextClick(contextmenuRef, e); }} 
+                className={"flex hover:bg-gray-100 py-1 px-2 rounded"}>
+              <div id={'macro_5'}>5번 매크로 저장</div>
+            </div>
+            <div id={'macro_6'}
+                onClick={(e) => { subtitleContextClick(contextmenuRef, e); }} 
+                className={"flex hover:bg-gray-100 py-1 px-2 rounded"}>
+              <div id={'macro_6'}>6번 매크로 저장</div>
+            </div>
+            <div id={'macro_7'}
+                onClick={(e) => { subtitleContextClick(contextmenuRef, e); }} 
+                className={"flex hover:bg-gray-100 py-1 px-2 rounded"}>
+              <div id={'macro_7'}>7번 매크로 저장</div>
+            </div>
+            <div id={'macro_8'}
+                onClick={(e) => { subtitleContextClick(contextmenuRef, e); }} 
+                className={"flex hover:bg-gray-100 py-1 px-2 rounded"}>
+              <div id={'macro_8'}>8번 매크로 저장</div>
+            </div>
+          </div>
+        </div>
       </article>
     </>
   )

@@ -1,8 +1,10 @@
 import { getCookies } from "cookies-next";
 import { isNumber } from "lodash";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setCue } from "../../store/nia_layout/StoreCueSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getCue, setCue } from "../../store/nia_layout/StoreCueSlice";
+import { getMacro, setMacro } from "../../store/nia_layout/StoreMacroSlice";
+import { getFuncMacro } from "./edit";
 import { createCueFunc, getCueFunc, getSectionElement } from "./subtitle";
 import { getAgeCurrentElement, getOvrVocCurrentElement, getPlaceCurrentElement, getSelectIndex, getSexCurrentElement, getTmpJSON, getVidElement } from "./video_layout";
 
@@ -12,6 +14,18 @@ let _sectionStartTime;
 let saveAction;
 let last_click_dom;
 let last_copy_subtileSelLabelInfo;
+let dispatchEvent;
+let _macro;
+let _macrokey_list = {
+    '1': '',
+    '2': '',
+    '3': '',
+    '4': '',
+    '5': '',
+    '6': '',
+    '7': '',
+    '8': '',
+};
 
 export const sendFetch = async(context, param, options) => {
     const url = 'https://' + process.env.NEXT_PUBLIC_API_HOST + context;
@@ -69,6 +83,63 @@ export function getSubtitleChildren() {
 export const createVideoCurrentTime = (data) => {
     getVidElement().current.currentTime = data;
     createPlaySectionStartTime(data);
+}
+export const subtitleContext = (contextmenuRef, e) => {
+    contextmenuRef.current.style.setProperty('--mouse-x', e.clientX + 'px')
+    contextmenuRef.current.style.setProperty('--mouse-y', e.clientY + 'px')
+    contextmenuRef.current.style.display = 'block'
+}
+export const subtitleContextClick = (contextmenuRef, e) => {
+    contextmenuRef.current.style.display = 'none';
+    const macro_key = parseInt(e.target.id.split('_')[1]);
+    const cue = getCueFunc();
+    const _macro = getFuncMacro();
+    let _duplicate_value = false;
+    let _duplicate_idx = 0;
+
+    let last_copy_subtileSelLabelInfo = cue[getSelectIndex()].subtileSelLabelInfo;
+
+    if( last_copy_subtileSelLabelInfo.speakerOvrVoc.labelCd == 'LBL_KND_00_000' ) {
+        last_copy_subtileSelLabelInfo.speakerOvrVoc.labelCd = 'LBL_KND_24_001';
+    }
+
+    if(
+        last_copy_subtileSelLabelInfo?.speakerAge?.labelCd != "LBL_KND_00_000" &&
+        last_copy_subtileSelLabelInfo?.speakerSex?.labelCd != "LBL_KND_00_000" &&
+        last_copy_subtileSelLabelInfo?.placeType?.labelCd != "LBL_KND_00_000" &&
+        last_copy_subtileSelLabelInfo?.speaker?.labelCd != "LBL_KND_00_000"
+     ) {
+         for(let idx=1; idx<10; idx++) {
+             if( 
+                 _macro[idx]?.speakerAge?.labelCd == last_copy_subtileSelLabelInfo?.speakerAge?.labelCd &&
+                 _macro[idx]?.speakerSex?.labelCd == last_copy_subtileSelLabelInfo?.speakerSex?.labelCd &&
+                 _macro[idx]?.placeType?.labelCd == last_copy_subtileSelLabelInfo?.placeType?.labelCd &&
+                 _macro[idx]?.speaker?.labelCd == last_copy_subtileSelLabelInfo?.speaker?.labelCd &&
+                 _macro[idx]?.speakerOvrVoc?.labelCd == last_copy_subtileSelLabelInfo?.speakerOvrVoc?.labelCd
+             ) {
+                 _duplicate_value = true;
+                 _duplicate_idx = idx;
+                 break;
+             }
+         }
+         if( !(_duplicate_value) ) {
+             let result = {};
+             for (const [key, value] of Object.entries(_macro)) {
+                 result[key] = value;
+             }
+             result[macro_key] = last_copy_subtileSelLabelInfo;
+             dispatchEvent(setMacro({'macro': result}))
+             
+             ToastMsg(`${macro_key}번 매크로 저장`, 1000, null, null, 'pass');
+         }
+         else {
+             ToastMsg(`동일한 값이 ${_duplicate_idx}번 매크로에 저장되어 있습니다.\n라인을 선택한 후 다시 저장하세요.`, 1000, null, null, 'warn');
+         }
+    }
+    else {
+        ToastMsg(`매크로 저장을 하려면 해당 라인에 모든 라벨 값이 있어야 합니다.`, 1000, null, null, 'warn');
+    }
+
 }
 export const subtitleSectionElementClick = (e) => {
     let _target = e.target;
@@ -220,7 +291,9 @@ export const ToastMsg = (text, duration, clickCallback, callback, color) => {
 export default function CommonScript({url}) {
     // const cue = useSelector(getCue);
     const dispatch = useDispatch();
-    
+    const macro = useSelector(getMacro);
+    dispatchEvent = dispatch;
+
     useEffect(() => {
         
         const saveSubtitle = () => {
@@ -288,10 +361,7 @@ export default function CommonScript({url}) {
             document.addEventListener('keydown', async function (e) {
                 const nextid = e.target?.nextElementSibling?.id;
                 const cue = getCueFunc();
-                // console.log(cue[getSelectIndex()].subtileSelLabelInfo.speakerAge);
-                // console.log(cue[getSelectIndex()].subtileSelLabelInfo.speakerSex);
-                // console.log(cue[getSelectIndex()].subtileSelLabelInfo.placeType);
-
+                
                 if( getAgeCurrentElement() != undefined && getSexCurrentElement() != undefined && getPlaceCurrentElement() != undefined 
                     && !(nextid?.includes('comment') || nextid?.includes('speaker')) ) {
                     if( e.key == '1' || e.key == '2' || e.key == '3') {
@@ -362,7 +432,7 @@ export default function CommonScript({url}) {
                         if( last_copy_subtileSelLabelInfo.speakerOvrVoc.labelCd == 'LBL_KND_00_000' ) {
                             last_copy_subtileSelLabelInfo.speakerOvrVoc.labelCd = 'LBL_KND_24_001';
                         }
-                        ToastMsg(`${getSelectIndex()+1}라인 라벨을 복사 했습니다.`, 1500, null, null, 'pass');
+                        ToastMsg(`${getSelectIndex()+1}라인 라벨을 복사 했습니다.`, 500, null, null, 'pass');
                         e.preventDefault();
                         e.stopPropagation();
                     }
@@ -384,7 +454,7 @@ export default function CommonScript({url}) {
                             dispatch(setCue({'cue': cue}));
                         }, 100)
     
-                        ToastMsg(`${getSelectIndex()+1}라인 라벨에 붙여넣기 했습니다.`, 1500, null, null, 'pass');
+                        ToastMsg(`${getSelectIndex()+1}라인 라벨에 붙여넣기 했습니다.`, 500, null, null, 'pass');
                         e.preventDefault();
                         e.stopPropagation();
                     }
@@ -404,16 +474,16 @@ export default function CommonScript({url}) {
                         ToastMsg(`${playback}배속으로 감소합니다.`, 1000, null, null, 'warn');
                     }
                 }
-                else if (e.ctrlKey && e.key == '.') {
+                else if(e.ctrlKey && e.key == '.') {
                     //배속 증가
                     let playback = parseFloat((parseFloat(getVidElement().current.playbackRate)+0.1).toFixed(1));
-                    if (isNumber(playback)) {
+                    if(isNumber(playback)) {
                         getVidElement().current.playbackRate = playback;
                         ToastMsg(`${playback}배속으로 증가합니다.`, 1000, null, null, 'pass');
                     }
                 }
-                else if (e.shiftKey && e.key == 'Enter') {
-                    // if (e.target.nodeName == 'TEXTAREA') {
+                else if(e.shiftKey && e.key == 'Enter') {
+                    // if(e.target.nodeName == 'TEXTAREA') {
                     //     idxFromSaveFocus = e.target.id;
                     // }
                     // setIsCurrentUpdate(false);
@@ -421,10 +491,10 @@ export default function CommonScript({url}) {
                     e.preventDefault();
                     e.stopPropagation();
                 }
-                else if (e.key == ']' || e.key == '\\' || e.key == '|') {
+                else if(e.key == ']' || e.key == '\\' || e.key == '|') {
                     let isPlaying = getVidElement().current.currentTime > 0 && !getVidElement().current.paused && !getVidElement().current.ended && getVidElement().current.readyState > getVidElement().current.HAVE_CURRENT_DATA;
                     createPlaySectionEndTime(9999999);
-                    if (!isPlaying) {
+                    if(!isPlaying) {
                         //영상 재생
                         getVidElement().current.play();
                     }
@@ -435,20 +505,59 @@ export default function CommonScript({url}) {
                     e.preventDefault();
                     e.stopPropagation();
                 }
-                else if (e.key == 'ArrowRight' && last_click_dom == 'VIDEO') {
+                else if(e.key == 'ArrowRight' && last_click_dom == 'VIDEO') {
                     createVideoCurrentTime(getVidElement().current.currentTime + 0.5);
                     e.preventDefault();
                     e.stopPropagation();
                 }
-                else if (e.key == 'ArrowLeft' && last_click_dom == 'VIDEO') {
+                else if(e.key == 'ArrowLeft' && last_click_dom == 'VIDEO') {
                     createVideoCurrentTime(getVidElement().current.currentTime - 0.5);
                     e.preventDefault();
                     e.stopPropagation();
                 }
+                else if(e.key == '!' || e.key == '@' || e.key == '#' || e.key == '$' || e.key == '%' || e.key == '^' || e.key == '&' || e.key == '*') {
+                    const convertValue = {
+                        '!': 1,
+                        '@': 2,
+                        '#': 3,
+                        '$': 4,
+                        '%': 5,
+                        '^': 6,
+                        '&': 7,
+                        '*': 8,
+                    };
+                    
+                    if( getFuncMacro()[convertValue[e.key]] ) {
+                        // ToastMsg(`${convertValue[e.key]}번 매크로 사용`, 500, null, null, 'pass');
+
+                        cue[getSelectIndex()].subtileSelLabelInfo = getFuncMacro()[convertValue[e.key]];
+                        const paste_target = document.querySelector('#subtitle_edit_layout').children[0].children[getSelectIndex()].children[0].children[0];
+                        //발화자 연령
+                        paste_target.children[3].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelCd;
+                        //성별
+                        paste_target.children[4].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelCd;
+                        //장소
+                        paste_target.children[5].children[1].children[0].value = cue[getSelectIndex()].subtileSelLabelInfo.placeType.labelNm;
+                        //화자
+                        paste_target.children[6].children[1].children[0].value = cue[getSelectIndex()].subtileSelLabelInfo.speaker.labelNm;
+                        //중첩음
+                        paste_target.children[7].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerOvrVoc.labelCd;
+    
+                        setTimeout(function() { 
+                            dispatch(setCue({'cue': cue}));
+                        }, 100)
+    
+                        // ToastMsg(`${getSelectIndex()+1}라인 라벨에 붙여넣기 했습니다.`, 500, null, null, 'pass');
+                        e.preventDefault();
+                        e.stopPropagation();
+    
+                        createCueFunc(cue);
+                    }
+                }
             });
         }
 
-    }, [dispatch])
+    }, [dispatch, macro])
     return(
         <>
         </>
