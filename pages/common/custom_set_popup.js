@@ -6,18 +6,19 @@ import { humanReadableTime } from "./common_script";
 
 const CompleteTask = ({list, utilDate}) => {
     let jobLstEndDt = {};
-    // let jobLstEndWeek = [];
+    let jobLstEndMonth = {};
     let jobLstEndWeek = {};
     let render_list = [];
     let week_list = [];
+    let month_list = [];
 
     list?.map((arr, idx) => {
         const complete_date = arr.jobLstEndDt.toString().split(' ')[0];
         if(jobLstEndDt[complete_date] == undefined) {
-            jobLstEndDt[complete_date] = [{'epNm': `${arr.epNm}-${arr.epVdoSnm}화`, 'playTime': arr.playTime}];
+            jobLstEndDt[complete_date] = [{'epNm': `${arr.epNm}-${arr.epVdoSnm}화`, 'playTime': Math.abs(arr.playTime)}];
         }
         else {
-            jobLstEndDt[complete_date].push({'epNm': `${arr.epNm}-${arr.epVdoSnm}화`, 'playTime': arr.playTime});
+            jobLstEndDt[complete_date].push({'epNm': `${arr.epNm}-${arr.epVdoSnm}화`, 'playTime': Math.abs(arr.playTime)});
         }
     });
 
@@ -36,20 +37,33 @@ const CompleteTask = ({list, utilDate}) => {
     }
 
     render_list.map((arr, idx) => {
+        // if( isNaN(arr.totalTime) ) {
         if( isNaN(arr.totalTime) ) {
             arr.totalTime = 0;
+        }
+        if( parseInt(arr.totalTime) < 0 ) {
+            arr.totalTime = Math.abs(arr.totalTime);
+        }
+        
+        if( parseInt(utilDate.firstday.replaceAll('-', '')) <= parseInt(arr.title.replaceAll('-', '')) && parseInt(utilDate.lastday.replaceAll('-', '')) >= parseInt(arr.title.replaceAll('-', '')) ) {
+            //이번 달
+            if( isNaN(jobLstEndMonth[`${utilDate.firstday}~${utilDate.lastday}`]) ) {
+                jobLstEndMonth[`${(utilDate.firstday)}~${(utilDate.lastday)}`] = arr.totalTime;
+                
+            }
+            else {
+                jobLstEndMonth[`${(utilDate.firstday)}~${(utilDate.lastday)}`] = (jobLstEndMonth[`${utilDate.firstday}~${utilDate.lastday}`] + arr.totalTime);
+            }
         }
 
         if( parseInt(utilDate.monday.replaceAll('-', '')) <= parseInt(arr.title.replaceAll('-', '')) && parseInt(utilDate.sunday.replaceAll('-', '')) >= parseInt(arr.title.replaceAll('-', '')) ) {
             //이번주
-            if( isNaN(jobLstEndWeek[`${utilDate.lastmonday}~${utilDate.lastsunday}`]) ) {
+            if( isNaN(jobLstEndWeek[`${utilDate.monday}~${utilDate.sunday}`]) ) {
                 jobLstEndWeek[`${(utilDate.monday)}~${(utilDate.sunday)}`] = arr.totalTime;
             }
             else {
-                jobLstEndWeek[`${(utilDate.monday)}~${(utilDate.sunday)}`] = (jobLstEndWeek[`${parseInt(utilDate.monday)}~${parseInt(utilDate.sunday)}`] + arr.totalTime);
+                jobLstEndWeek[`${(utilDate.monday)}~${(utilDate.sunday)}`] = (jobLstEndWeek[`${utilDate.monday}~${utilDate.sunday}`] + arr.totalTime);
             }
-
-            // jobLstEndWeek[`${parseInt(utilDate.monday.replaceAll('-', ''))}~${parseInt(utilDate.sunday.replaceAll('-', ''))}`] += arr.totalTime;;
         }
         else if( parseInt(utilDate.lastmonday.replaceAll('-', '')) <= parseInt(arr.title.replaceAll('-', '')) && parseInt(utilDate.lastsunday.replaceAll('-', '')) >= parseInt(arr.title.replaceAll('-', '')) ) {
             //저번 주
@@ -67,10 +81,35 @@ const CompleteTask = ({list, utilDate}) => {
     for (const [key, value] of Object.entries(jobLstEndWeek)) {
         week_list.push({key, value});
     }
+    for (const [key, value] of Object.entries(jobLstEndMonth)) {
+        let spliter = key.replaceAll('-', '').split('~');
+        if( spliter[0].includes('01') && spliter[1].includes('31') ) {
+            month_list.push({key, value});
+        }
+    }
 
     return(
         <>
-            <div>
+            <div style={{'padding': '20px 30px'}}>
+                <div className={styles.complete_list}>
+                    <div style={{'width': '100%', 'border': '1px solid', 'backgroundColor': 'antiquewhite'}}>{utilDate?.month}월 완료목록</div>  
+                </div>
+            {
+                // month
+                month_list?.map((month_item, month_idx) => {
+                    return(
+                        <div key={month_idx} style={{'flexDirection': 'column', 'textAlign': 'center', 'border': '1px solid rgb(246 66 87 / 39%)', 'padding': '10px'}}>
+                            <span>{month_item.key} 일</span>
+                            <div className={styles.complete_list_summary} style={{'width': '100%'}}>총 완료시간:{humanReadableTime(month_item.value)}</div>
+                        </div>
+                    )
+                })
+            }
+            </div>
+            <div style={{'padding': '20px 30px'}}>
+                <div className={styles.complete_list}>
+                    <div style={{'width': '100%', 'border': '1px solid', 'backgroundColor': 'antiquewhite'}}>지난주~이번주 완료목록</div>  
+                </div>
             {
                 // week
                 week_list?.map((week_item, week_idx) => {

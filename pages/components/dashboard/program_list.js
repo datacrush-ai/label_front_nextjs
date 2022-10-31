@@ -87,7 +87,7 @@ const ProgramListDetail = ({response}) => {
                         
                     }}
                 >
-                    <header className={"flex flex-col items-center justify-between leading-tight p-2 md:p-4 w-1/3 no-click-event"}>
+                    <section className={"flex flex-col items-center justify-between leading-tight p-2 md:p-4 w-1/3 no-click-event"}>
                         <div className={"block relative w-full h-32 no-click-event"}>
                             <Image 
                                 alt={"Placeholder"} 
@@ -103,14 +103,14 @@ const ProgramListDetail = ({response}) => {
                                 {arr.prgNm}
                             </a>
                         </h1>
-                    </header>
+                    </section>
         
                     <div className={"block relative w-1/3 h-32 flex items-center justify-center no-click-event"}>
-                        {arr.readyLb}%
+                        {arr.readyLb.toFixed(2)}%
                     </div>
                     
                     <div className={"block relative w-1/3 h-32 flex items-center justify-center no-click-event"}>
-                        {arr.labelCp}%
+                        {arr.labelCp.toFixed(2)}%
                     </div>
                 </article>
             )
