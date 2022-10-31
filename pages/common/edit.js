@@ -205,7 +205,7 @@ export default function Edit({ data }) {
         <LayoutPosition video_position={data.video_position} data={data.label_info}></LayoutPosition>
       </article>
       {/* <section style={{'display': 'flex', 'justifyContent': 'center', 'maxHeight': '30px'}}> */}
-      <section style={{'display': 'flex', 'justifyContent': 'center'}}>
+      <section style={{'display': 'flex', 'justifyContent': 'center', 'minHeight': 'calc(7vh)', 'overflow': 'auto'}}>
         <span className={'mr-3 ml-3'} style={{'color': 'var(--theme-blue-color)'}}>
           {data.label_info.episodDTO.prgNm}-{data.label_info.episodDTO.epNm}-{data.label_info.episodDTO.epVdoSnm}화
           <br></br>
@@ -213,7 +213,7 @@ export default function Edit({ data }) {
           {/* {`2번매크로: ${macro['2']?.speakerAge?.labelNm}-${macro['2']?.speakerSex?.labelNm}-${macro['2']?.placeType?.labelNm}-${macro['2']?.speaker?.labelNm}-${macro['2']?.speakerOvrVoc?.labelNm}`} */}
         </span>
       </section>
-      <article id={"subtitle_edit_layout"} className={styles.subtitle_edit_layout} style={{'height': 'calc(55vh - 30px)'}}>
+      <article id={"subtitle_edit_layout"} className={styles.subtitle_edit_layout} style={{'height': 'calc(49vh - 30px)'}}>
           <Subtitle info={data.label_info} key={data.EP_AIN}></Subtitle>
       </article>
     </>

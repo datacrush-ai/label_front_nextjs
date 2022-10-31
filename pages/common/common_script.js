@@ -1,5 +1,5 @@
 import { getCookies } from "cookies-next";
-import { isNumber } from "lodash";
+import _, { isNumber } from "lodash";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCue, setCue } from "../../store/nia_layout/StoreCueSlice";
@@ -12,6 +12,8 @@ let _subtitle_children;
 let _sectionEndtime;
 let _sectionStartTime;
 let saveAction;
+let copyAction;
+let pasteAction;
 let last_click_dom;
 let last_copy_subtileSelLabelInfo;
 let dispatchEvent;
@@ -296,6 +298,15 @@ export default function CommonScript({url}) {
 
     useEffect(() => {
         
+        const copyToast = () => {
+            console.log('first')
+            ToastMsg(`${getSelectIndex()+1}라인 라벨을 복사 했습니다.`, 500, null, null, 'pass')
+        }
+        
+        const pasteToast = () => {
+            console.log('second')
+            ToastMsg(`${getSelectIndex()+1}라인 라벨에 붙여넣기 했습니다.`, 500, null, null, 'pass')
+        }
         const saveSubtitle = () => {
             setTimeout(() => {
                 const cue = getCueFunc();
@@ -350,6 +361,8 @@ export default function CommonScript({url}) {
         
         const exist_video_dom = document.querySelectorAll('video').length;
         saveAction = _.debounce(saveSubtitle, 500);
+        copyAction = _.debounce(copyToast, 200);
+        pasteAction = _.debounce(pasteToast, 200);
 
         document.addEventListener('click', async function (e) {
             if(e.target.nodeName == 'VIDEO') {
@@ -432,7 +445,8 @@ export default function CommonScript({url}) {
                         if( last_copy_subtileSelLabelInfo.speakerOvrVoc.labelCd == 'LBL_KND_00_000' ) {
                             last_copy_subtileSelLabelInfo.speakerOvrVoc.labelCd = 'LBL_KND_24_001';
                         }
-                        ToastMsg(`${getSelectIndex()+1}라인 라벨을 복사 했습니다.`, 500, null, null, 'pass');
+                        copyAction();
+                        // ToastMsg(`${getSelectIndex()+1}라인 라벨을 복사 했습니다.`, 500, null, null, 'pass');
                         e.preventDefault();
                         e.stopPropagation();
                     }
@@ -454,15 +468,14 @@ export default function CommonScript({url}) {
                             dispatch(setCue({'cue': cue}));
                         }, 100)
     
-                        ToastMsg(`${getSelectIndex()+1}라인 라벨에 붙여넣기 했습니다.`, 500, null, null, 'pass');
+                        pasteAction();
+                        // ToastMsg(`${getSelectIndex()+1}라인 라벨에 붙여넣기 했습니다.`, 500, null, null, 'pass');
                         e.preventDefault();
                         e.stopPropagation();
                     }
 
                     createCueFunc(cue);
                 }
-                
-
 
                 //MAC
                 // if( navigator.platform.toUpperCase().indexOf('MAC') != -1 ) {
