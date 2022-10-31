@@ -127,6 +127,8 @@ export const getUtilDate = (d) => {
     let diff = paramDate.getDate() - day + (day == 0 ? -6 : 1);
     let nextSunday = paramDate.getDate() + 7 - day;
     let result = {
+        'firstday': `${new Date(paramMonthDate.setDate(diff)).toISOString().substring(0, 7)}-01`,
+        'lastday': `${new Date(paramMonthDate.setDate(diff)).toISOString().substring(0, 7)}-31`,
         'month' : new Date(paramMonthDate.setDate(diff)).toISOString().substring(5, 7),
         'monday' : new Date(paramMondayDate.setDate(diff)).toISOString().substring(0, 10),
         'sunday' : new Date(paramSundayDate.setDate(nextSunday)).toISOString().substring(0, 10),
