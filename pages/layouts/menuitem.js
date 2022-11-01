@@ -86,9 +86,15 @@ export default function MenuItem() {
                                         let unable_save_list = [];
 
                                         for(let idx=0; idx<subtitleList.length; idx++) {
+
+                                            if( subtitleList[idx].subtileSelLabelInfo.speakerOvrVoc.labelCd == "LBL_KND_00_000" ) {
+                                                subtitleList[idx].subtileSelLabelInfo.speakerOvrVoc.labelCd = "LBL_KND_24_001";
+                                                subtitleList[idx].subtileSelLabelInfo.speakerOvrVoc.labelNm = "없음";
+                                            }
+
                                             if(  
                                                 (subtitleList[idx].subtileSelLabelInfo.placeType.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.placeType.labelCd == '') ||
-                                                (subtitleList[idx].subtileSelLabelInfo.speaker.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.speaker.labelCd == '' || subtitleList[idx].subtileSelLabelInfo.speaker.labelCd == 'LBL_KND_23_999') ||
+                                                (subtitleList[idx].subtileSelLabelInfo.speaker.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.speaker.labelCd == '') ||
                                                 (subtitleList[idx].subtileSelLabelInfo.speakerAge.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.speakerAge.labelCd == '') ||
                                                 (subtitleList[idx].subtileSelLabelInfo.speakerSex.labelCd == 'LBL_KND_00_000' || subtitleList[idx].subtileSelLabelInfo.speakerSex.labelCd == '')
                                             ) {
@@ -120,6 +126,7 @@ export default function MenuItem() {
 
 
                                         if( unable_save_list.length > 0 ) {
+                                            debugger
                                             ToastMsg(`저장하지 못했습니다.\n사유: 선택하지 않은 라벨이 존재합니다.\n${unable_save_idx}`, 10000, function() {
                                                 let line = parseInt(unable_save_idx[0]) - 1;
                                                 subtitle_edit_layout.scrollTop = 120 * line;
