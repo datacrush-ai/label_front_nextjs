@@ -176,7 +176,9 @@ export const readableTimeToMilTime = (readable_time) => {
 
 export const getUtilDate = (d) => {
     let paramDate = new Date(d); // new Date('2021-06-08'): 화요일
-    let paramMonthDate = new Date(d);
+    let paramMonthFirstDate = new Date(d);
+    let paramMonthLastDate = new Date(d);
+    // let paramMonthDate = new Date(d);
     let paramMondayDate = new Date(d);
     let paramSundayDate = new Date(d);
     let paramLastMondayDate = new Date(d);
@@ -186,9 +188,9 @@ export const getUtilDate = (d) => {
     let diff = paramDate.getDate() - day + (day == 0 ? -6 : 1);
     let nextSunday = paramDate.getDate() + 7 - day;
     let result = {
-        'firstday': `${new Date(paramMonthDate.setDate(diff)).toISOString().substring(0, 7)}-01`,
-        'lastday': `${new Date(paramMonthDate.setDate(diff)).toISOString().substring(0, 7)}-31`,
-        'month' : new Date(paramMonthDate.setDate(diff)).toISOString().substring(5, 7),
+        'firstday': `${paramMonthFirstDate.toISOString().substring(0, 7)}-01`,
+        'lastday': `${paramMonthLastDate.toISOString().substring(0, 7)}-31`,
+        'month' : `${paramMonthLastDate.toISOString().substring(5, 7)}`,
         'monday' : new Date(paramMondayDate.setDate(diff)).toISOString().substring(0, 10),
         'sunday' : new Date(paramSundayDate.setDate(nextSunday)).toISOString().substring(0, 10),
         'yesterday' : new Date(new Date().setDate(new Date().getDate()-1)).toISOString().substring(0,10),

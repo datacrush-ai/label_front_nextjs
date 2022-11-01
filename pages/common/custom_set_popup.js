@@ -87,7 +87,7 @@ const CompleteTask = ({list, utilDate}) => {
             month_list.push({key, value});
         }
     }
-
+    
     return(
         <>
             <div style={{'padding': '20px 30px'}}>
