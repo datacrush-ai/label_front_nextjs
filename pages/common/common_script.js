@@ -6,6 +6,7 @@ import { getCue, setCue } from "../../store/nia_layout/StoreCueSlice";
 import { getMacro, setMacro } from "../../store/nia_layout/StoreMacroSlice";
 import { setspeakerDependency } from "../../store/nia_layout/StoreSpeakerDependencySlice";
 import { getFuncMacro } from "./edit";
+import { convertValueKey } from "./searchbox_autocomplete";
 import { createCueFunc, getCueFunc, getSectionElement } from "./subtitle";
 import { createTmpJSON, getAgeCurrentElement, getOvrVocCurrentElement, getPlaceCurrentElement, getSelectIndex, getSexCurrentElement, getTmpJSON, getVidElement } from "./video_layout";
 
@@ -396,21 +397,48 @@ export default function CommonScript({url}) {
                 
                 if( getAgeCurrentElement() != undefined && getSexCurrentElement() != undefined && getPlaceCurrentElement() != undefined 
                     && !(nextid?.includes('comment') || nextid?.includes('speaker')) ) {
-                    if( e.key == '1' || e.key == '2' || e.key == '3') {
-                        getAgeCurrentElement().selectedIndex = e.key;
-                        cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelCd = getAgeCurrentElement().options[getAgeCurrentElement().selectedIndex].value;
-                        cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelNm = getAgeCurrentElement().options[getAgeCurrentElement().selectedIndex].textContent;
+                    if( e.key == '1' || e.key == '2' || e.key == '3' || e.key == '4' || e.key == '5' || e.key == '6' || e.key == '7' || e.key == '8') {
+                        const child_idx = parseInt(e.key)-1;
+                        const _cue = document.querySelectorAll('textarea');
+                        const speakerDependency = document.getElementById('speaker-dependency');
+                        const ageidx = speakerDependency.children[child_idx]?.children[2].children[0].children[1].selectedIndex;
+                        const sexidx = speakerDependency.children[child_idx]?.children[3].children[0].children[1].selectedIndex;
+                        
+                        //화자
+                        _cue[getSelectIndex()].parentElement.parentElement.children[6].children[1].children[0].value = speakerDependency.children[child_idx]?.children[1].children[0].children[1].children[0].value;
+                        //발화자 연령
+                        _cue[getSelectIndex()].parentElement.parentElement.children[3].children[1].selectedIndex = ageidx;
+                        //성별
+                        _cue[getSelectIndex()].parentElement.parentElement.children[4].children[1].selectedIndex = sexidx;
+                        
+                        cue[getSelectIndex()].subtileSelLabelInfo.speaker.labelCd = convertValueKey(speakerDependency.children[child_idx]?.children[1].children[0].children[1].children[0].value);
+                        cue[getSelectIndex()].subtileSelLabelInfo.speaker.labelNm = speakerDependency.children[child_idx]?.children[1].children[0].children[1].children[0].value;
+                        
+                        //발화자 연령
+                        cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelCd = speakerDependency.children[child_idx]?.children[2].children[0].children[1].children[ageidx].value;
+                        cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelNm = speakerDependency.children[child_idx]?.children[2].children[0].children[1].children[ageidx].textContent;
+                        
+                        //성별
+                        cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelCd = speakerDependency.children[child_idx]?.children[3].children[0].children[1].children[sexidx].value;
+                        cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelNm = speakerDependency.children[child_idx]?.children[3].children[0].children[1].children[sexidx].textContent;
+
+                        setTimeout(function() { 
+                            dispatch(setCue({'cue': cue}));
+                        }, 100)
+                        // getAgeCurrentElement().selectedIndex = e.key;
+                        // cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelCd = getAgeCurrentElement().options[getAgeCurrentElement().selectedIndex].value;
+                        // cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelNm = getAgeCurrentElement().options[getAgeCurrentElement().selectedIndex].textContent;
                     }
-                    else if( e.key == 'q' || e.key == 'w' || e.key == 'e') {
-                        const convertKey = {
-                            'q': 1,
-                            'w': 2,
-                            'e': 3,
-                        };
-                        getSexCurrentElement().selectedIndex = convertKey[e.key];
-                        cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelCd = getSexCurrentElement().options[getSexCurrentElement().selectedIndex].value;
-                        cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelNm = getSexCurrentElement().options[getSexCurrentElement().selectedIndex].textContent;
-                    }
+                    // else if( e.key == 'q' || e.key == 'w' || e.key == 'e') {
+                    //     const convertKey = {
+                    //         'q': 1,
+                    //         'w': 2,
+                    //         'e': 3,
+                    //     };
+                    //     getSexCurrentElement().selectedIndex = convertKey[e.key];
+                    //     cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelCd = getSexCurrentElement().options[getSexCurrentElement().selectedIndex].value;
+                    //     cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelNm = getSexCurrentElement().options[getSexCurrentElement().selectedIndex].textContent;
+                    // }
                     else if( e.key == 'a' || e.key == 's' || e.key == 'd' || e.key == 'f' || e.key == 'g' || e.key == 'h' || e.key == 'j') {
                         let key = '';
                         let value = '';
@@ -446,12 +474,12 @@ export default function CommonScript({url}) {
                         e.preventDefault();
                         e.stopPropagation();
                     }
-                    else if (e.key == '7' || e.key == '8' || e.key == '9' || e.key == '0') {
+                    else if (e.key == 'q' || e.key == 'w' || e.key == 'e' || e.key == 'r') {
                         const convertKey = {
-                            '7': 0,
-                            '8': 1,
-                            '9': 2,
-                            '0': 3,
+                            'q': 0,
+                            'w': 1,
+                            'e': 2,
+                            'r': 3,
                         };
                         getOvrVocCurrentElement().selectedIndex = convertKey[e.key];
                         cue[getSelectIndex()].subtileSelLabelInfo.speakerOvrVoc.labelCd = getOvrVocCurrentElement().options[getOvrVocCurrentElement().selectedIndex].value;

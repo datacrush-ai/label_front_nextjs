@@ -109,15 +109,15 @@ const LayoutPosition = (info) => {
               <span style={{'gridArea': 'util9', 'border': '1px solid'}}>c</span>  <span style={{'gridArea': 'util10', 'border': '1px solid'}}>(라인 선택시) 해당 라인 라벨 복사</span>
               <span style={{'gridArea': 'util11', 'border': '1px solid'}}>v</span>  <span style={{'gridArea': 'util12', 'border': '1px solid'}}>(라인 선택시) 복사한 라인 라벨을 해당라인에 붙여넣기</span>
               
-              <span className={styles.header_tips} style={{'gridArea': 'age0'}}>발화자 연령</span>
-              <span style={{'gridArea': 'age1', 'border': '1px solid'}}>1</span>  <span style={{'gridArea': 'age2', 'border': '1px solid'}}>미취학(5~7)</span>
-              <span style={{'gridArea': 'age3', 'border': '1px solid'}}>2</span>  <span style={{'gridArea': 'age4', 'border': '1px solid'}}>초등학생</span>
-              <span style={{'gridArea': 'age5', 'border': '1px solid'}}>3</span>  <span style={{'gridArea': 'age6', 'border': '1px solid'}}>청소년및성인(14이상)</span>
-              
-              <span className={styles.header_tips} style={{'gridArea': 'sex0'}}>성별</span>
-              <span style={{'gridArea': 'sex1', 'border': '1px solid'}}>q</span>  <span style={{'gridArea': 'sex2', 'border': '1px solid'}}>남자</span>
-              <span style={{'gridArea': 'sex3', 'border': '1px solid'}}>w</span>  <span style={{'gridArea': 'sex4', 'border': '1px solid'}}>여자</span>
-              <span style={{'gridArea': 'sex5', 'border': '1px solid'}}>e</span>  <span style={{'gridArea': 'sex6', 'border': '1px solid'}}>해당없음</span>
+              <span className={styles.header_tips} style={{'gridArea': 'macro0'}}>화자 매크로</span>
+              <span style={{'gridArea': 'macro1', 'border': '1px solid'}}>1</span>  <span style={{'gridArea': 'macro2', 'border': '1px solid'}}>화자 매크로1</span>
+              <span style={{'gridArea': 'macro3', 'border': '1px solid'}}>2</span>  <span style={{'gridArea': 'macro4', 'border': '1px solid'}}>화자 매크로2</span>
+              <span style={{'gridArea': 'macro5', 'border': '1px solid'}}>3</span>  <span style={{'gridArea': 'macro6', 'border': '1px solid'}}>화자 매크로3</span>
+              <span style={{'gridArea': 'macro7', 'border': '1px solid'}}>4</span>  <span style={{'gridArea': 'macro8', 'border': '1px solid'}}>화자 매크로4</span>
+              <span style={{'gridArea': 'macro9', 'border': '1px solid'}}>5</span>  <span style={{'gridArea': 'macro10', 'border': '1px solid'}}>화자 매크로5</span>
+              <span style={{'gridArea': 'macro11', 'border': '1px solid'}}>6</span>  <span style={{'gridArea': 'macro12', 'border': '1px solid'}}>화자 매크로6</span>
+              <span style={{'gridArea': 'macro13', 'border': '1px solid'}}>7</span>  <span style={{'gridArea': 'macro14', 'border': '1px solid'}}>화자 매크로7</span>
+              <span style={{'gridArea': 'macro15', 'border': '1px solid'}}>8</span>  <span style={{'gridArea': 'macro16', 'border': '1px solid'}}>화자 매크로8</span>
               
               <span className={styles.header_tips} style={{'gridArea': 'place0'}}>장소</span>
               <span style={{'gridArea': 'place1', 'border': '1px solid'}}>a</span>  <span style={{'gridArea': 'place2', 'border': '1px solid'}}>집</span>
@@ -129,10 +129,10 @@ const LayoutPosition = (info) => {
               <span style={{'gridArea': 'place13', 'border': '1px solid'}}>j</span>  <span style={{'gridArea': 'place14', 'border': '1px solid'}}>실외</span>
               
               <span className={styles.header_tips} style={{'gridArea': 'ovr0'}}>중첩음</span>
-              <span style={{'gridArea': 'ovr1', 'border': '1px solid'}}>7</span>  <span style={{'gridArea': 'ovr2', 'border': '1px solid'}}>없음</span>
-              <span style={{'gridArea': 'ovr3', 'border': '1px solid'}}>8</span>  <span style={{'gridArea': 'ovr4', 'border': '1px solid'}}>다화자</span>
-              <span style={{'gridArea': 'ovr5', 'border': '1px solid'}}>9</span>  <span style={{'gridArea': 'ovr6', 'border': '1px solid'}}>배경음</span>
-              <span style={{'gridArea': 'ovr7', 'border': '1px solid'}}>0</span>  <span style={{'gridArea': 'ovr8', 'border': '1px solid'}}>기타</span>
+              <span style={{'gridArea': 'ovr1', 'border': '1px solid'}}>q</span>  <span style={{'gridArea': 'ovr2', 'border': '1px solid'}}>없음</span>
+              <span style={{'gridArea': 'ovr3', 'border': '1px solid'}}>w</span>  <span style={{'gridArea': 'ovr4', 'border': '1px solid'}}>다화자</span>
+              <span style={{'gridArea': 'ovr5', 'border': '1px solid'}}>e</span>  <span style={{'gridArea': 'ovr6', 'border': '1px solid'}}>배경음</span>
+              <span style={{'gridArea': 'ovr7', 'border': '1px solid'}}>r</span>  <span style={{'gridArea': 'ovr8', 'border': '1px solid'}}>기타</span>
               
             </div>
 

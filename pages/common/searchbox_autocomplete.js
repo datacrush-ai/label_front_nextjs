@@ -24,7 +24,7 @@ const createKeyValueSet = (dataList) => {
     // return _result;
 }
 
-const convertValueKey = (key) => {
+export const convertValueKey = (key) => {
     if( _map[key] == undefined) {
         return _map['기타상세'];
     }
