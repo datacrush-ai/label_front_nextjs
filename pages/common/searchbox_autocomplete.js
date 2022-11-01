@@ -5,8 +5,6 @@ import { setCue } from '../../store/nia_layout/StoreCueSlice';
 import { getCueFunc } from './subtitle';
 import { createTmpJSON, getTmpJSON } from './video_layout';
 
-let href = '';
-let _result = [];
 let _map = {};
 let saveAction;
 
