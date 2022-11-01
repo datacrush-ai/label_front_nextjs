@@ -2,13 +2,12 @@ import { getCookies, setCookie } from "cookies-next";
 import _, { isNumber } from "lodash";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCue, setCue } from "../../store/nia_layout/StoreCueSlice";
+import { setCue } from "../../store/nia_layout/StoreCueSlice";
 import { getMacro, setMacro } from "../../store/nia_layout/StoreMacroSlice";
-import { setspeakerDependency } from "../../store/nia_layout/StoreSpeakerDependencySlice";
 import { getFuncMacro } from "./edit";
 import { convertValueKey } from "./searchbox_autocomplete";
-import { createCueFunc, getCueFunc, getSectionElement } from "./subtitle";
-import { createTmpJSON, getAgeCurrentElement, getOvrVocCurrentElement, getPlaceCurrentElement, getSelectIndex, getSexCurrentElement, getTmpJSON, getVidElement } from "./video_layout";
+import { createCueFunc, getCueFunc } from "./subtitle";
+import { getAgeCurrentElement, getOvrVocCurrentElement, getPlaceCurrentElement, getSelectIndex, getSexCurrentElement, getTmpJSON, getVidElement } from "./video_layout";
 
 let _subtitle_children; 
 let _sectionEndtime;

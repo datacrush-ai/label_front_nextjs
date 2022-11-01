@@ -1,14 +1,14 @@
 import styles from '../../styles/Layout.module.css';
-import VideoLayout, { getTmpJSON } from './video_layout';
+import VideoLayout from './video_layout';
 import React, { useEffect } from "react";
 import { useRef } from 'react';
 import Subtitle from './subtitle';
 import SelectItem from './select_item';
 import { sendFetch } from './common_script';
-import { getCookie, getCookies } from 'cookies-next';
+import { getCookie } from 'cookies-next';
 import SearchBoxAutoComplete from './searchbox_autocomplete';
 import { getMacro } from '../../store/nia_layout/StoreMacroSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 let _layerPopupElement;
 let _replacePopupElement;
@@ -186,7 +186,7 @@ const MacroLayer = () => {
 }
 
 const SpeakerDependency = ({label_info, depend}) => {
-  depend = JSON.parse(depend);
+  // depend = JSON.parse(depend);
   const age_list = {
     'title': '발화자 연령', 
     'itemlist': label_info.subtitleLabelInfo.speakerAge
@@ -202,6 +202,9 @@ const SpeakerDependency = ({label_info, depend}) => {
 
   const length = [1,2,3,4,5,6,7,8,9];
   
+  if( typeof(depend) == 'string' ) {
+    depend = JSON.parse(depend);
+  }
   
   if(depend.length > 0) {
     //로컬스토리지에 값이 있을 경우
