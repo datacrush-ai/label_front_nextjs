@@ -15,6 +15,7 @@ let _sectionStartTime;
 let saveAction;
 let copyAction;
 let pasteAction;
+let toggleAction;
 let last_click_dom;
 let last_copy_subtileSelLabelInfo;
 let dispatchEvent;
@@ -171,12 +172,6 @@ export const readableTimeToMilTime = (readable_time) => {
     let min = split_time[1] * 60000;
     let sec = split_time[2] * 1000;
     return parseFloat((hour + min + sec).toFixed(0)) / 1000;
-    // console.log(hour)
-    // console.log(min)
-    // console.log(sec)
-    // console.log(split_time)
-    // console.log(split_time.length)
-    // return parseFloat(parseFloat(readable_time.replaceAll(':', '')) * 1000).toFixed(0);
 }
 
 export const getUtilDate = (d) => {
@@ -292,10 +287,21 @@ export default function CommonScript({url}) {
         const copyToast = () => {
             ToastMsg(`${getSelectIndex()+1}라인 라벨을 복사 했습니다.`, 500, null, null, 'pass')
         }
-        
         const pasteToast = () => {
             ToastMsg(`${getSelectIndex()+1}라인 라벨에 붙여넣기 했습니다.`, 500, null, null, 'pass')
         }
+        
+        const togglePlay = (isPlaying) => {
+            if(!isPlaying) {
+                //영상 재생
+                getVidElement().current.play();
+            }
+            else {
+                //영상 정지
+                getVidElement().current.pause();
+            }
+        }
+        
         const saveSubtitle = () => {
             setTimeout(() => {
                 const cue = getCueFunc();
@@ -387,6 +393,7 @@ export default function CommonScript({url}) {
         saveAction = _.debounce(saveSubtitle, 500);
         copyAction = _.debounce(copyToast, 200);
         pasteAction = _.debounce(pasteToast, 200);
+        toggleAction = _.debounce(togglePlay, 200);
 
         document.addEventListener('click', async function (e) {
             if(e.target.nodeName == 'VIDEO') {
@@ -558,14 +565,7 @@ export default function CommonScript({url}) {
                 else if(e.key == ']' || e.key == '\\' || e.key == '|') {
                     let isPlaying = getVidElement().current.currentTime > 0 && !getVidElement().current.paused && !getVidElement().current.ended && getVidElement().current.readyState > getVidElement().current.HAVE_CURRENT_DATA;
                     createPlaySectionEndTime(9999999);
-                    if(!isPlaying) {
-                        //영상 재생
-                        getVidElement().current.play();
-                    }
-                    else {
-                        //영상 정지
-                        getVidElement().current.pause();
-                    }
+                    toggleAction(isPlaying);
                     e.preventDefault();
                     e.stopPropagation();
                 }
