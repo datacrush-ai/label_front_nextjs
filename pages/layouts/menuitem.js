@@ -86,7 +86,6 @@ export default function MenuItem() {
                                         let unable_save_list = [];
 
                                         for(let idx=0; idx<subtitleList.length; idx++) {
-                                            console.log(subtitleList[idx].subtileSelLabelInfo.speaker.labelCd)
                                             if(  
                                                 (subtitleList[idx].subtileSelLabelInfo.placeType.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.placeType.labelCd == '') ||
                                                 (subtitleList[idx].subtileSelLabelInfo.speaker.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.speaker.labelCd == '' || subtitleList[idx].subtileSelLabelInfo.speaker.labelCd == 'LBL_KND_23_999') ||
@@ -97,8 +96,6 @@ export default function MenuItem() {
                                                 unable_save_idx.push((parseInt(subtitleList[idx].subSnm)+ 1) + '라인 ');
                                             }
                                         }
-
-                                        
 
                                         if(param.scenarioSelLabelInfo.category.labelCd == 'LBL_KND_00_000' || param.scenarioSelLabelInfo.category.labelCd == '' || param.scenarioSelLabelInfo.category.labelCd == 'LBL_KND_23_999') {
                                             unable_save_list.push('카테고리 ');

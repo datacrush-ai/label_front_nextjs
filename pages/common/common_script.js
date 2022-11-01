@@ -1,12 +1,13 @@
-import { getCookies } from "cookies-next";
+import { getCookies, setCookie } from "cookies-next";
 import _, { isNumber } from "lodash";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCue, setCue } from "../../store/nia_layout/StoreCueSlice";
 import { getMacro, setMacro } from "../../store/nia_layout/StoreMacroSlice";
+import { setspeakerDependency } from "../../store/nia_layout/StoreSpeakerDependencySlice";
 import { getFuncMacro } from "./edit";
 import { createCueFunc, getCueFunc, getSectionElement } from "./subtitle";
-import { getAgeCurrentElement, getOvrVocCurrentElement, getPlaceCurrentElement, getSelectIndex, getSexCurrentElement, getTmpJSON, getVidElement } from "./video_layout";
+import { createTmpJSON, getAgeCurrentElement, getOvrVocCurrentElement, getPlaceCurrentElement, getSelectIndex, getSexCurrentElement, getTmpJSON, getVidElement } from "./video_layout";
 
 let _subtitle_children; 
 let _sectionEndtime;
@@ -17,17 +18,7 @@ let pasteAction;
 let last_click_dom;
 let last_copy_subtileSelLabelInfo;
 let dispatchEvent;
-let _macro;
-let _macrokey_list = {
-    '1': '',
-    '2': '',
-    '3': '',
-    '4': '',
-    '5': '',
-    '6': '',
-    '7': '',
-    '8': '',
-};
+let _speakerDependency;
 
 export const sendFetch = async(context, param, options) => {
     const url = 'https://' + process.env.NEXT_PUBLIC_API_HOST + context;
@@ -297,14 +288,12 @@ export default function CommonScript({url}) {
     dispatchEvent = dispatch;
 
     useEffect(() => {
-        
+        const speakerDependency = document.getElementById('speaker-dependency');
         const copyToast = () => {
-            console.log('first')
             ToastMsg(`${getSelectIndex()+1}라인 라벨을 복사 했습니다.`, 500, null, null, 'pass')
         }
         
         const pasteToast = () => {
-            console.log('second')
             ToastMsg(`${getSelectIndex()+1}라인 라벨에 붙여넣기 했습니다.`, 500, null, null, 'pass')
         }
         const saveSubtitle = () => {
@@ -317,7 +306,14 @@ export default function CommonScript({url}) {
                     let subSnm = cue[idx].subSnm;
                     let bgn_time = cue[idx].subBgnHrMs;
                     let end_time = cue[idx].subEndHrMs;
-                    // console.log(subCn)
+                    let speakerage_idx = _cue[idx].parentElement.parentElement.children[3].children[1].selectedIndex;
+                    let speakerage_cd = _cue[idx].parentElement.parentElement.children[3].children[1].children[speakerage_idx].value;
+                    let speakerage_nm = _cue[idx].parentElement.parentElement.children[3].children[1].children[speakerage_idx].textContent;
+                    
+                    let speakersex_idx = _cue[idx].parentElement.parentElement.children[4].children[1].selectedIndex;
+                    let speakersex_cd = _cue[idx].parentElement.parentElement.children[4].children[1].children[speakersex_idx].value;
+                    let speakersex_nm = _cue[idx].parentElement.parentElement.children[4].children[1].children[speakersex_idx].textContent;
+
                     result.push({
                         'subSnm': subSnm,
                         'subBgnHrMs': bgn_time,
@@ -325,12 +321,16 @@ export default function CommonScript({url}) {
                         'subCn': subCn,
                         'subtileSelLabelInfo': {
                             'speakerAge': {
-                                'labelCd': cue[idx].subtileSelLabelInfo.speakerAge.labelCd,
-                                'labelNm': cue[idx].subtileSelLabelInfo.speakerAge.labelNm,
+                                'labelCd': speakerage_cd,
+                                'labelNm': speakerage_nm,
+                                // 'labelCd': cue[idx].subtileSelLabelInfo.speakerAge.labelCd,
+                                // 'labelNm': cue[idx].subtileSelLabelInfo.speakerAge.labelNm,
                             },
                             'speakerSex': {
-                                'labelCd': cue[idx].subtileSelLabelInfo.speakerSex.labelCd, 
-                                'labelNm': cue[idx].subtileSelLabelInfo.speakerSex.labelNm,
+                                'labelCd': speakersex_cd, 
+                                'labelNm': speakersex_nm,
+                                // 'labelCd': cue[idx].subtileSelLabelInfo.speakerSex.labelCd, 
+                                // 'labelNm': cue[idx].subtileSelLabelInfo.speakerSex.labelNm,
                             },
                             'placeType': {
                                 'labelCd': cue[idx].subtileSelLabelInfo.placeType.labelCd,
@@ -348,11 +348,30 @@ export default function CommonScript({url}) {
                     });
                     
                 }
+                
                 const tmpJSON = getTmpJSON();
                 // tmpJSON.scenarioSelLabelInfo = getScenarioSelLabelInfo();
                 tmpJSON.subtitleList = result;
-                dispatch(setCue({'cue': result}))
-                // localStorage.setItem(getUniqeId(), JSON.stringify(result));
+                dispatch(setCue({'cue': result}));
+                let episodSpeakerDependencyKey = `${tmpJSON.userInfo.prtEml}-${tmpJSON.userInfo.prtAin}-${tmpJSON.episodDTO.prgAin}`
+                let episodSpeakerDependencyValue = [];
+                
+                for(let depend_idx=0; depend_idx<9; depend_idx++) {
+                    //메모
+                    let memo = speakerDependency.children[depend_idx].children[0].children[0].value;
+                    //화자
+                    let speaker = speakerDependency.children[depend_idx].children[1].children[0].children[1].children[0].value;
+                    //발화자 연령
+                    let ageidx = speakerDependency.children[depend_idx].children[2].children[0].children[1].selectedIndex;
+                    let agecd = speakerDependency.children[depend_idx].children[2].children[0].children[1].children[ageidx].value;
+                    //성별
+                    let sexidx = speakerDependency.children[depend_idx].children[3].children[0].children[1].selectedIndex;
+                    let sexcd = speakerDependency.children[depend_idx].children[3].children[0].children[1].children[sexidx].value;
+                    episodSpeakerDependencyValue.push({ memo, speaker, ageidx, agecd, sexidx, sexcd });
+                }
+
+                // localStorage.setItem(episodSpeakerDependencyKey, JSON.stringify(episodSpeakerDependencyValue));
+                setCookie('speakerdependency', JSON.stringify(episodSpeakerDependencyValue));
                 sendFetch('/labeltool/tmpSaveLabelJob', tmpJSON, {method: 'POST'})
                 // console.log(tmpJSON)
                 ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
@@ -541,8 +560,6 @@ export default function CommonScript({url}) {
                     };
                     
                     if( getFuncMacro()[convertValue[e.key]] ) {
-                        // ToastMsg(`${convertValue[e.key]}번 매크로 사용`, 500, null, null, 'pass');
-
                         cue[getSelectIndex()].subtileSelLabelInfo = getFuncMacro()[convertValue[e.key]];
                         const paste_target = document.querySelector('#subtitle_edit_layout').children[0].children[getSelectIndex()].children[0].children[0];
                         //발화자 연령
@@ -558,12 +575,11 @@ export default function CommonScript({url}) {
     
                         setTimeout(function() { 
                             dispatch(setCue({'cue': cue}));
-                        }, 100)
-    
-                        // ToastMsg(`${getSelectIndex()+1}라인 라벨에 붙여넣기 했습니다.`, 500, null, null, 'pass');
+                        }, 100);
+
+                        pasteAction();
                         e.preventDefault();
                         e.stopPropagation();
-    
                         createCueFunc(cue);
                     }
                 }

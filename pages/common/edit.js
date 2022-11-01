@@ -1,14 +1,14 @@
 import styles from '../../styles/Layout.module.css';
-import VideoLayout from './video_layout';
+import VideoLayout, { getTmpJSON } from './video_layout';
 import React, { useEffect } from "react";
 import { useRef } from 'react';
 import Subtitle from './subtitle';
 import SelectItem from './select_item';
 import { sendFetch } from './common_script';
-import { getCookie } from 'cookies-next';
+import { getCookie, getCookies } from 'cookies-next';
 import SearchBoxAutoComplete from './searchbox_autocomplete';
 import { getMacro } from '../../store/nia_layout/StoreMacroSlice';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 let _layerPopupElement;
 let _replacePopupElement;
@@ -45,7 +45,6 @@ export const getLayerPopupElement = () => {
 }
 
 const LayoutPosition = (info) => {
-
   const category_list = {
     'title': '카테고리', 
     'itemlist': info.data.scenarioLabelInfo?.category,
@@ -69,10 +68,10 @@ const LayoutPosition = (info) => {
 
   return (
     <>
-      <section id={"video_layout"} className={styles.video_layout}>
+      <section id={"video_layout"} className={styles.video_layout} style={{'width': '40vw'}}>
         <VideoLayout video_info={info.data}></VideoLayout>
       </section>
-      <section id={"program_layout"} style={{'backgroundColor':'#ebecf2', 'borderLeft': '3px solid', 'width':'25vw'}} className={styles.video_layout}>
+      <section id={"program_layout"} style={{'backgroundColor':'#ebecf2', 'borderLeft': '3px solid', 'width':'20vw', 'minWidth': '250px', 'minHeight': '350px'}} className={styles.video_layout}>
         <section className={styles.subtitle_edit_content_thumbnail} style={{'maxHeight':'40px'}}>
             <div style={{'minWidth':'150px'}}>시나리오 정보</div>
             <div style={{'width': '100%'}}>
@@ -97,7 +96,7 @@ const LayoutPosition = (info) => {
           // })
         }
       </section>
-      <section id={"shortcut_layout"} style={{'overflow':'auto', 'backgroundColor':'#ebecf2', 'borderLeft': '3px solid', 'width':'25vw', 'padding': '10px'}} className={styles.video_layout}>
+      <section id={"shortcut_layout"} style={{'overflow':'auto', 'backgroundColor':'#ebecf2', 'borderLeft': '3px solid', 'width':'40vw', 'padding': '10px'}} className={styles.video_layout}>
             
             <div className={styles.tips}>
               <span style={{'gridArea': 'form1', 'border': '1px solid', 'backgroundColor': 'antiquewhite'}}>입력 키</span>  <span style={{'gridArea': 'form2', 'border': '1px solid', 'backgroundColor': 'antiquewhite'}}>선택효과</span>
@@ -137,7 +136,12 @@ const LayoutPosition = (info) => {
               
             </div>
 
+            <div id={'speaker-dependency'} style={{'backgroundColor': 'antiquewhite'}}>
+              <SpeakerDependency label_info={info.data} depend={info.depend}></SpeakerDependency>
+            </div>
       </section>
+
+
       {/* <section style={{'display':'flex', 'flexDirection': 'column', 'textAlign': 'center', 'paddingRight': '20px'}}>
         <div>검수 반려 의견</div>
         <div className={styles.subtitle_label_content_third_column} style={{'margin': '0'}}>
@@ -168,10 +172,10 @@ const MacroLayer = () => {
     if( macro ) {
       if( macro[idx]?.speakerAge?.labelNm ) {
         if( macro[idx]?.speakerOvrVoc?.labelNm == '선택하세요' ) {
-          resultHtml += `<p>${idx}번매크로 [입력 키: ${convertKey[idx]}]: ${macro[idx]?.speakerAge?.labelNm}-${macro[idx]?.speakerSex?.labelNm}-${macro[idx]?.placeType?.labelNm}-${macro[idx]?.speaker?.labelNm}-없음</p>`
+          resultHtml += `<p>${idx}번 매크로 [입력 키: ${convertKey[idx]}]: ${macro[idx]?.speakerAge?.labelNm}-${macro[idx]?.speakerSex?.labelNm}-${macro[idx]?.placeType?.labelNm}-${macro[idx]?.speaker?.labelNm}-없음</p>`
         }
         else {
-          resultHtml += `<p>${idx}번매크로 [입력 키: ${convertKey[idx]}]: ${macro[idx]?.speakerAge?.labelNm}-${macro[idx]?.speakerSex?.labelNm}-${macro[idx]?.placeType?.labelNm}-${macro[idx]?.speaker?.labelNm}-${macro[idx]?.speakerOvrVoc?.labelNm}</p>`
+          resultHtml += `<p>${idx}번 매크로 [입력 키: ${convertKey[idx]}]: ${macro[idx]?.speakerAge?.labelNm}-${macro[idx]?.speakerSex?.labelNm}-${macro[idx]?.placeType?.labelNm}-${macro[idx]?.speaker?.labelNm}-${macro[idx]?.speakerOvrVoc?.labelNm}</p>`
         }
       }
     }
@@ -181,13 +185,78 @@ const MacroLayer = () => {
   )
 }
 
+const SpeakerDependency = ({label_info, depend}) => {
+  depend = JSON.parse(depend);
+  const age_list = {
+    'title': '발화자 연령', 
+    'itemlist': label_info.subtitleLabelInfo.speakerAge
+  };
+  const sex_list = {
+    'title': '성별', 
+    'itemlist': label_info.subtitleLabelInfo.speakerSex
+  };
+  const speaker_list = {
+    'title': '화자',
+    'itemlist': label_info.subtitleLabelInfo.speaker
+  }
+
+  const length = [1,2,3,4,5,6,7,8,9];
+  
+  
+  if(depend.length > 0) {
+    //로컬스토리지에 값이 있을 경우
+    return(
+      depend.map((arr, idx) => {
+        return (
+          <section key={idx} style={{'display':'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
+              <div style={{'width': '100px', 'cursor': 'text','display': 'flex','backgroundColor': 'rgb(255, 255, 255)','borderRadius': '10px','border': '1px solid rgb(229, 232, 235)','padding': '0px 10px'}}>
+                  <input style={{'padding': '10px 0px'}} type={"text"} className={styles.ibx_product} placeholder={'메모'} defaultValue={arr.memo}/>
+              </div>
+              <div style={{'padding': '0px'}}>
+                <SearchBoxAutoComplete key={`speaker_${idx}`} setItem={'fake'} placeholder={'화자를 입력하세요'} dataListName={'speaker-options'} dataList={speaker_list} index={idx} title={'화자'} maxWidth={'250px'} defaultvalue={arr.speaker}></SearchBoxAutoComplete>
+              </div>
+              <div style={{'padding': '0px'}}>
+                <SelectItem key={`age`} response={age_list} types={'fake'} defaultvalue={arr.ageidx} setitem={arr.agecd}></SelectItem>
+              </div>
+              <div style={{'padding': '0px'}}>
+                <SelectItem key={`sex`} response={sex_list} types={'fake'} defaultvalue={arr.sexidx} setitem={arr.sexcd}></SelectItem>
+              </div>
+          </section>
+        )
+      })
+    )
+  }
+  else {
+    //로컬스토리지에 값이 없을 경우
+    return(
+      length.map((arr, idx) => {
+        return (
+          <section key={idx} style={{'display':'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
+              <div style={{'width': '100px', 'cursor': 'text','display': 'flex','backgroundColor': 'rgb(255, 255, 255)','borderRadius': '10px','border': '1px solid rgb(229, 232, 235)','padding': '0px 10px'}}>
+                  <input style={{'padding': '10px 0px'}} type={"text"} className={styles.ibx_product} placeholder={'메모'}/>
+              </div>
+              <div style={{'padding': '0px'}}>
+                <SearchBoxAutoComplete key={`speaker_${idx}`} setItem={'fake'} placeholder={'화자를 입력하세요'} dataListName={'speaker-options'} dataList={speaker_list} index={idx} title={'화자'} maxWidth={'250px'}></SearchBoxAutoComplete>
+              </div>
+              <div style={{'padding': '0px'}}>
+                <SelectItem key={`age`} response={age_list} types={'fake'}></SelectItem>
+              </div>
+              <div style={{'padding': '0px'}}>
+                <SelectItem key={`sex`} response={sex_list} types={'fake'}></SelectItem>
+              </div>
+          </section>
+        )
+      })
+    )
+  }
+}
+
 export default function Edit({ data }) {
   // console.log(data.label_info)
   const layerPopupRefElement = useRef(null);
   // const searchStringRefElement = useRef(null);
   const replacePopupRefElement = useRef(null);
   const macro = useSelector(getMacro);
-
   createFuncMacro(macro);
   createSubtitleInfo(data);  
   useEffect(() => {
@@ -198,20 +267,27 @@ export default function Edit({ data }) {
     localStorage.setItem('scenarioSelLabelInfo', JSON.stringify(data.label_info.scenarioSelLabelInfo));
     localStorage.setItem('subtitleLabelInfo', JSON.stringify(data.label_info.subtitleLabelInfo));
   }, [data, macro]);
-
+  
   return (
     <>
       <article id={"edit_top_layout"} className={styles.container} style={{'backgroundColor': '#ebecf2', 'overflow': 'auto'}}>
-        <LayoutPosition video_position={data.video_position} data={data.label_info}></LayoutPosition>
+        <LayoutPosition video_position={data.video_position} data={data.label_info} depend={data.speakerdependency}></LayoutPosition>
       </article>
       {/* <section style={{'display': 'flex', 'justifyContent': 'center', 'maxHeight': '30px'}}> */}
-      <section style={{'display': 'flex', 'justifyContent': 'center', 'minHeight': 'calc(7vh)', 'overflow': 'auto'}}>
-        <span className={'mr-3 ml-3'} style={{'color': 'var(--theme-blue-color)'}}>
-          {data.label_info.episodDTO.prgNm}-{data.label_info.episodDTO.epNm}-{data.label_info.episodDTO.epVdoSnm}화
-          <br></br>
-          <MacroLayer></MacroLayer>
-          {/* {`2번매크로: ${macro['2']?.speakerAge?.labelNm}-${macro['2']?.speakerSex?.labelNm}-${macro['2']?.placeType?.labelNm}-${macro['2']?.speaker?.labelNm}-${macro['2']?.speakerOvrVoc?.labelNm}`} */}
-        </span>
+      <section style={{'display': 'flex', 'justifyContent': 'center', 'minHeight': 'calc(7vh)', 'maxHeight': 'calc(7vh)', 'overflow': 'auto', 'textAlign': 'center'}}>
+        <div>
+          <span className={'mr-3 ml-3'} style={{'color': 'var(--theme-blue-color)'}}>
+            매크로 지정: 해당 라인 마우스 우클릭
+            <br></br>
+            {data.label_info.episodDTO.prgNm}-{data.label_info.episodDTO.epNm}-{data.label_info.episodDTO.epVdoSnm}화
+            <br></br>
+            <MacroLayer></MacroLayer>
+            {/* {`2번매크로: ${macro['2']?.speakerAge?.labelNm}-${macro['2']?.speakerSex?.labelNm}-${macro['2']?.placeType?.labelNm}-${macro['2']?.speaker?.labelNm}-${macro['2']?.speakerOvrVoc?.labelNm}`} */}
+          </span>
+        </div>
+        {/* <div style={{'backgroundColor': 'antiquewhite'}}>
+          <SpeakerDependency label_info={data.label_info}></SpeakerDependency>
+        </div> */}
       </section>
       <article id={"subtitle_edit_layout"} className={styles.subtitle_edit_layout} style={{'height': 'calc(49vh - 30px)'}}>
           <Subtitle info={data.label_info} key={data.EP_AIN}></Subtitle>
@@ -230,6 +306,12 @@ export async function getServerSideProps(context) {
   const req = context.req;
   const res = context.res;
   const cookie = getCookie('tmp', {req, res});
+  let speakerdependency = getCookie('speakerdependency', {req, res});
+
+  if( speakerdependency == undefined ) {
+    speakerdependency = [];
+  }
+
   if(cookie == undefined) {
     return {
       redirect: {
@@ -310,6 +392,7 @@ export async function getServerSideProps(context) {
     'prgAin': prgAin,
     'epVdoSnm': epVdoSnm,
     'label_info': label_info,
+    'speakerdependency': speakerdependency,
     // 'shortcut': shortcut_list,
     'data': [{ "subSnm": 0, "subCn": "", "subBgnHrMs": "", "subEndHrMs": "" }]
   };
