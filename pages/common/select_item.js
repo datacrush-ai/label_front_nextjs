@@ -5,7 +5,7 @@ import styles from '../../styles/Layout.module.css'
 import { getCueFunc } from './subtitle';
 import { createTmpJSON, getTmpJSON } from './video_layout';
 
-export default function SelectItem({response, setitem, types, defaultvalue}) {
+export default function SelectItem({response, setitem, types, defaultvalue, fontSize}) {
     const dispatch = useDispatch();
     const fakeSelectRef = useRef(null);
     const [selected, setSelected] = useState(setitem?.labelCd);
@@ -97,7 +97,7 @@ export default function SelectItem({response, setitem, types, defaultvalue}) {
                 </style>
                 <section className={styles.subtitle_edit_content_thumbnail}>
                 <div style={{'whiteSpace': 'nowrap', 'paddingRight': '10px'}}>{response?.title}</div>
-                <select ref={fakeSelectRef} className={"block py-2 px-4 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"}
+                <select ref={fakeSelectRef} style={{'fontSize': fontSize}} className={"block py-2 px-4 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"}
                         // defaultValue={selected}
                 >
                     {

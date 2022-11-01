@@ -30,7 +30,7 @@ export const convertValueKey = (key) => {
 }
 
 
-export default function SearchBoxAutoComplete({dataList, dataListName, placeholder, index, setItem, title, minWidth, maxWidth, titleMinWidth, defaultvalue}) {
+export default function SearchBoxAutoComplete({dataList, dataListName, placeholder, index, setItem, title, minWidth, maxWidth, titleMinWidth, defaultvalue, fontSize}) {
     const dataListElement = useRef(null);
     const dispatch = useDispatch();
 
@@ -151,7 +151,7 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
             <section style={{'display':'flex', 'justifyContent': 'center', 'alignItems': 'center', 'padding': '10px', 'maxWidth': maxWidth, 'minWidth': minWidth}} className={styles.search_container}>
                 <div style={{'whiteSpace': 'nowrap', 'paddingRight': '10px', 'minWidth': titleMinWidth}}>{title}</div>
                 <div className={styles.ibx_search_container}>
-                    <input id={index} type={"text"} list={dataListName} className={styles.ibx_product} placeholder={placeholder} defaultValue={defaultvalue}/>
+                    <input id={index} type={"text"} list={dataListName} className={styles.ibx_product} placeholder={placeholder} defaultValue={defaultvalue} style={{'fontSize': fontSize}}/>
                     <datalist ref={dataListElement} id={dataListName}></datalist>
                 </div>
             </section>

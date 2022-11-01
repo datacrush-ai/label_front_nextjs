@@ -206,23 +206,26 @@ const SpeakerDependency = ({label_info, depend}) => {
     depend = JSON.parse(depend);
   }
   
+  let largefontSize = '1rem';
+  let fontSize = '0.7rem';
+
   if(depend.length > 0) {
     //로컬스토리지에 값이 있을 경우
     return(
       depend.map((arr, idx) => {
         return (
-          <section key={idx} style={{'display':'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
+          <section key={idx} style={{'display':'flex', 'justifyContent': 'space-evenly', 'alignItems': 'center', 'fontSize': fontSize, 'whiteSpace': 'nowrap'}}>{`화자 매크로${idx+1}`} 
               <div style={{'width': '100px', 'cursor': 'text','display': 'flex','backgroundColor': 'rgb(255, 255, 255)','borderRadius': '10px','border': '1px solid rgb(229, 232, 235)','padding': '0px 10px'}}>
-                  <input style={{'padding': '10px 0px'}} type={"text"} className={styles.ibx_product} placeholder={'메모'} defaultValue={arr.memo}/>
+                  <input style={{'padding': '10px 0px', 'fontSize': largefontSize}} type={"text"} className={styles.ibx_product} placeholder={'메모'} defaultValue={arr.memo}/>
               </div>
               <div style={{'padding': '0px'}}>
-                <SearchBoxAutoComplete key={`speaker_${idx}`} setItem={'fake'} placeholder={'화자를 입력하세요'} dataListName={'speaker-options'} dataList={speaker_list} index={idx} title={'화자'} maxWidth={'250px'} defaultvalue={arr.speaker}></SearchBoxAutoComplete>
+                <SearchBoxAutoComplete key={`speaker_${idx}`} setItem={'fake'} placeholder={'화자를 입력하세요'} dataListName={'speaker-options'} dataList={speaker_list} index={idx} title={'화자'} maxWidth={'250px'} defaultvalue={arr.speaker} fontSize={fontSize}></SearchBoxAutoComplete>
               </div>
               <div style={{'padding': '0px'}}>
-                <SelectItem key={`age`} response={age_list} types={'fake'} defaultvalue={arr.ageidx} setitem={arr.agecd}></SelectItem>
+                <SelectItem key={`age`} response={age_list} types={'fake'} defaultvalue={arr.ageidx} setitem={arr.agecd} fontSize={fontSize}></SelectItem>
               </div>
               <div style={{'padding': '0px'}}>
-                <SelectItem key={`sex`} response={sex_list} types={'fake'} defaultvalue={arr.sexidx} setitem={arr.sexcd}></SelectItem>
+                <SelectItem key={`sex`} response={sex_list} types={'fake'} defaultvalue={arr.sexidx} setitem={arr.sexcd} fontSize={fontSize}></SelectItem>
               </div>
           </section>
         )
@@ -234,18 +237,18 @@ const SpeakerDependency = ({label_info, depend}) => {
     return(
       length.map((arr, idx) => {
         return (
-          <section key={idx} style={{'display':'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
+          <section key={idx} style={{'display':'flex', 'justifyContent': 'space-evenly', 'alignItems': 'center', 'fontSize': fontSize, 'whiteSpace': 'nowrap'}}>{`화자 매크로${idx+1}`} 
               <div style={{'width': '100px', 'cursor': 'text','display': 'flex','backgroundColor': 'rgb(255, 255, 255)','borderRadius': '10px','border': '1px solid rgb(229, 232, 235)','padding': '0px 10px'}}>
-                  <input style={{'padding': '10px 0px'}} type={"text"} className={styles.ibx_product} placeholder={'메모'}/>
+                  <input style={{'padding': '10px 0px', 'fontSize': largefontSize}} type={"text"} className={styles.ibx_product} placeholder={'메모'}/>
               </div>
               <div style={{'padding': '0px'}}>
-                <SearchBoxAutoComplete key={`speaker_${idx}`} setItem={'fake'} placeholder={'화자를 입력하세요'} dataListName={'speaker-options'} dataList={speaker_list} index={idx} title={'화자'} maxWidth={'250px'}></SearchBoxAutoComplete>
+                <SearchBoxAutoComplete key={`speaker_${idx}`} setItem={'fake'} placeholder={'화자를 입력하세요'} dataListName={'speaker-options'} dataList={speaker_list} index={idx} title={'화자'} maxWidth={'250px'} fontSize={fontSize}></SearchBoxAutoComplete>
               </div>
               <div style={{'padding': '0px'}}>
-                <SelectItem key={`age`} response={age_list} types={'fake'}></SelectItem>
+                <SelectItem key={`age`} response={age_list} types={'fake'} fontSize={fontSize}></SelectItem>
               </div>
               <div style={{'padding': '0px'}}>
-                <SelectItem key={`sex`} response={sex_list} types={'fake'}></SelectItem>
+                <SelectItem key={`sex`} response={sex_list} types={'fake'} fontSize={fontSize}></SelectItem>
               </div>
           </section>
         )
