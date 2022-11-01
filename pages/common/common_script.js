@@ -314,6 +314,11 @@ export default function CommonScript({url}) {
                     let speakersex_cd = _cue[idx].parentElement.parentElement.children[4].children[1].children[speakersex_idx].value;
                     let speakersex_nm = _cue[idx].parentElement.parentElement.children[4].children[1].children[speakersex_idx].textContent;
 
+                    if( cue[idx].subtileSelLabelInfo.speakerOvrVoc.labelCd == 'LBL_KND_00_000' ) {
+                        cue[idx].subtileSelLabelInfo.speakerOvrVoc.labelCd = 'LBL_KND_24_001';
+                        cue[idx].subtileSelLabelInfo.speakerOvrVoc.labelNm = '없음';
+                    }
+
                     result.push({
                         'subSnm': subSnm,
                         'subBgnHrMs': bgn_time,
