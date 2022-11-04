@@ -86,53 +86,70 @@ export const subtitleContext = (contextmenuRef, e) => {
 export const subtitleContextClick = (contextmenuRef, e) => {
     contextmenuRef.current.style.display = 'none';
     const macro_key = parseInt(e.target.id.split('_')[1]);
+    let _cue = document.querySelectorAll('textarea');
     const cue = getCueFunc();
     const _macro = getFuncMacro();
     let _duplicate_value = false;
     let _duplicate_idx = 0;
 
-    let last_copy_subtileSelLabelInfo = cue[getSelectIndex()].subtileSelLabelInfo;
+    
+    const selectParent = _cue[getSelectIndex()].parentElement.parentElement;
 
-    if( last_copy_subtileSelLabelInfo.speakerOvrVoc.labelCd == 'LBL_KND_00_000' ) {
-        last_copy_subtileSelLabelInfo.speakerOvrVoc.labelCd = 'LBL_KND_24_001';
-    }
+    const ageValue = selectParent.children[3].children[1].children[selectParent.children[3].children[1].selectedIndex].value;
+    const ageText = selectParent.children[3].children[1].children[selectParent.children[3].children[1].selectedIndex].textContent;
+    const sexValue = selectParent.children[4].children[1].children[selectParent.children[4].children[1].selectedIndex].value;
+    const sexText = selectParent.children[4].children[1].children[selectParent.children[4].children[1].selectedIndex].textContent;
+    
+    let last_copy_subtileSelLabelInfo = _.cloneDeep(cue[getSelectIndex()].subtileSelLabelInfo);
 
-    if(
-        last_copy_subtileSelLabelInfo?.speakerAge?.labelCd != "LBL_KND_00_000" &&
-        last_copy_subtileSelLabelInfo?.speakerSex?.labelCd != "LBL_KND_00_000" &&
-        last_copy_subtileSelLabelInfo?.placeType?.labelCd != "LBL_KND_00_000" &&
-        last_copy_subtileSelLabelInfo?.speaker?.labelCd != "LBL_KND_00_000"
-     ) {
-         for(let idx=1; idx<10; idx++) {
-             if( 
-                 _macro[idx]?.speakerAge?.labelCd == last_copy_subtileSelLabelInfo?.speakerAge?.labelCd &&
-                 _macro[idx]?.speakerSex?.labelCd == last_copy_subtileSelLabelInfo?.speakerSex?.labelCd &&
-                 _macro[idx]?.placeType?.labelCd == last_copy_subtileSelLabelInfo?.placeType?.labelCd &&
-                 _macro[idx]?.speaker?.labelCd == last_copy_subtileSelLabelInfo?.speaker?.labelCd &&
-                 _macro[idx]?.speakerOvrVoc?.labelCd == last_copy_subtileSelLabelInfo?.speakerOvrVoc?.labelCd
-             ) {
-                 _duplicate_value = true;
-                 _duplicate_idx = idx;
-                 break;
+    setTimeout(() => {
+        last_copy_subtileSelLabelInfo.speakerAge.labelCd = ageValue;
+        last_copy_subtileSelLabelInfo.speakerAge.labelNm = ageText;
+        
+        last_copy_subtileSelLabelInfo.speakerSex.labelNm = sexValue;
+        last_copy_subtileSelLabelInfo.speakerSex.labelNm = sexText;
+
+        if( last_copy_subtileSelLabelInfo.speakerOvrVoc.labelCd == 'LBL_KND_00_000' ) {
+            last_copy_subtileSelLabelInfo.speakerOvrVoc.labelCd = 'LBL_KND_24_001';
+        }
+    
+        if(
+            last_copy_subtileSelLabelInfo?.speakerAge?.labelCd != "LBL_KND_00_000" &&
+            last_copy_subtileSelLabelInfo?.speakerSex?.labelCd != "LBL_KND_00_000" &&
+            last_copy_subtileSelLabelInfo?.placeType?.labelCd != "LBL_KND_00_000" &&
+            last_copy_subtileSelLabelInfo?.speaker?.labelCd != "LBL_KND_00_000"
+         ) {
+             for(let idx=1; idx<10; idx++) {
+                 if( 
+                     _macro[idx]?.speakerAge?.labelCd == last_copy_subtileSelLabelInfo?.speakerAge?.labelCd &&
+                     _macro[idx]?.speakerSex?.labelCd == last_copy_subtileSelLabelInfo?.speakerSex?.labelCd &&
+                     _macro[idx]?.placeType?.labelCd == last_copy_subtileSelLabelInfo?.placeType?.labelCd &&
+                     _macro[idx]?.speaker?.labelCd == last_copy_subtileSelLabelInfo?.speaker?.labelCd &&
+                     _macro[idx]?.speakerOvrVoc?.labelCd == last_copy_subtileSelLabelInfo?.speakerOvrVoc?.labelCd
+                 ) {
+                     _duplicate_value = true;
+                     _duplicate_idx = idx;
+                     break;
+                 }
              }
-         }
-         if( !(_duplicate_value) ) {
-             let result = {};
-             for (const [key, value] of Object.entries(_macro)) {
-                 result[key] = value;
+             if( !(_duplicate_value) ) {
+                 let result = {};
+                 for (const [key, value] of Object.entries(_macro)) {
+                     result[key] = value;
+                 }
+                 result[macro_key] = last_copy_subtileSelLabelInfo;
+                 dispatchEvent(setMacro({'macro': result}))
+                 
+                 ToastMsg(`${macro_key}번 매크로 저장`, 1000, null, null, 'pass');
              }
-             result[macro_key] = last_copy_subtileSelLabelInfo;
-             dispatchEvent(setMacro({'macro': result}))
-             
-             ToastMsg(`${macro_key}번 매크로 저장`, 1000, null, null, 'pass');
-         }
-         else {
-             ToastMsg(`동일한 값이 ${_duplicate_idx}번 매크로에 저장되어 있습니다.\n라인을 선택한 후 다시 저장하세요.`, 1000, null, null, 'warn');
-         }
-    }
-    else {
-        ToastMsg(`매크로 저장을 하려면 해당 라인에 모든 라벨 값이 있어야 합니다.`, 1000, null, null, 'warn');
-    }
+             else {
+                 ToastMsg(`동일한 값이 ${_duplicate_idx}번 매크로에 저장되어 있습니다.\n라인을 선택한 후 다시 저장하세요.`, 1000, null, null, 'warn');
+             }
+        }
+        else {
+            ToastMsg(`매크로 저장을 하려면 해당 라인에 모든 라벨 값이 있어야 합니다.`, 1000, null, null, 'warn');
+        }
+    }, 100);
 
 }
 export const subtitleSectionElementClick = (e) => {

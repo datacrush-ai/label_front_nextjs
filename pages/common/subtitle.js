@@ -135,9 +135,9 @@ export default function Subtitle({ info }) {
                           e.className = 'hidden';
                         }}
                         onContextMenu={(e) => {
-                          subtitleContext(contextmenuRef, e);
                           e.preventDefault();
                           e.stopPropagation();
+                          subtitleContext(contextmenuRef, e);
                         }}
               >
                 <div className={styles.subtitle_edit_content}>

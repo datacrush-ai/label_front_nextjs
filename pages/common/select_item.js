@@ -22,9 +22,6 @@ export default function SelectItem({response, setitem, types, defaultvalue, font
         const flag_value = 'LBL_KND_00_000';
         setSelected(target_value);
 
-        console.log(id, target_value)
-
-
         if( target_value.includes('KND_00') ) {
             flag_value = e.target.children[1].value;
             target_value = 'LBL_KND_00_000';
