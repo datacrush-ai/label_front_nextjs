@@ -306,7 +306,6 @@ export default function CustomSetPopup({response, utilDate}) {
     const helpContainerRefElement = useRef(null);
     let total_complete_time = 0;
     useEffect(() => {
-        console.log('새로그린다')
         const render_complete = document.getElementById('render_complete')
         let first_position_move = true;
         if(_position_x != 0 && first_position_move) {
@@ -321,7 +320,6 @@ export default function CustomSetPopup({response, utilDate}) {
             // _position_y = e.offsetHeight;
             // _position_y = e.offsetTop;
             // _position_y = e.screenY;
-            console.log('이거한다~? ', _position_y, _position_x)
         }
 
         positionAction = _.debounce(mousemoveEvent, 200);
