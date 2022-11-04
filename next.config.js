@@ -4,7 +4,7 @@ const nextConfig = {
   env: {
     BASE_URL: process.env.NEXT_PUBLIC_API_HOST
   },
-  swcMinify: true,
+  // swcMinify: true,
   // async rewrites() {
   //   return [
   //     {

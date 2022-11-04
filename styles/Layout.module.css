@@ -775,6 +775,7 @@
 
 .subtitle_edit_layout {
     display: flex;
+    flex-wrap: wrap;
     /* min-width: 20vw; */
     height: 55vh;
     justify-content: space-around;
@@ -838,16 +839,21 @@
     grid-template-areas:
         "form1 form2"
         "util0 util0"
-            "util1 util2"
+        "util1 util2"
             "util3 util4"
             "util5 util6"
             "util7 util8"
             "util9 util10"
-                "util11 util12"
-        "sex0 sex0"
-        "sex1 sex2"
-        "sex3 sex4"
-        "sex5 sex6"
+            "util11 util12"
+        "macro0 macro0"
+            "macro1 macro2"
+            "macro3 macro4"
+            "macro5 macro6"
+            "macro7 macro8"
+            "macro9 macro10"
+            "macro11 macro12"
+            "macro13 macro14"
+            "macro15 macro16"
         "place0 place0"
         "place1 place2"
         "place3 place4"
@@ -859,16 +865,12 @@
         "place15 place16"
         "place17 place18"
         "place19 place20"
-        "age0 age0"
-            "age1 age2"
-            "age3 age4"
-            "age5 age6"
-            "age7 age8"
-            "ovr0 ovr0"
+        "ovr0 ovr0"
             "ovr1 ovr2"
             "ovr3 ovr4"
             "ovr5 ovr6"
             "ovr7 ovr8"
+            "ovr9 ovr10"
 }
 
 .header_tips {

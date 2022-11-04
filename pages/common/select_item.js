@@ -1,14 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCue } from '../../store/nia_layout/StoreCueSlice';
 import styles from '../../styles/Layout.module.css'
 import { getCueFunc } from './subtitle';
 import { createTmpJSON, getTmpJSON } from './video_layout';
 
-export default function SelectItem({response, setitem, types}) {
+export default function SelectItem({response, setitem, types, defaultvalue, fontSize}) {
     const dispatch = useDispatch();
+    const fakeSelectRef = useRef(null);
     const [selected, setSelected] = useState(setitem?.labelCd);
-    
+    useEffect(() => {
+        if(defaultvalue && fakeSelectRef.current && types == 'fake') {
+            fakeSelectRef.current.selectedIndex = defaultvalue;
+        }
+    }, [defaultvalue, types]);
+
     const handleChangeSelect = (e) => {
         const cue = getCueFunc();
         const id = e.target.parentElement.parentElement.parentElement.parentElement.id.split('_')[0];
@@ -20,6 +26,8 @@ export default function SelectItem({response, setitem, types}) {
             flag_value = e.target.children[1].value;
             target_value = 'LBL_KND_00_000';
         }
+
+        
         
         if( target_value.includes('KND_11') || flag_value.includes('KND_11') ) {
             getTmpJSON().scenarioSelLabelInfo.category.labelCd = target_value;
@@ -72,7 +80,40 @@ export default function SelectItem({response, setitem, types}) {
 
     // console.log(selected)
     
-    if( types == 'subtitle' ) {
+    if( types == 'fake' ) {
+        return (
+            <>
+                <style jsx>{`
+                select {
+                    -webkit-appearance:none; /* 크롬 화살표 없애기 */
+                    -moz-appearance:none; /* 파이어폭스 화살표 없애기 */
+                    appearance:none; /* 화살표 없애기 */
+                    text-align-last: center;
+                }
+                `}
+                </style>
+                <section className={styles.subtitle_edit_content_thumbnail}>
+                <div style={{'whiteSpace': 'nowrap', 'paddingRight': '10px'}}>{response?.title}</div>
+                <select ref={fakeSelectRef} style={{'fontSize': fontSize}} className={"block py-2 px-4 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"}
+                        // defaultValue={selected}
+                >
+                    {
+                        response?.itemlist?.map((arr, idx) => {
+                            return(
+                                <option key={`aa_${arr.labelCd}_${arr.labelNm}_${idx}`} 
+                                        value={arr.labelCd}
+                                >
+                                    {arr.labelNm}
+                                </option>
+                            )
+                        })
+                    }
+                </select>
+                </section>
+            </>
+        )
+    }
+    else if( types == 'subtitle' ) {
         return (
             <>
                 <style jsx>{`

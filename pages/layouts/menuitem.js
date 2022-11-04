@@ -65,10 +65,12 @@ export default function MenuItem() {
                                     <button onClick={async (e) => {
                                         // console.log(subtitleList)
                                         const context = '/labeltool/tmpSaveLabelJob';
-                                        await sendFetch(context, param, {method:"POST"})
-                                        .then(res => {
-                                            ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
-                                        });
+                                        setTimeout(async() => {
+                                            await sendFetch(context, param, {method:"POST"})
+                                            .then(res => {
+                                                ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
+                                            });
+                                        }, 500);
                                     }}
                                     className={`${active ? 'bg-blue-500 text-white' : 'text-gray-900'
                                             } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
@@ -86,10 +88,15 @@ export default function MenuItem() {
                                         let unable_save_list = [];
 
                                         for(let idx=0; idx<subtitleList.length; idx++) {
-                                            console.log(subtitleList[idx].subtileSelLabelInfo.speaker.labelCd)
+
+                                            if( subtitleList[idx].subtileSelLabelInfo.speakerOvrVoc.labelCd == "LBL_KND_00_000" ) {
+                                                subtitleList[idx].subtileSelLabelInfo.speakerOvrVoc.labelCd = "LBL_KND_24_001";
+                                                subtitleList[idx].subtileSelLabelInfo.speakerOvrVoc.labelNm = "없음";
+                                            }
+
                                             if(  
                                                 (subtitleList[idx].subtileSelLabelInfo.placeType.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.placeType.labelCd == '') ||
-                                                (subtitleList[idx].subtileSelLabelInfo.speaker.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.speaker.labelCd == '' || subtitleList[idx].subtileSelLabelInfo.speaker.labelCd == 'LBL_KND_23_999') ||
+                                                (subtitleList[idx].subtileSelLabelInfo.speaker.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.speaker.labelCd == '') ||
                                                 (subtitleList[idx].subtileSelLabelInfo.speakerAge.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.speakerAge.labelCd == '') ||
                                                 (subtitleList[idx].subtileSelLabelInfo.speakerSex.labelCd == 'LBL_KND_00_000' || subtitleList[idx].subtileSelLabelInfo.speakerSex.labelCd == '')
                                             ) {
@@ -97,8 +104,6 @@ export default function MenuItem() {
                                                 unable_save_idx.push((parseInt(subtitleList[idx].subSnm)+ 1) + '라인 ');
                                             }
                                         }
-
-                                        
 
                                         if(param.scenarioSelLabelInfo.category.labelCd == 'LBL_KND_00_000' || param.scenarioSelLabelInfo.category.labelCd == '' || param.scenarioSelLabelInfo.category.labelCd == 'LBL_KND_23_999') {
                                             unable_save_list.push('카테고리 ');

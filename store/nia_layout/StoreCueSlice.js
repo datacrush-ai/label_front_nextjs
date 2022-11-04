@@ -1,8 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import * as _ from "lodash";
-import { getHost } from '../../config/serverconfig';
-import { ToastMsg } from '../../pages/common/common_script';
-import { getCueFunc } from '../../pages/common/subtitle';
 
 const initialState = {
     cue: [{
@@ -32,10 +29,6 @@ const initialState = {
                 'labelNm': ''
             }
         }
-        // "speakerCd": '',
-        // "speakerNm": '',
-        // "genderCd": '',
-        // "genderNm": ''
     }],
     
 };
@@ -48,27 +41,13 @@ const cueSlice = createSlice({
             // action.payload.cue = _.sortBy(action.payload.cue, ['startTime', 'endTime']);
             state.cue = action.payload.cue;
         },
-        /*
-        saveServerCue: async(state, action) => {
-            const context = '/labeltool/reqComplLabelJob';
-            const cue = getCueFunc();
-            // console.log(cue)
-            // console.log(cue)
-            // await sendFetch(context, action.payload.cue, {method: 'POST'});
-            ToastMsg(`저장하였습니다.`, 3000, null, null, 'pass');
-            return await sendFetch(context, cue, {method: 'POST'})
-        },
-        */
     }
 });
 
 export const getCue = ((state) => {
-    // console.log(state.layoutStore.cueSlice.cue);
     let result = [];
-    // let _result = [];
     state.layoutStore.cueSlice.cue.map((arr, idx) => {
         result.push({
-            // 'subSnm': arr.subSnm,
             'subSnm': idx,
             'subBgnHrMs': parseFloat(arr.subBgnHrMs),
             'subEndHrMs': parseFloat(arr.subEndHrMs),
@@ -96,20 +75,9 @@ export const getCue = ((state) => {
                 },
             }
         });
-        // _result.push({
-        //     'subSnm': arr.id,
-        //     'subCn': arr.text,
-        //     'subBgnHrMs': parseFloat(arr.startTime),
-        //     'subEndHrMs': parseFloat(arr.endTime),
-        // });
     });
-    
-    // console.log(JSON.stringify(_.sortBy(_result, ['subBgnHrMs', 'subEndHrMs'])));
-
-    // console.log('getCue Call');
     result = _.uniqBy(result, 'subBgnHrMs', 'subEndHrMs');
     return _.sortBy(result, ['subBgnHrMs', 'subEndHrMs']);
-    // return state.layoutStore.cueSlice.cue;
 });
 export const { setCue, saveServerCue } = cueSlice.actions; //액션 생성 함수
 

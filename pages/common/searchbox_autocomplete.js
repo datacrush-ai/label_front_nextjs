@@ -5,8 +5,6 @@ import { setCue } from '../../store/nia_layout/StoreCueSlice';
 import { getCueFunc } from './subtitle';
 import { createTmpJSON, getTmpJSON } from './video_layout';
 
-let href = '';
-let _result = [];
 let _map = {};
 let saveAction;
 
@@ -24,7 +22,7 @@ const createKeyValueSet = (dataList) => {
     // return _result;
 }
 
-const convertValueKey = (key) => {
+export const convertValueKey = (key) => {
     if( _map[key] == undefined) {
         return _map['기타상세'];
     }
@@ -32,16 +30,35 @@ const convertValueKey = (key) => {
 }
 
 
-export default function SearchBoxAutoComplete({dataList, dataListName, placeholder, index, setItem, title, minWidth, maxWidth, titleMinWidth}) {
+export default function SearchBoxAutoComplete({dataList, dataListName, placeholder, index, setItem, title, minWidth, maxWidth, titleMinWidth, defaultvalue, fontSize}) {
     const dataListElement = useRef(null);
     const dispatch = useDispatch();
 
     const autocompleteKeyDown = ((e) => {
         if (e.target.value != undefined) {
-        // if (e.target.value != '' && e.target.value != undefined) {
-            // console.log(e.target.id, e.target.value);
+            let ageidx = 0;
+            let sexidx = 0;
+            let dependidx = undefined;
             let cue = getCueFunc();
-            // console.log(e.target.value, convertValueKey(e.target.value));
+            
+            const speakerDependency = document.getElementById('speaker-dependency');
+            for(let idx=0; idx<9; idx++) {
+                //화자
+                let speaker = speakerDependency.children[idx].children[1].children[0].children[1].children[0].value;
+                //발화자 연령
+                ageidx = speakerDependency.children[idx].children[2].children[0].children[1].selectedIndex;
+                // let age = speakerDependency.children[idx].children[2].children[0].children[1].children[ageidx].value;
+                //성별
+                sexidx = speakerDependency.children[idx].children[3].children[0].children[1].selectedIndex;
+                // let sex = speakerDependency.children[idx].children[3].children[0].children[1].children[sexidx].value;
+                
+                if( e.target.value == speaker && speaker != undefined && speaker != '' ) {
+                    dependidx = idx;
+                    e.target.parentElement.parentElement.parentElement.children[3].children[1].selectedIndex = ageidx;
+                    e.target.parentElement.parentElement.parentElement.children[4].children[1].selectedIndex = sexidx;
+                    break;
+                }
+            }
             
             if(e.target.list.id.includes('subcategory')) {
                 getTmpJSON().scenarioSelLabelInfo.subCategory.labelCd = convertValueKey(e.target.value);
@@ -76,6 +93,15 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
                 //화자
                 cue[index].subtileSelLabelInfo.speaker.labelCd = convertValueKey(e.target.value);
                 cue[index].subtileSelLabelInfo.speaker.labelNm = e.target.value;
+                
+                //KND_21 == 연령
+                cue[index].subtileSelLabelInfo.speakerAge.labelCd = speakerDependency.children[dependidx]?.children[2].children[0].children[1].children[ageidx].value;
+                cue[index].subtileSelLabelInfo.speakerAge.labelNm = speakerDependency.children[dependidx]?.children[2].children[0].children[1].children[ageidx].textContent;
+
+                //KND_22 == 성별
+                cue[index].subtileSelLabelInfo.speakerSex.labelCd = speakerDependency.children[dependidx]?.children[3].children[0].children[1].children[sexidx].value;
+                cue[index].subtileSelLabelInfo.speakerSex.labelNm = speakerDependency.children[dependidx]?.children[3].children[0].children[1].children[sexidx].textContent;
+
                 saveAction(cue);
             }
             else if( convertValueKey(e.target.value).includes('KND_23') ) {
@@ -119,8 +145,18 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
         }
         saveAction = _.debounce(saveSubtitle, 500);
     }, [dataList?.itemlist, dispatch]);
-    
-    if( setItem?.labelCd?.includes('_000')) {
+    if( setItem == 'fake') {
+        return (
+            <section style={{'display':'flex', 'justifyContent': 'center', 'alignItems': 'center', 'padding': '10px', 'maxWidth': maxWidth, 'minWidth': minWidth}} className={styles.search_container}>
+                <div style={{'whiteSpace': 'nowrap', 'paddingRight': '10px', 'minWidth': titleMinWidth}}>{title}</div>
+                <div className={styles.ibx_search_container}>
+                    <input id={index} type={"text"} list={dataListName} className={styles.ibx_product} placeholder={placeholder} defaultValue={defaultvalue} style={{'fontSize': fontSize}}/>
+                    <datalist ref={dataListElement} id={dataListName}></datalist>
+                </div>
+            </section>
+        )
+    }
+    else if( setItem?.labelCd?.includes('_000')) {
         return (
             <section style={{'display':'flex', 'justifyContent': 'center', 'alignItems': 'center', 'padding': '10px', 'maxWidth': maxWidth, 'minWidth': minWidth}} className={styles.search_container}>
                 <div style={{'whiteSpace': 'nowrap', 'paddingRight': '10px', 'minWidth': titleMinWidth}}>{title}</div>

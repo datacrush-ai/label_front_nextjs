@@ -7,6 +7,7 @@ import { setCue } from '../../store/nia_layout/StoreCueSlice';
 import { getHost } from '../../config/serverconfig';
 import { createCueFunc, getCueFunc } from './subtitle';
 import { getCookie } from 'cookies-next';
+import { setVideoDuration } from '../../store/nia_layout/StoreVideoSlice';
 
 let _video_current_time = 0;
 let _tracks;
@@ -22,7 +23,8 @@ let _uniqeId;
 let _ageElement;
 let _sexElement;
 let _placeElement;
-let _ovrVocElement;
+let _ovrVocElement
+let _videoDuration;
 //let _tmpJSON = {};
 let _select_index = 0;
 let _scenarioSelLabelInfo = {
@@ -274,21 +276,22 @@ export default function VideoLayout({ video_info }) {
 
     dispatch(setCue({ cue }));
 
-    const tmpSaveLabelJSON = {
-      'userInfo': video_info.userInfo,
-      'episodDTO': video_info.episodDTO,
-      'scenarioSelLabelInfo': video_info.scenarioSelLabelInfo,
-      'scenarioLabelInfo': video_info.scenarioLabelInfo,
-      'subtitleLabelInfo': video_info.subtitleLabelInfo,
-      'subtitleList': cue,
-    };
-
-    const tmpSaveLabelUrl = '/labeltool/tmpSaveLabelJob';
-    const tmpSave = async () => {
-      return await sendFetch(tmpSaveLabelUrl, tmpSaveLabelJSON, {method:"POST"});
-    }
-    tmpSave();
-    
+    setTimeout(() => {
+      const tmpSaveLabelJSON = {
+        'userInfo': video_info.userInfo,
+        'episodDTO': video_info.episodDTO,
+        'scenarioSelLabelInfo': video_info.scenarioSelLabelInfo,
+        'scenarioLabelInfo': video_info.scenarioLabelInfo,
+        'subtitleLabelInfo': video_info.subtitleLabelInfo,
+        'subtitleList': cue,
+      };
+  
+      const tmpSaveLabelUrl = '/labeltool/tmpSaveLabelJob';
+      const tmpSave = async () => {
+        return await sendFetch(tmpSaveLabelUrl, tmpSaveLabelJSON, {method:"POST"});
+      }
+      tmpSave();
+    }, 500);
     
   }, [dispatch, video_info]);
   
@@ -460,8 +463,8 @@ export default function VideoLayout({ video_info }) {
           let isPlaying = _currentTime > 0 && !e.target.paused && !e.target.ended && e.target.readyState > e.target.HAVE_CURRENT_DATA;
           let _data = getCueFunc();
           for(let idx=0; idx<_data.length; idx++) {
-            let start = (parseFloat(_data[idx].subBgnHrMs)/1000).toFixed(3);
-            let end = (parseFloat(_data[idx].subEndHrMs)/1000).toFixed(3);
+            let start = (parseFloat(_data[idx]?.subBgnHrMs)/1000).toFixed(3);
+            let end = (parseFloat(_data[idx]?.subEndHrMs)/1000).toFixed(3);
             let target_id = `${idx}_${start}_${end}`;
             let target = document.getElementById(target_id)
             if (start <= _currentTime && end >= _currentTime) {
@@ -508,6 +511,7 @@ export default function VideoLayout({ video_info }) {
         });
         
         vidElement.current.addEventListener('loadedmetadata', function (e) {
+          dispatch(setVideoDuration({'video_duration': e.target.duration}));
           let vivo_last_info = localStorage.getItem('vivo_last_info');
           if (vivo_last_info != null) {
             if (JSON.parse(vivo_last_info)['video_url'] == video_info.video_url) {
@@ -524,7 +528,7 @@ export default function VideoLayout({ video_info }) {
     
     initialInfo(video_info);
 
-  }, [video_info, router, action_setCue]);
+  }, [video_info, router, action_setCue, dispatch]);
 
   return (
     <>

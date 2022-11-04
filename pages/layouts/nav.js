@@ -1,13 +1,15 @@
-import { deleteCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import styles from '../../styles/Layout.module.css'
-import { getLayerPopupRefElement } from "../components/dashboard/dashboard";
+import { ToastMsg } from "../common/common_script";
+import { getLayerPopupRefElement, getPayLayerPopupRefElement } from "../components/dashboard/dashboard";
 import MenuItem from './menuitem';
 
 const Viewport = ({ info }) => {
-  let viewInfo = []
+  let viewInfo = [];
+
   if (info != undefined) {
     viewInfo = info;
   }
@@ -36,21 +38,24 @@ const Viewport = ({ info }) => {
           }}>완료목록</a>
         </Link>
       </li>
+      <li className={styles.navigation_tab}>
+        <Link href="">
+          <a onClick={(e) => {
+            if(getCookie('tmp').includes('@datacrush.ai')) {
+              window.open('/common/pay_page', '_blank' );
+            }
+            else {
+              ToastMsg(`권한이 없습니다.`, 1500, null, null, 'warn');
+            }
+          }}>전체 완료목록</a>
+        </Link>
+      </li>
     </ul>
-    // <div>로그아웃</div>
-    // deleteCookie('tmp');
-    // <MenuItem></MenuItem>
   )
 }
 
 export default function NavBar({ info }) {
   const router = useRouter();
-
-  useEffect(() => {
-    return () => {
-
-    }
-  }, []);
 
   return (
     <nav className={styles.nav}>
@@ -78,7 +83,7 @@ export default function NavBar({ info }) {
           </Link>
         </li> */}
       </ul>
-      <div style={{ 'minWidth': '210px' }}>
+      <div style={{ 'minWidth': '310px' }}>
         <li className={styles.navigation_tab}>
           <Viewport info={info}></Viewport>
         </li>

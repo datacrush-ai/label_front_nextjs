@@ -2,13 +2,14 @@ import styles from '../../styles/Layout.module.css'
 import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCue } from '../../store/nia_layout/StoreCueSlice';
-import { humanReadableTime, subtitleSectionElementClick, setSubtitleChildren } from './common_script';
+import { humanReadableTime, subtitleSectionElementClick, setSubtitleChildren, subtitleContext, subtitleContextClick } from './common_script';
 import _ from "lodash";
 import SubtitleTextInfo from './subtitle_text_info';
 import { getCommentListRefElement, getCommentRefElement, getStartTImeRefElement, getVidElement } from './video_layout';
 import { getReplacePopupElement } from './edit';
 import SelectItem from './select_item';
 import SearchBoxAutoComplete from './searchbox_autocomplete';
+import { getVideoDuration } from '../../store/nia_layout/StoreVideoSlice';
 
 let _cue = [];
 let refArticleElement;
@@ -53,6 +54,7 @@ export const lineReplaceClick = (e) => {
 };
 
 export default function Subtitle({ info }) {
+  const contextmenuRef = useRef(null);
   const age_list = {
     'title': '발화자 연령', 
     'itemlist': info.subtitleLabelInfo.speakerAge
@@ -74,11 +76,28 @@ export default function Subtitle({ info }) {
     'itemlist': info.subtitleLabelInfo.speaker
   }
 
-  const data = useSelector(getCue);
+  let data = useSelector(getCue);
   const articleElement = useRef(null);
   const sectionElement = useRef(null);
-  const dispatch = useDispatch();
+
+  let duration = useSelector(getVideoDuration);
+
+  if( isNaN(parseInt(duration)) ) {
+      duration = 0;
+  }
   
+  data.map((arr, idx) => {
+    if( (arr.subBgnHrMs/1000) < parseInt(duration) ) {
+      //현재 그려야 할 자막의 시작시간이 영상시간보다 짧은 경우(정상)
+    }
+    else{
+      //현재 그려야 할 자막의 시작시간이 영상시간보다 긴 경우(비정상)
+      delete data[idx]
+    }
+  })
+  
+  data = data.filter(() => true);
+
   useEffect(() => {
     if (articleElement.current != null) {
       setSubtitleChildren(articleElement.current.children);
@@ -107,8 +126,19 @@ export default function Subtitle({ info }) {
                         ref={sectionElement}
                         className={styles.subtitle_edit_line}
                         style={{'minWidth': '480px'}}
-                        onClick={subtitleSectionElementClick} 
-                        // onBlur={(e) => createHideCheckSubtitleWrap(e)}
+                        // onClick={subtitleSectionElementClick}
+                        onClick={(e) => {
+                          contextmenuRef.current.style.display = 'none';
+                          subtitleSectionElementClick(e);
+                        }}
+                        onMouseLeave={(e) => {
+                          e.className = 'hidden';
+                        }}
+                        onContextMenu={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          subtitleContext(contextmenuRef, e);
+                        }}
               >
                 <div className={styles.subtitle_edit_content}>
                   <div className={styles.subtitle_edit_content_row} datacrush-color={"nocolor"}>
@@ -123,8 +153,8 @@ export default function Subtitle({ info }) {
                       <div className={styles.time_font}>종료시간 {humanReadableTime(arr.subEndHrMs)}</div>
                     </div>
                     <SubtitleTextInfo id={idx} arr={arr}></SubtitleTextInfo>
-                    <SelectItem key={`age_${idx}`} response={age_list} setitem={arr.subtileSelLabelInfo.speakerAge} types={'subtitle'}></SelectItem>
-                    <SelectItem key={`sex_${idx}`} response={sex_list} setitem={arr.subtileSelLabelInfo.speakerSex} types={'subtitle'}></SelectItem>
+                    <SelectItem key={`age_${idx}`} response={age_list} setitem={arr.subtileSelLabelInfo.speakerAge} defaultvalue={arr.subtileSelLabelInfo.speakerAge} types={'subtitle'}></SelectItem>
+                    <SelectItem key={`sex_${idx}`} response={sex_list} setitem={arr.subtileSelLabelInfo.speakerSex} defaultvalue={arr.subtileSelLabelInfo.speakerSex} types={'subtitle'}></SelectItem>
                     <SearchBoxAutoComplete key={`place_${idx}`} placeholder={'장소를 입력하세요'} dataListName={'comment-options'} dataList={place_list} index={idx} setItem={arr.subtileSelLabelInfo.placeType} title={'장소'} maxWidth={'250px'}></SearchBoxAutoComplete>
                     <SearchBoxAutoComplete key={`speaker_${idx}`} placeholder={'화자를 입력하세요'} dataListName={'speaker-options'} dataList={speaker_list} index={idx} setItem={arr.subtileSelLabelInfo.speaker} title={'화자'} maxWidth={'250px'}></SearchBoxAutoComplete>
                     <SelectItem key={`ovrvoc_${idx}`} response={ovrvoc_list} setitem={arr.subtileSelLabelInfo.speakerOvrVoc} types={'subtitle'}></SelectItem>
@@ -134,6 +164,50 @@ export default function Subtitle({ info }) {
             )
           })
         }
+        <div ref={contextmenuRef} id={"subtitle-contextmenu"}> 
+          <div className={"bg-white w-60 border border-gray-300 rounded-lg flex flex-col text-sm py-4 px-2 text-gray-500 shadow-lg"}>
+            <div id={'macro_1'} 
+                onClick={(e) => { subtitleContextClick(contextmenuRef, e); }} 
+                className={"flex hover:bg-gray-100 py-1 px-2 rounded"}>
+              <div id={'macro_1'}>1번 매크로 저장</div>
+            </div>
+            <div id={'macro_2'}
+                onClick={(e) => { subtitleContextClick(contextmenuRef, e); }} 
+                className={"flex hover:bg-gray-100 py-1 px-2 rounded"}>
+              <div id={'macro_2'}>2번 매크로 저장</div>
+            </div>
+            <div id={'macro_3'} 
+                onClick={(e) => { subtitleContextClick(contextmenuRef, e); }} 
+                className={"flex hover:bg-gray-100 py-1 px-2 rounded"}>
+              <div id={'macro_3'}>3번 매크로 저장</div>
+            </div>
+            <div id={'macro_4'}
+                onClick={(e) => { subtitleContextClick(contextmenuRef, e); }} 
+                className={"flex hover:bg-gray-100 py-1 px-2 rounded"}>
+              <div id={'macro_4'}>4번 매크로 저장</div>
+            </div>
+            <div id={'macro_5'}
+                onClick={(e) => { subtitleContextClick(contextmenuRef, e); }} 
+                className={"flex hover:bg-gray-100 py-1 px-2 rounded"}>
+              <div id={'macro_5'}>5번 매크로 저장</div>
+            </div>
+            <div id={'macro_6'}
+                onClick={(e) => { subtitleContextClick(contextmenuRef, e); }} 
+                className={"flex hover:bg-gray-100 py-1 px-2 rounded"}>
+              <div id={'macro_6'}>6번 매크로 저장</div>
+            </div>
+            <div id={'macro_7'}
+                onClick={(e) => { subtitleContextClick(contextmenuRef, e); }} 
+                className={"flex hover:bg-gray-100 py-1 px-2 rounded"}>
+              <div id={'macro_7'}>7번 매크로 저장</div>
+            </div>
+            <div id={'macro_8'}
+                onClick={(e) => { subtitleContextClick(contextmenuRef, e); }} 
+                className={"flex hover:bg-gray-100 py-1 px-2 rounded"}>
+              <div id={'macro_8'}>8번 매크로 저장</div>
+            </div>
+          </div>
+        </div>
       </article>
     </>
   )

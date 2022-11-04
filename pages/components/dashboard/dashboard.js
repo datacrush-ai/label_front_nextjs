@@ -1,28 +1,39 @@
 import { getHost } from '../../../config/serverconfig';
-import ProgramList, { re_process_click } from './program_list';
+// import ProgramList, { re_process_click } from './program_list';
+import { re_process_click } from './program_list';
 import PieChart, { re_pie_click } from '../../common/pie_chart';
-import DetailLabelList from './detail_label_list';
-import UserProcessList from './user_process_list';
-import UserRejectList from './user_reject_list';
+// import { re_pie_click } from '../../common/pie_chart';
+// import DetailLabelList from './detail_label_list';
+// import UserProcessList from './user_process_list';
+// import UserRejectList from './user_reject_list';
 import DetailAcceptList from './detail_accept_list';
-import AcceptProcessList from './accept_process_list';
-import AcceptRejectList from './accept_reject_list';
+// import AcceptProcessList from './accept_process_list';
+// import AcceptRejectList from './accept_reject_list';
 import { getUtilDate, sendFetch } from '../../common/common_script';
 import { getCookie } from 'cookies-next';
 import useSWR, { SWRConfig, useSWRConfig } from 'swr';
 import { useRef, useEffect } from 'react';
-import CustomSetPopup from '../../common/custom_set_popup';
+// import CustomSetPopup from '../../common/custom_set_popup';
 import styles from '../../../styles/Layout.module.css'
+import dynamic from 'next/dynamic';
 
 const fetcher = (url, param, options) => sendFetch(url, param, options);
 const DASHBOARD_API = '/labeltool/getBasicInfoForDashboard';
+
 let _layerPopupRefElement;
+let _payLayerPopupRefElement;
 
 const createLayerPopupRefElement = (data) => {
   _layerPopupRefElement = data;
 }
 export const getLayerPopupRefElement = () => {
   return _layerPopupRefElement;
+}
+const createPayLayerPopupRefElement = (data) => {
+  _payLayerPopupRefElement = data;
+}
+export const getPayLayerPopupRefElement = () => {
+  return _payLayerPopupRefElement;
 }
 
 /**
@@ -31,8 +42,8 @@ export const getLayerPopupRefElement = () => {
  * @response {JSON} '화면에 표시할 데이터'
  * @returns 
  */
+/*
 const ConditionDetailList = ({userinfo, response}) => {
-  // console.log(userinfo)
   if(userinfo.author === 'accept') {
     return(
       <DetailAcceptList response={response}></DetailAcceptList>
@@ -44,6 +55,7 @@ const ConditionDetailList = ({userinfo, response}) => {
     )
   }
 }
+*/
 
 /**
  * 라벨 작업 중 목록 / 검수 작업 중 목록
@@ -51,6 +63,7 @@ const ConditionDetailList = ({userinfo, response}) => {
  * @response {JSON} '화면에 표시할 데이터'
  * @returns 
  */
+/*
 const ConditionProcessList = ({userinfo, response}) => {
   useEffect(() => {
     
@@ -66,6 +79,7 @@ const ConditionProcessList = ({userinfo, response}) => {
     )
   }
 }
+*/
 
 /**
  * 검수 반려 목록 / 재검수 요청 목록
@@ -73,6 +87,7 @@ const ConditionProcessList = ({userinfo, response}) => {
  * @response {JSON} '화면에 표시할 데이터'
  * @returns 
  */
+/*
 const ConditionRejectList = ({userinfo, response}) => {
   if(userinfo.author === 'accept') {
     return(
@@ -86,13 +101,33 @@ const ConditionRejectList = ({userinfo, response}) => {
     )
   }
 }
+*/
 
-export default function Dashboard({response, param, cookie}) {
+export default function Dashboard({response, param}) {
   // /*
+
   const utilDate = getUtilDate(new Date());
   const { mutate } = useSWRConfig();
   const layerPopupRefElement = useRef(null);
+  const payLayerPopupRefElement = useRef(null);
+
   createLayerPopupRefElement(layerPopupRefElement);
+  createPayLayerPopupRefElement(payLayerPopupRefElement);
+
+
+  const ProgramList = dynamic(() => import('./program_list'), {
+    ssr: false
+  });
+  const CustomSetPopup = dynamic(() => import('../../common/custom_set_popup'), {
+    ssr: false
+  });
+  const UserProcessList = dynamic(() => import('./user_process_list'), {
+    ssr: false
+  });
+  const DetailLabelList = dynamic(() => import('./detail_label_list'), {
+    ssr: false
+  });
+  
 
   mutate(DASHBOARD_API, async() => {
     await re_process_click();
@@ -112,50 +147,13 @@ export default function Dashboard({response, param, cookie}) {
     revalidateOnMount: true,
     revalidateOnFocus: true,
   });
-
-  // const response = await fetcher(DASHBOARD_API, param, options);
-  // console.log(response)
-  // let { data, error } = useSWR({DASHBOARD_API, param}, fetcher, {
   
   if( data == undefined ) {
     data = response;
   }
 
-  // console.log(data);
-  // let { data, error } = useSWR(DASHBOARD_API, fetcher);
-  
-  
-  // */
-
-  /*
-  useEffect(() => {
-    const user_info = JSON.parse(cookie);
-    const param = {
-      "userInfo": {
-          "prtEml": user_info.prtEml
-      }
-    };
-    
-    sendFetch(DASHBOARD_API, param, {method: "POST"});
-  }, [cookie, data]);
-  */
-  
-  
-  // console.log('res = ', response?.epListJobIng)
-  // console.log('data = ', data?.epListPerPrg)
-  // console.log(data)
-
-  // const data = response;
-  // let result = response;
-  // console.log(result)
   let userinfo = {};
-  // userinfo.author = 'accept';
   userinfo.author = 'labler';
-  // result.program_list = data.epListJobIng;
-  // result.video_url = 'https://vivo.best/samgwang/PS-2021024074-01-000.m3u8',
-  // result.mp3_url = 'https://datacrush-subtitle.s3.ap-northeast-2.amazonaws.com/AP392/AP392001P1/AP392001P1.mp3',
-  // result.subtitle_url = 'https://datacrush-subtitle.s3.ap-northeast-2.amazonaws.com/AP392/AP392001P1/AP392001P1_36byte.vtt',
-  // result.wavepeak_url = 'https://datacrush-subtitle.s3.ap-northeast-2.amazonaws.com/AP392/AP392001P1/AP392001P1_peak.json',
   data.layout = 'edit',
   data.video_position = 'right',
   data.EP_AIN = '1',
@@ -207,7 +205,8 @@ export default function Dashboard({response, param, cookie}) {
             
             {/* 상세목록 */}
             <section className={"w-1/2 ml-4 bg-whiteblue100"}>
-              <ConditionDetailList userinfo={userinfo} response={data?.epListJobIng}></ConditionDetailList>
+              {/* <ConditionDetailList userinfo={userinfo} response={data?.epListJobIng}></ConditionDetailList> */}
+              <DetailLabelList response={data?.epListJobIng}></DetailLabelList>
             </section>
             {/* 상세목록 끝 */}
 
@@ -243,7 +242,6 @@ export async function getServerSideProps(context) {
   else {
     data = context.query.token;
   }
-  let host = getHost();
   const req = context.req;
   const res = context.res;
   const cookie = getCookie('tmp', {req, res});
@@ -266,15 +264,15 @@ export async function getServerSideProps(context) {
   const options = {
     'method': 'POST'
   }
-
   const response = await fetcher(DASHBOARD_API, param, options);
   // */
   
   return { 
     props: { 
-      cookie,
+      // cookie,
       param,
       response,
+      // 'complete_list': complete_list,
       // fallback: {
       //   DASHBOARD_API: param
       // },
