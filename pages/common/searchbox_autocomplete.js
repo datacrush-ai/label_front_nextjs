@@ -94,7 +94,6 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
                 cue[index].subtileSelLabelInfo.speaker.labelCd = convertValueKey(e.target.value);
                 cue[index].subtileSelLabelInfo.speaker.labelNm = e.target.value;
                 
-                // debugger;
                 //KND_21 == 연령
                 cue[index].subtileSelLabelInfo.speakerAge.labelCd = speakerDependency.children[dependidx]?.children[2].children[0].children[1].children[ageidx].value;
                 cue[index].subtileSelLabelInfo.speakerAge.labelNm = speakerDependency.children[dependidx]?.children[2].children[0].children[1].children[ageidx].textContent;

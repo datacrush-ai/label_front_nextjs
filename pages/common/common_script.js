@@ -191,11 +191,14 @@ export const getUtilDate = (d) => {
         'firstday': `${paramMonthFirstDate.toISOString().substring(0, 7)}-01`,
         'lastday': `${paramMonthLastDate.toISOString().substring(0, 7)}-31`,
         'month' : `${paramMonthLastDate.toISOString().substring(5, 7)}`,
+        'lastmonth': `${new Date(new Date().setMonth(new Date().getMonth()-1)).toISOString().substring(5,7)}`,
         'monday' : new Date(paramMondayDate.setDate(diff)).toISOString().substring(0, 10),
         'sunday' : new Date(paramSundayDate.setDate(nextSunday)).toISOString().substring(0, 10),
         'yesterday' : new Date(new Date().setDate(new Date().getDate()-1)).toISOString().substring(0,10),
         'lastmonday' : new Date(paramLastMondayDate.setDate(diff-7)).toISOString().substring(0,10),
         'lastsunday' : new Date(paramLastSundayDate.setDate(diff-1)).toISOString().substring(0,10),
+        'lastmonth_firstday': `${new Date(new Date().setMonth(new Date().getMonth()-1)).toISOString().substring(0,7)}-01`,
+        'lastmonth_lastday': `${new Date(new Date().setMonth(new Date().getMonth()-1)).toISOString().substring(0,7)}-31`,
     }
     return result;
 }
@@ -487,12 +490,13 @@ export default function CommonScript({url}) {
                         e.preventDefault();
                         e.stopPropagation();
                     }
-                    else if (e.key == 'q' || e.key == 'w' || e.key == 'e' || e.key == 'r') {
+                    else if (e.key == 'q' || e.key == 'w' || e.key == 'e' || e.key == 'r' || e.key == 't') {
                         const convertKey = {
                             'q': 0,
                             'w': 1,
                             'e': 2,
                             'r': 3,
+                            't': 4,
                         };
                         getOvrVocCurrentElement().selectedIndex = convertKey[e.key];
                         cue[getSelectIndex()].subtileSelLabelInfo.speakerOvrVoc.labelCd = getOvrVocCurrentElement().options[getOvrVocCurrentElement().selectedIndex].value;

@@ -133,6 +133,7 @@ const LayoutPosition = (info) => {
               <span style={{'gridArea': 'ovr3', 'border': '1px solid'}}>w</span>  <span style={{'gridArea': 'ovr4', 'border': '1px solid'}}>다화자</span>
               <span style={{'gridArea': 'ovr5', 'border': '1px solid'}}>e</span>  <span style={{'gridArea': 'ovr6', 'border': '1px solid'}}>배경음</span>
               <span style={{'gridArea': 'ovr7', 'border': '1px solid'}}>r</span>  <span style={{'gridArea': 'ovr8', 'border': '1px solid'}}>기타</span>
+              <span style={{'gridArea': 'ovr9', 'border': '1px solid'}}>t</span>  <span style={{'gridArea': 'ovr10', 'border': '1px solid'}}>소리없음</span>
               
             </div>
 
@@ -258,7 +259,6 @@ const SpeakerDependency = ({label_info, depend}) => {
 }
 
 export default function Edit({ data }) {
-  // console.log(data.label_info)
   const layerPopupRefElement = useRef(null);
   // const searchStringRefElement = useRef(null);
   const replacePopupRefElement = useRef(null);

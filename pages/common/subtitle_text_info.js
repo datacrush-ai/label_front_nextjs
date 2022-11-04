@@ -2,6 +2,11 @@ import styles from '../../styles/Layout.module.css'
 
 export const TextAreaContainer = (data) => {
     let subtitle = data.subtitle;
+    // let duration = getDuration()*1000;
+    // subtitle.arr.subBgnHrMs
+    // console.log(subtitle)
+    
+
     // let layout = data.layout;
     // const dispatch = useDispatch();
     // const _cue = useSelector(getCue);
@@ -44,19 +49,6 @@ export const TextAreaContainer = (data) => {
 }
 
 export default function SubtitleTextInfo(subtitle) {
-    // console.log(subtitle)
-    // if (subtitle.arr != undefined) {
-        // text_check = textChangeEvent(subtitle.arr.subCn);
-        // text_check = textChangeEvent(subtitle.arr.subCn);
-    // }
-
-    // useEffect(() => {
-        // return () => {
-            // console.log('subtitle-text-info')
-        // }
-    // }, []);
-    // }, [subtitle]);
-
     return (
         <>
             <TextAreaContainer subtitle={subtitle}></TextAreaContainer>

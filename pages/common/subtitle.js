@@ -9,6 +9,7 @@ import { getCommentListRefElement, getCommentRefElement, getStartTImeRefElement,
 import { getReplacePopupElement } from './edit';
 import SelectItem from './select_item';
 import SearchBoxAutoComplete from './searchbox_autocomplete';
+import { getVideoDuration } from '../../store/nia_layout/StoreVideoSlice';
 
 let _cue = [];
 let refArticleElement;
@@ -75,10 +76,28 @@ export default function Subtitle({ info }) {
     'itemlist': info.subtitleLabelInfo.speaker
   }
 
-  const data = useSelector(getCue);
+  let data = useSelector(getCue);
   const articleElement = useRef(null);
   const sectionElement = useRef(null);
-  // const dispatch = useDispatch();
+
+  let duration = useSelector(getVideoDuration);
+
+  if( isNaN(parseInt(duration)) ) {
+      duration = 0;
+  }
+  
+  data.map((arr, idx) => {
+    if( (arr.subBgnHrMs/1000) < parseInt(duration) ) {
+      //현재 그려야 할 자막의 시작시간이 영상시간보다 짧은 경우(정상)
+    }
+    else{
+      //현재 그려야 할 자막의 시작시간이 영상시간보다 긴 경우(비정상)
+      delete data[idx]
+    }
+  })
+  
+  data = data.filter(() => true);
+
   useEffect(() => {
     if (articleElement.current != null) {
       setSubtitleChildren(articleElement.current.children);

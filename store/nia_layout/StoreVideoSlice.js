@@ -1,22 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    video_current_time: 0,
+    video_duration: 0,
 };
 
 const videoSlice = createSlice({
-    name: 'current_time',
+    name: 'video_duration',
     initialState,
     reducers: {
-        setVideoCurrentTime: (state, action) => {
-            state.video_current_time = action.payload;
+        setVideoDuration: (state, action) => {
+            state.video_duration = action.payload;
         },
     }
 });
 
-export const getVideoCurrentTime = (state) => {
-    return state.layoutStore.videoSlice.video_current_time;
+export const getVideoDuration = (state) => {
+    return state.layoutStore.videoSlice.video_duration.video_duration;
 };
 
-export const { setVideoCurrentTime } = videoSlice.actions; //액션 생성 함수
+export const { setVideoDuration } = videoSlice.actions; //액션 생성 함수
 export default videoSlice.reducer; //리듀서

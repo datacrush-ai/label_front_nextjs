@@ -19,13 +19,21 @@ import dynamic from 'next/dynamic';
 
 const fetcher = (url, param, options) => sendFetch(url, param, options);
 const DASHBOARD_API = '/labeltool/getBasicInfoForDashboard';
+
 let _layerPopupRefElement;
+let _payLayerPopupRefElement;
 
 const createLayerPopupRefElement = (data) => {
   _layerPopupRefElement = data;
 }
 export const getLayerPopupRefElement = () => {
   return _layerPopupRefElement;
+}
+const createPayLayerPopupRefElement = (data) => {
+  _payLayerPopupRefElement = data;
+}
+export const getPayLayerPopupRefElement = () => {
+  return _payLayerPopupRefElement;
 }
 
 /**
@@ -95,12 +103,16 @@ const ConditionRejectList = ({userinfo, response}) => {
 }
 */
 
-export default function Dashboard({response, param, cookie}) {
+export default function Dashboard({response, param, cookie, complete_list}) {
   // /*
+
   const utilDate = getUtilDate(new Date());
   const { mutate } = useSWRConfig();
   const layerPopupRefElement = useRef(null);
+  const payLayerPopupRefElement = useRef(null);
+
   createLayerPopupRefElement(layerPopupRefElement);
+  createPayLayerPopupRefElement(payLayerPopupRefElement);
 
 
   const ProgramList = dynamic(() => import('./program_list'), {
@@ -230,7 +242,6 @@ export async function getServerSideProps(context) {
   else {
     data = context.query.token;
   }
-  let host = getHost();
   const req = context.req;
   const res = context.res;
   const cookie = getCookie('tmp', {req, res});
@@ -253,7 +264,6 @@ export async function getServerSideProps(context) {
   const options = {
     'method': 'POST'
   }
-
   const response = await fetcher(DASHBOARD_API, param, options);
   // */
   
@@ -262,6 +272,7 @@ export async function getServerSideProps(context) {
       cookie,
       param,
       response,
+      // 'complete_list': complete_list,
       // fallback: {
       //   DASHBOARD_API: param
       // },
