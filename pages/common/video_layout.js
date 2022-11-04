@@ -276,21 +276,22 @@ export default function VideoLayout({ video_info }) {
 
     dispatch(setCue({ cue }));
 
-    const tmpSaveLabelJSON = {
-      'userInfo': video_info.userInfo,
-      'episodDTO': video_info.episodDTO,
-      'scenarioSelLabelInfo': video_info.scenarioSelLabelInfo,
-      'scenarioLabelInfo': video_info.scenarioLabelInfo,
-      'subtitleLabelInfo': video_info.subtitleLabelInfo,
-      'subtitleList': cue,
-    };
-
-    const tmpSaveLabelUrl = '/labeltool/tmpSaveLabelJob';
-    const tmpSave = async () => {
-      return await sendFetch(tmpSaveLabelUrl, tmpSaveLabelJSON, {method:"POST"});
-    }
-    tmpSave();
-    
+    setTimeout(() => {
+      const tmpSaveLabelJSON = {
+        'userInfo': video_info.userInfo,
+        'episodDTO': video_info.episodDTO,
+        'scenarioSelLabelInfo': video_info.scenarioSelLabelInfo,
+        'scenarioLabelInfo': video_info.scenarioLabelInfo,
+        'subtitleLabelInfo': video_info.subtitleLabelInfo,
+        'subtitleList': cue,
+      };
+  
+      const tmpSaveLabelUrl = '/labeltool/tmpSaveLabelJob';
+      const tmpSave = async () => {
+        return await sendFetch(tmpSaveLabelUrl, tmpSaveLabelJSON, {method:"POST"});
+      }
+      tmpSave();
+    }, 500);
     
   }, [dispatch, video_info]);
   

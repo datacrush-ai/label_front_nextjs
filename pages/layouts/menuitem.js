@@ -65,10 +65,12 @@ export default function MenuItem() {
                                     <button onClick={async (e) => {
                                         // console.log(subtitleList)
                                         const context = '/labeltool/tmpSaveLabelJob';
-                                        await sendFetch(context, param, {method:"POST"})
-                                        .then(res => {
-                                            ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
-                                        });
+                                        setTimeout(async() => {
+                                            await sendFetch(context, param, {method:"POST"})
+                                            .then(res => {
+                                                ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
+                                            });
+                                        }, 500);
                                     }}
                                     className={`${active ? 'bg-blue-500 text-white' : 'text-gray-900'
                                             } group flex rounded-md items-center w-full px-2 py-2 text-sm`}

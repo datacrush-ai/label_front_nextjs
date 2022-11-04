@@ -388,9 +388,14 @@ export default function CommonScript({url}) {
 
                 // localStorage.setItem(episodSpeakerDependencyKey, JSON.stringify(episodSpeakerDependencyValue));
                 setCookie('speakerdependency', JSON.stringify(episodSpeakerDependencyValue));
-                sendFetch('/labeltool/tmpSaveLabelJob', tmpJSON, {method: 'POST'})
-                // console.log(tmpJSON)
-                ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
+
+                setTimeout(() => {
+                    if( tmpJSON.subtitleList.length > 0 ) {
+                        sendFetch('/labeltool/tmpSaveLabelJob', tmpJSON, {method: 'POST'})
+                        ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
+                    }
+                }, 500);
+
             }, 200);
         }
         
