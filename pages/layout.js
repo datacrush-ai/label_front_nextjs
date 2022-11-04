@@ -1,6 +1,5 @@
 import NavBar from "./layouts/nav";
 import FooterLoadScript from "./layouts/footer-load-script";
-import { getCookie } from "cookies-next";
 
 const Viewport = ({ info }) => {
     let viewInfo = []

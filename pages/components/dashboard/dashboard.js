@@ -103,7 +103,7 @@ const ConditionRejectList = ({userinfo, response}) => {
 }
 */
 
-export default function Dashboard({response, param, cookie, complete_list}) {
+export default function Dashboard({response, param}) {
   // /*
 
   const utilDate = getUtilDate(new Date());
@@ -269,7 +269,7 @@ export async function getServerSideProps(context) {
   
   return { 
     props: { 
-      cookie,
+      // cookie,
       param,
       response,
       // 'complete_list': complete_list,
