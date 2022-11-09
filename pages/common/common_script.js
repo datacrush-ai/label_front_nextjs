@@ -266,35 +266,91 @@ export function addZero(num) {
     // return ((num < 10000) ? '0' : '') + num;
 };
 
-export const ToastMsg = (text, duration, clickCallback, callback, color) => {
+export const ToastMsg = (text, duration, clickCallback, callback, color, options) => {
+    let toast_msg = text;
     let background = color || "linear-gradient(to right, #00b09b, #96c93d)";
+    if( options == undefined ) {
+        options = {
+            'style': {
+                'background': ''
+            }
+        };
+    }
+    else if( options == '공지' ) {
+        toast_msg = `${text.notice?.ntcTtl}\n${text.notice?.ntcCn}`;
+        callback = () => {
+            if(confirm('새로운 공지사항이 나올 때 까지 보시지 않겠습니까?')){
+                const alarm_param = {
+                    'start': text.notice?.ntcVldBgnDt,
+                    'end': text.notice?.ntcVldEndDt
+                };
+                localStorage.setItem('alarm', JSON.stringify(alarm_param));
+            }
+        }
+        clickCallback = (e) => {
+            window.open('http://pf.kakao.com/_atgdxj', '_blank');
+        };
+
+        options = {
+            'style': {
+                'padding': '10%',
+                'display': 'flex',
+                'flex-direction': 'column',
+                'justify-content': 'center',
+                'align-items': 'center',
+                'background': '',
+                'top': '50%',
+                'left': '50%',
+                'transform': 'translate(-50%, -50%)',
+                'font-size': '1.3rem',
+            },
+            'offset': {
+                x: '-50%',
+                y: '-50%'
+            },
+            'gravity': 'bottom',
+            'position': 'right',
+        };
+
+        if( text.notice?.ntcImgUrl == '/img/notice.png' || text.notice?.ntcImgUrl == null || text.notice?.ntcImgUrl == undefined ) {
+            options["avatar"] = "/consult_large_yellow_pc.png";
+        }
+        else {
+            options["avatar"] = text.notice?.ntcImgUrl;
+        }
+        
+    }
+
     if (color == 'warn') {
         background = 'linear-gradient(to right, #b0004b, #c93d3d)'
+        options.style.background = background;
     }
     else if (color == 'alert') {
         background = 'linear-gradient(to right, #f4d319, #cb7c22)'
+        options.style.background = background;
     }
     else if (color == 'pass') {
         background = 'linear-gradient(to right, #00aab0, #3d64c9)'
+        options.style.background = background;
     }
     if (duration == undefined || duration == null) {
         duration = 3000;
     }
+
     Toastify({
-        text: text,
+        text: toast_msg,
         duration: duration,
         // destination: "https://github.com/apvarun/toastify-js",
         newWindow: true,
         close: true,
-        gravity: "bottom", // `top` or `bottom`
-        position: "left", // `left`, `center` or `right`
+        gravity: options?.gravity ?? "bottom", // `top` or `bottom`
+        position: options?.position ?? "left", // `left`, `center` or `right`
         stopOnFocus: true, // Prevents dismissing of toast on hover
-        style: {
-            // background: "linear-gradient(to right, #00b09b, #96c93d)",
-            background: background,
-        },
+        style: options.style,
         onClick: clickCallback, // Callback after click
         callback: callback,
+        avatar: options.avatar ?? '',
+        offset: options.offset ?? '',
     }).showToast();
 };
 

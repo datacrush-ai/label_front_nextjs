@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useRef } from 'react';
 import Subtitle from './subtitle';
 import SelectItem from './select_item';
-import { sendFetch } from './common_script';
+import { sendFetch, ToastMsg } from './common_script';
 import { getCookie } from 'cookies-next';
 import SearchBoxAutoComplete from './searchbox_autocomplete';
 import { getMacro } from '../../store/nia_layout/StoreMacroSlice';
@@ -14,6 +14,7 @@ let _layerPopupElement;
 let _replacePopupElement;
 let _getSubtitleInfo;
 let _macro;
+let intervalMessage;
 
 export const getFuncMacro = () => {
   return _macro;
@@ -258,14 +259,37 @@ const SpeakerDependency = ({label_info, depend}) => {
   }
 }
 
+const getAlarm = () => {
+  return JSON.parse(localStorage.getItem('alarm'));
+}
+
 export default function Edit({ data }) {
   const layerPopupRefElement = useRef(null);
-  // const searchStringRefElement = useRef(null);
   const replacePopupRefElement = useRef(null);
   const macro = useSelector(getMacro);
   createFuncMacro(macro);
-  createSubtitleInfo(data);  
+  createSubtitleInfo(data);
   useEffect(() => {
+    clearInterval(intervalMessage);
+    intervalMessage = setInterval(async() => {
+      const ALARM_URL = '/labeltool/getNotice';
+      const param = {
+        'userInfo': {
+          'prtEml': data.cookie?.['prtEml']
+        }
+      };
+      const alarm_msg = await sendFetch(ALARM_URL, param, {method: 'POST'});
+      const alarm = getAlarm();
+      if( (alarm?.start != alarm_msg?.notice?.ntcVldBgnDt) || (alarm?.end != alarm_msg?.notice?.ntcVldEndDt) ) {
+        if( document.querySelector('body>div.toastify.on.toastify-right.toastify-bottom') ) {
+          
+        }
+        else {
+          ToastMsg(alarm_msg, 2000000, null, null, 'alert', '공지');
+        }
+      }
+    }, 20000);
+
     createLayerPopupElement(layerPopupRefElement);
     createReplacePopupElement(replacePopupRefElement);
     localStorage.setItem('episodDTO', JSON.stringify(data.label_info.episodDTO));
@@ -392,6 +416,7 @@ export async function getServerSideProps(context) {
   }
 
   const data = {
+    'cookie': user_info,
     'layout': 'edit',
     'video_position': 'left',
     'epAin': epAin,

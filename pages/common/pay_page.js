@@ -8,6 +8,7 @@ import { getCookie } from "cookies-next";
 // let _position_x = 0;
 // let _position_y = 0;
 // let positionAction;
+
 let total_complete_time = 0;
 
 const RenderCompleteName = ({render_name_list}) => {
@@ -80,6 +81,7 @@ const RenderComplete = ({render_list}) => {
         <section style={{'position': 'sticky', 'overflow':'auto', 'height':'45vh', 'width':'50vw'}}>
             {
                 render_list?.map((arr, idx) => {
+                    // console.log(arr)
                     return (
                         <ul key={idx} style={{ 'padding': '20px 30px' }}>
                             <div className={styles.layout_title_container} style={{'cursor': 'pointer'}}
@@ -142,7 +144,7 @@ const RenderComplete = ({render_list}) => {
     )
 }
 
-const CompleteTask = ({list, utilDate}) => {
+const CompleteTask = ({list, summary, utilDate}) => {
     let jobLstEndDt = {};
     let jobLstEndMonth = {};
     let jobLstEndWeek = {};
@@ -165,7 +167,7 @@ const CompleteTask = ({list, utilDate}) => {
     
     name_list?.map((arr, idx) => {
         const complete_date = arr.jobLstEndDt.toString().split(' ');
-        const complete_name = arr.prtNm;
+        const complete_name = `${arr.prtNm}(${arr.prtEml})`;
         if(jobPrtNm[complete_name] == undefined) {
             jobPrtNm[complete_name] = [{'epNm': `${arr.epNm}`, 'epVdoSnm': `[분할 번호]: ${arr.epVdoSnm}화`, 'playTime': Math.abs(arr.playTime), 'prtEml': arr.prtEml, 'prtNm': arr.prtNm, 'complete_date': complete_date[0], 'complete_time': complete_date[1]}];
         }
@@ -264,12 +266,43 @@ const CompleteTask = ({list, utilDate}) => {
             month_list.push({key, value});
         }
     }
+
+
     
     return(
         <>
-            <div style={{'padding': '20px 30px', 'height':'280px'}}>
-                <div style={{'flexDirection': 'column', 'textAlign': 'center', 'border': '1px solid rgb(246 66 87 / 39%)', 'padding': '10px'}}>
-                    <div className={styles.complete_list_summary} style={{'width': '100%'}}>모든 영상 작업 완료시간:{humanReadableTime(total_complete_time)}</div>
+            <div style={{'padding': '20px 30px'}}>
+                <div className={styles.complete_list_summary} style={{'width': '100%'}}>모든 영상 작업 완료시간:{humanReadableTime(total_complete_time)}</div>
+                <div style={{'display': 'flex', 'flexDirection': 'row', 'textAlign': 'center', 'border': '1px solid rgb(246 66 87 / 39%)', 'padding': '10px', 'flexWrap': 'wrap'}}>
+                    {
+                        summary?.map((arr, idx) => {
+                            return(
+                                <div key={idx} style={{'flexDirection': 'column', 'textAlign': 'center', 'border': '1px solid rgb(246 66 87 / 39%)', 'padding': '10px', 'width': '100%', 'flex': '1 0 20%'}}>
+                                    <span>{arr.yyyyMmDd}-{arr.jobPrrStts}</span>
+                                    <div className={styles.complete_list_summary} style={{'width': '100%'}}>
+                                        <p>자막(영상) 파일 수</p>
+                                        <p>{arr.cntSub}</p>
+                                    </div>
+                                    <br></br>
+                                    <div className={styles.complete_list_summary} style={{'width': '100%'}}>
+                                        <p>자막 파일 내 문장 수</p>
+                                        <p>{arr.cntSubSnt}</p>
+                                    </div>
+                                    <br></br>
+                                    <div className={styles.complete_list_summary} style={{'width': '100%'}}>
+                                        <p>자막 완료시간</p>
+                                        <p>{humanReadableTime(arr.subHrMs)}</p>
+                                    </div>
+                                    <br></br>
+                                    <div className={styles.complete_list_summary} style={{'width': '100%'}}>
+                                        <p>앞뒤간격추가 자막 완료예상시간(30%증가)</p>
+                                        <p>{humanReadableTime((arr.subHrMs)+(arr.subHrMs*0.3))}</p>
+                                    </div>
+                                    {/* <div className={styles.complete_list_summary} style={{'width': '100%'}}>예상 총 금액(시급3만원 기준):{(Math.ceil((month_item.value)/(60000))*500).toLocaleString('ko-kr')}원</div> */}
+                                </div>
+                            )
+                        })
+                    }
                 </div>
                 {/* <div className={styles.complete_list}>
                     <div style={{'width': '100%', 'border': '1px solid', 'backgroundColor': 'antiquewhite'}}>{utilDate?.lastmonth}~{utilDate?.month}월 완료목록</div>  
@@ -322,11 +355,13 @@ const CompleteTask = ({list, utilDate}) => {
 
 export default function PayPage() {
     const [response, setResponse] = useState([]);
+    const [summary, setSummary] = useState([]);
     const utilDate = getUtilDate(new Date());
     // const helpContainerRefElement = useRef(null);
 
     const initFunction = useCallback(async() => {
         const EPLIST_COMPLETE = '/labeltool/getEpListForJobCpl';
+        const SUMMARY_URL = '/labeltool/getSummary';
         const cookie = getCookie('tmp');
         if(cookie == undefined) {
           return {
@@ -345,7 +380,9 @@ export default function PayPage() {
         
         if( user_info.prtEml.includes('@datacrush.ai') ) {
             const complete = await sendFetch(EPLIST_COMPLETE, param, {method: 'POST'});
+            // const summary = await sendFetch(SUMMARY_URL, param, {method: 'POST'});
             setResponse(_.sortBy(complete?.epListJobCpl, ['jobLstEndDt']).reverse());
+            // setSummary(_.sortBy(summary?.summaryList, ['jobPrrSttScd']));
         }
     }, []);
 
@@ -369,7 +406,8 @@ export default function PayPage() {
     
     return (
         <div className={styles.text_area}>
-            <CompleteTask list={response} utilDate={utilDate}></CompleteTask>
+            {/* <CompleteTask list={response} summary={summary} utilDate={utilDate}></CompleteTask> */}
+            <CompleteTask list={response} summary={[]} utilDate={utilDate}></CompleteTask>
         </div>
     )
 }
