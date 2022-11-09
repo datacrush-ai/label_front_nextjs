@@ -8,6 +8,7 @@ export default function WorkerNotice({user_info, alarm_list}) {
     const contentRef = useRef(null);
     const bgnRef = useRef(null);
     const endRef = useRef(null);
+    const imgRef = useRef(null);
 
     const timestamp = (now) => {
         let time = new Date(now);
@@ -27,7 +28,7 @@ export default function WorkerNotice({user_info, alarm_list}) {
                 'notice': {
                     'ntcTtl': titleRef.current.value,
                     'ntcCn': contentRef.current.value,
-                    'ntcImgUrl': "/consult_large_yellow_pc.png",
+                    'ntcImgUrl': imgRef.current.value ?? "/consult_large_yellow_pc.png",
                     'ntcVldBgnDt': bgntime,
                     'ntcVldEndDt': endtime,
                 }
@@ -57,7 +58,7 @@ export default function WorkerNotice({user_info, alarm_list}) {
                     <br></br>
                     <br></br>
                     <p>종료시간</p><input ref={endRef} style={{'height': '5rem'}} type={"datetime-local"}/>
-                    <input style={{'border': '1px dotted', 'marginTop': '10px'}} className={styles.subtitle_board} placeholder={"이미지 URL을 입력하세요"} defaultValue={"/consult_large_yellow_pc.png"}></input>
+                    <input ref={imgRef} style={{'border': '1px dotted', 'marginTop': '10px'}} className={styles.subtitle_board} placeholder={"이미지 URL을 입력하세요"} defaultValue={"/consult_large_yellow_pc.png"}></input>
                 </div>
                 <button type={"submit"} className={"right-0 p-2.5 h-[34px] rounded text-sm font-medium text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"}
                 onClick={addNotice}>
@@ -65,17 +66,17 @@ export default function WorkerNotice({user_info, alarm_list}) {
                 </button>
             </div>
 
-            <div className={styles.subtitle_container} style={{'display': 'flex', 'flexDirection': 'row'}}>
+            <div className={styles.subtitle_container} style={{'display': 'flex', 'flexDirection': 'column', 'height':'30vh', 'overflow': 'auto'}}>
             {
                 alarm_list?.noticeList?.map((arr, idx) => {
                     return (
-                            <div key={idx} className={"flex justify-center items-center flex flex-col"} style={{'flex': '1 0 33%'}}>
-                                <span>제목: {arr.ntcTtl}</span>
-                                <span>내용: {arr.ntcCn}</span>
-                                <span>시작시간: {arr.ntcVldBgnDt}</span>
-                                <span>종료시간: {arr.ntcVldEndDt}</span>
-                                <span>이미지: {arr.ntcImgUrl}</span>
-                                <span>사용여부: {arr.ntcUseYn}</span>
+                            <div key={idx} className={"flex justify-center items-center flex flex-col"} style={{'flex': '1 0 33%', 'marginBottom': '2rem'}}>
+                                <span style={{'wordBreak': 'break-all'}}>제목: {arr.ntcTtl}</span>
+                                <span style={{'wordBreak': 'break-all'}}>내용: {arr.ntcCn}</span>
+                                <span style={{'wordBreak': 'break-all'}}>시작시간: {arr.ntcVldBgnDt}</span>
+                                <span style={{'wordBreak': 'break-all'}}>종료시간: {arr.ntcVldEndDt}</span>
+                                <span style={{'wordBreak': 'break-all'}}>이미지: {arr.ntcImgUrl}</span>
+                                <span style={{'wordBreak': 'break-all'}}>사용여부: {arr.ntcUseYn}</span>
                             </div>
                     )
                 })

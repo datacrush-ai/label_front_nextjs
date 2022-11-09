@@ -267,8 +267,6 @@ const CompleteTask = ({list, summary, utilDate}) => {
         }
     }
 
-
-    
     return(
         <>
             <div style={{'padding': '20px 30px'}}>
@@ -295,8 +293,8 @@ const CompleteTask = ({list, summary, utilDate}) => {
                                     </div>
                                     <br></br>
                                     <div className={styles.complete_list_summary} style={{'width': '100%'}}>
-                                        <p>앞뒤간격추가 자막 완료예상시간(30%증가)</p>
-                                        <p>{humanReadableTime((arr.subHrMs)+(arr.subHrMs*0.3))}</p>
+                                        <p>앞뒤간격추가 자막 완료예상시간(20%증가)</p>
+                                        <p>{humanReadableTime((arr.subHrMs)+(arr.subHrMs*0.2))}</p>
                                     </div>
                                     {/* <div className={styles.complete_list_summary} style={{'width': '100%'}}>예상 총 금액(시급3만원 기준):{(Math.ceil((month_item.value)/(60000))*500).toLocaleString('ko-kr')}원</div> */}
                                 </div>
@@ -380,9 +378,9 @@ export default function PayPage() {
         
         if( user_info.prtEml.includes('@datacrush.ai') ) {
             const complete = await sendFetch(EPLIST_COMPLETE, param, {method: 'POST'});
-            // const summary = await sendFetch(SUMMARY_URL, param, {method: 'POST'});
+            const summary = await sendFetch(SUMMARY_URL, param, {method: 'POST'});
             setResponse(_.sortBy(complete?.epListJobCpl, ['jobLstEndDt']).reverse());
-            // setSummary(_.sortBy(summary?.summaryList, ['jobPrrSttScd']));
+            setSummary(_.sortBy(summary?.summaryList, ['jobPrrSttScd']));
         }
     }, []);
 
@@ -406,8 +404,8 @@ export default function PayPage() {
     
     return (
         <div className={styles.text_area}>
-            {/* <CompleteTask list={response} summary={summary} utilDate={utilDate}></CompleteTask> */}
-            <CompleteTask list={response} summary={[]} utilDate={utilDate}></CompleteTask>
+            <CompleteTask list={response} summary={summary} utilDate={utilDate}></CompleteTask>
+            {/* <CompleteTask list={response} summary={[]} utilDate={utilDate}></CompleteTask> */}
         </div>
     )
 }

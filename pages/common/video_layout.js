@@ -8,6 +8,7 @@ import { getHost } from '../../config/serverconfig';
 import { createCueFunc, getCueFunc } from './subtitle';
 import { getCookie } from 'cookies-next';
 import { setVideoDuration } from '../../store/nia_layout/StoreVideoSlice';
+import _ from 'lodash';
 
 let _video_current_time = 0;
 let _tracks;
@@ -27,6 +28,7 @@ let _ovrVocElement
 let _videoDuration;
 //let _tmpJSON = {};
 let _select_index = 0;
+let _cue;
 let _scenarioSelLabelInfo = {
   'category': {
       'labelCd': '',
@@ -214,6 +216,7 @@ export const CreateViewSubtitle = (info) => {
 
 
 export default function VideoLayout({ video_info }) {
+  _cue = _.cloneDeep(video_info?.subtitleList);
   createTmpJSON(video_info);
   let trackElement = useRef(null);
   let vidElement = useRef(null);
@@ -224,15 +227,7 @@ export default function VideoLayout({ video_info }) {
   const startTimeRefElement = useRef(null);
   const commentRefElement = useRef(null);
   const dispatch = useDispatch();
-  // const data = useSelector(getCue);
   const router = useRouter();
-
-  const autocompleteDataList = [
-    { 'title': '마침표 누락' },
-    { 'title': '싱크 짧음' },
-    { 'title': '음표 누락' },
-    { 'title': '화자 누락' },
-  ];
 
   // createCommentListRefElement(commentListRefElement);
   // createCommentRefElement(commentRefElement);
@@ -276,7 +271,7 @@ export default function VideoLayout({ video_info }) {
 
     dispatch(setCue({ cue }));
 
-    setTimeout(() => {
+    // setTimeout(() => {
       const tmpSaveLabelJSON = {
         'userInfo': video_info.userInfo,
         'episodDTO': video_info.episodDTO,
@@ -290,19 +285,21 @@ export default function VideoLayout({ video_info }) {
       const tmpSave = async () => {
         return await sendFetch(tmpSaveLabelUrl, tmpSaveLabelJSON, {method:"POST"});
       }
-      tmpSave();
-    }, 500);
+
+      if( tmpSaveLabelJSON?.subtitleList?.length > 1 ) {
+        tmpSave();
+      }
+    // }, 500);
     
   }, [dispatch, video_info]);
+
   
   useEffect(() => {
     // console.log(video_info)
     createUniqeId(`${video_info.episodDTO.prgAin}_${video_info.episodDTO.epAin}_${video_info.episodDTO.epVdoSnm}`);
-    let host = getHost();
     if (vidElement.current.src) {
       vidElement.current.src = '';
     }
-    let playPromise;
     let config = {
       // debug: true,
       xhrSetup: function (xhr,url) {
@@ -319,22 +316,9 @@ export default function VideoLayout({ video_info }) {
     // createDisplayNoneElement(commentListRefElement.current);
     createViewSubtitleRefElement(viewSubtitleRefElement.current);
     // let video_url = video_info.video_url
-    let subtitle_url = video_info.subtitle_url;
+    // let subtitle_url = video_info.subtitle_url;
    
-    async function initialInfo() {
-      const user_info = getCookie('tmp');
-      let param = {
-        'userInfo': {
-          'prtEml': JSON.parse(user_info)?.prtEml
-          // 'prtEml': 'raelee@datacrush.ai'
-        },
-        'episodDTO': {
-          'prgAin': video_info.prgAin,
-          'epAin': video_info.epAin,
-          'epVdoSnm': video_info.epVdoSnm,
-        }
-      }
-      
+    async function initialInfo(video_info) {
       /*
       const cueJSON = await fetch('https://datacrush.asuscomm.com:30000/labeltool/getLabelJobForScenario', {
       // const cueJSON = await fetch('https://vivo.best/NIA/NIA_childrenEdu0001_1_rev.vtt', {
@@ -355,7 +339,6 @@ export default function VideoLayout({ video_info }) {
         // return response.text();
       });
       */
-
       let video_url = await fetch(video_info.episodDTO.filePath, {
       // let video_url = await fetch('https://vivo.best/video/company/ebs/P-004-0021/P-004-0021-0001/P-004-0021-0001-00005/v2/split/P-004-0021-0001-00005_1/hls/P-004-0021-0001-00005_1.m3u8', {
         // let video_url = await fetch('https://vivo.best/NIA/NIA_childrenEdu0001_1_0.m3u8', {
@@ -379,7 +362,6 @@ export default function VideoLayout({ video_info }) {
       _tracks = vidElement.current.textTracks[0].cues;
       hls.loadSource(video_url);
       hls.attachMedia(vidElement.current);
-      
 
       // trackElement.current.setAttribute('src', subtitle_url);
 
@@ -405,7 +387,6 @@ export default function VideoLayout({ video_info }) {
       }
   
       if (_tracks != null) {
-        
         //우선 localStorage부터 탐색
         if( localStorage.getItem(`${video_info.prgAin}_${video_info.epAin}_${video_info.epVdoSnm}`) ) {
           let cue = JSON.parse(localStorage.getItem(`${video_info.prgAin}_${video_info.epAin}_${video_info.epVdoSnm}`));
@@ -413,8 +394,16 @@ export default function VideoLayout({ video_info }) {
           action_setCue(cue);
         }
         else {
+          console.log(_cue);
+          createCueFunc(_cue);
+          action_setCue(_cue);
+          // createCueFunc(video_info.subtitleList);
+          // action_setCue(video_info.subtitleList);
+
+          /*
           if( typeof(video_info.subtitleList) !== 'string' && video_info.subtitleList?.length > 0 ) {
             // console.log(video_info.subtitleList)
+            debugger
             createCueFunc(video_info.subtitleList);
             action_setCue(video_info.subtitleList);
           }
@@ -452,6 +441,7 @@ export default function VideoLayout({ video_info }) {
             createCueFunc(JSON);
             action_setCue(JSON);
           }
+          */
         }
   
         vidElement.current.textTracks[0].mode = 'hidden';
