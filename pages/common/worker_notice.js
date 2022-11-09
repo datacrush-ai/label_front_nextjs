@@ -9,8 +9,6 @@ export default function WorkerNotice({user_info, alarm_list}) {
     const bgnRef = useRef(null);
     const endRef = useRef(null);
 
-    console.log(alarm_list)
-
     const timestamp = (now) => {
         let time = new Date(now);
         time.setHours(time.getHours() + 9);
@@ -67,20 +65,22 @@ export default function WorkerNotice({user_info, alarm_list}) {
                 </button>
             </div>
 
-            {/* {
-                alarm_list?.map((arr, idx) => {
-                    <div key={idx} className={styles.subtitle_container} style={{'display': 'flex', 'flexDirection': 'column'}}>
-                        <div className={"flex justify-center items-center flex flex-col"}>
-                            <span>{arr.ntcTtl}</span>
-                            <span>{arr.ntcCn}</span>
-                            <span>시작시간: {arr.ntcVldBgnDt}</span>
-                            <span>종료시간: {arr.ntcVldEndDt}</span>
-                            <span>이미지: {arr.ntcImgUrl}</span>
-                            <span>사용여부: {arr.ntcUseYn}</span>
-                        </div>
-                    </div>
+            <div className={styles.subtitle_container} style={{'display': 'flex', 'flexDirection': 'row'}}>
+            {
+                alarm_list?.noticeList?.map((arr, idx) => {
+                    return (
+                            <div key={idx} className={"flex justify-center items-center flex flex-col"} style={{'flex': '1 0 33%'}}>
+                                <span>제목: {arr.ntcTtl}</span>
+                                <span>내용: {arr.ntcCn}</span>
+                                <span>시작시간: {arr.ntcVldBgnDt}</span>
+                                <span>종료시간: {arr.ntcVldEndDt}</span>
+                                <span>이미지: {arr.ntcImgUrl}</span>
+                                <span>사용여부: {arr.ntcUseYn}</span>
+                            </div>
+                    )
                 })
-            } */}
+            }
+            </div>
         </>
     )
 }
@@ -113,12 +113,12 @@ export async function getServerSideProps(context) {
             'prtEml': user_info?.['prtEml']
         }
     };
-    // const alarm_list = await sendFetch(ALARM_LIST_URL, param, {method: 'POST'});
+    const alarm_list = await sendFetch(ALARM_LIST_URL, param, {method: 'POST'});
 
     return { 
       props: { 
         user_info,
-        // 'alarm_list': alarm_list.notice,
+        'alarm_list': alarm_list,
       } 
     }
   }
