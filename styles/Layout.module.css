@@ -831,6 +831,8 @@
     color: white;
     background-color: var(--theme-surface-dark-color);
     justify-content: center;
+    flex-direction: column;
+        align-items: center;
 }
 .tips {
     display: grid;

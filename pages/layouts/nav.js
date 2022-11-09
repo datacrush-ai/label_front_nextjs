@@ -1,13 +1,14 @@
 import { deleteCookie, getCookie } from "cookies-next";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useEffect } from "react";
 import styles from '../../styles/Layout.module.css'
 import { ToastMsg } from "../common/common_script";
 import { getLayerPopupRefElement, getPayLayerPopupRefElement } from "../components/dashboard/dashboard";
 import MenuItem from './menuitem';
 
-const Viewport = ({ info }) => {
+const Viewport = ({ info, isAdmin }) => {
   let viewInfo = [];
 
   if (info != undefined) {
@@ -22,40 +23,92 @@ const Viewport = ({ info }) => {
       }
     }
   }
-  return (
-    <ul className={styles.tabbed_primary_navigation}>
-      <li className={styles.navigation_tab}>
-        <Link href="/">
-          <a onClick={(e) => {
-            deleteCookie('tmp')
-          }}>로그아웃</a>
-        </Link>
-      </li>
-      <li className={styles.navigation_tab}>
-        <Link href="">
-          <a onClick={(e) => {
-            getLayerPopupRefElement().current.style.display = 'block';
-          }}>완료목록</a>
-        </Link>
-      </li>
-      <li className={styles.navigation_tab}>
-        <Link href="">
-          <a onClick={(e) => {
-            if(getCookie('tmp').includes('@datacrush.ai')) {
-              window.open('/common/pay_page', '_blank' );
-            }
-            else {
-              ToastMsg(`권한이 없습니다.`, 1500, null, null, 'warn');
-            }
-          }}>전체 완료목록</a>
-        </Link>
-      </li>
-    </ul>
-  )
+
+  if(isAdmin) {
+    //admin일 경우
+    return (
+      <ul className={styles.tabbed_primary_navigation}>
+        <li className={styles.navigation_tab}>
+          <Link href="/">
+            <a onClick={(e) => {
+              deleteCookie('tmp')
+            }}>로그아웃</a>
+          </Link>
+        </li>
+        <li className={styles.navigation_tab}>
+          <Link href="">
+            <a onClick={(e) => {
+              getLayerPopupRefElement().current.style.display = 'block';
+            }}>완료목록</a>
+          </Link>
+        </li>
+        <li className={styles.navigation_tab}>
+          <Link href="">
+            <a onClick={(e) => {
+              if(getCookie('tmp').includes('@datacrush.ai')) {
+                window.open('/common/pay_page', '_blank' );
+              }
+              else {
+                ToastMsg(`권한이 없습니다.`, 1500, null, null, 'warn');
+              }
+            }}>전체 완료목록</a>
+          </Link>
+        </li>
+        <li className={styles.navigation_tab}>
+          <Link href="">
+            <a onClick={(e) => {
+              if(getCookie('tmp').includes('@datacrush.ai')) {
+                window.open('/common/worker_notice', '_blank' );
+              }
+              else {
+                ToastMsg(`권한이 없습니다.`, 1500, null, null, 'warn');
+              }
+            }}>공지사항 등록</a>
+          </Link>
+        </li>
+      </ul>
+    )
+  }
+  else {
+    //admin 아닐 경우
+    return (
+      <ul className={styles.tabbed_primary_navigation}>
+        <li className={styles.navigation_tab}>
+          <Link href="/">
+            <a onClick={(e) => {
+              deleteCookie('tmp')
+            }}>로그아웃</a>
+          </Link>
+        </li>
+        <li className={styles.navigation_tab}>
+          <Link href="">
+            <a onClick={(e) => {
+              getLayerPopupRefElement().current.style.display = 'block';
+            }}>완료목록</a>
+          </Link>
+        </li>
+      </ul>
+    )
+  }
 }
 
 export default function NavBar({ info }) {
   const router = useRouter();
+  const [admin, setAdmin] = useState(false);
+  let minWidth = '210px';
+
+  useEffect(() => {
+    const tmp = getCookie('tmp');
+    if(tmp) {
+      if(JSON.parse(tmp).prtEml.includes('@datacrush.ai')) {
+        setAdmin(true);
+      }
+    }
+  }, [admin]);
+  
+  if(admin) {
+    minWidth = '400px';
+  }
 
   return (
     <nav className={styles.nav}>
@@ -72,20 +125,10 @@ export default function NavBar({ info }) {
             <a className={router.pathname === "/" ? styles.active : ""}>MAIN</a>
           </Link>
         </li>
-        {/* <li className={styles.navigation_tab}>
-          <Link href="/components/dashboard/dashboard">
-            <a style={{ 'marginRight': '10px' }} className={router.pathname === "/components/dashboard/dashboard" ? styles.active : ""}>대시보드</a>
-          </Link>
-        </li> */}
-        {/* <li className={styles.navigation_tab}>
-          <Link href="/components/labelview/labelview">
-            <a style={{ 'marginRight': '10px' }} className={router.pathname === "/components/labelview/labelview" ? styles.active : ""}>라벨링</a>
-          </Link>
-        </li> */}
       </ul>
-      <div style={{ 'minWidth': '310px' }}>
+      <div style={{ 'minWidth': minWidth }}>
         <li className={styles.navigation_tab}>
-          <Viewport info={info}></Viewport>
+          <Viewport isAdmin={admin} info={info}></Viewport>
         </li>
       </div>
     </nav>

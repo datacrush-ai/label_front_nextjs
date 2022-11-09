@@ -18,6 +18,32 @@ body {
   border: 0 solid
 }
 
+.toastify-avatar {
+  width: 13em;
+  height: 13em;
+  margin: -7px 5px;
+  border-radius: 2px;
+  margin-bottom: 1rem;
+}
+
+/* body>div:nth-child(1)>button {
+  font-size: 3em;
+} */
+
+body>div.toastify.on.toastify-right.toastify-bottom>button {
+  font-size: 3em;
+}
+
+/* .toast-close {
+  background: 0 0;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 3em;
+  opacity: .4;
+  padding: 0 5px;
+} */
 video::-webkit-media-controls-fullscreen-button {
   display: none !important;
 }
