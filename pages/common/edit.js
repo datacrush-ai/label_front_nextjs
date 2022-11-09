@@ -283,6 +283,7 @@ export default function Edit({ data }) {
       if( (alarm?.start != alarm_msg?.notice?.ntcVldBgnDt) || (alarm?.end != alarm_msg?.notice?.ntcVldEndDt) ) {
         if( document.querySelector('body>div.toastify.on.toastify-right.toastify-bottom') ) {
           
+          
         }
         else {
           ToastMsg(alarm_msg, 2000000, null, null, 'alert', '공지');
