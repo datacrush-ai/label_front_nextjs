@@ -95,7 +95,7 @@ const Viewport = ({ info, isAdmin }) => {
 export default function NavBar({ info }) {
   const router = useRouter();
   const [admin, setAdmin] = useState(false);
-  let minWidth = '210px';
+  let minWidth = '250px';
 
   useEffect(() => {
     const tmp = getCookie('tmp');
@@ -107,7 +107,7 @@ export default function NavBar({ info }) {
   }, [admin]);
   
   if(admin) {
-    minWidth = '400px';
+    minWidth = '450px';
   }
 
   return (
