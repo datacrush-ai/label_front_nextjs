@@ -394,7 +394,7 @@ export default function VideoLayout({ video_info }) {
           action_setCue(cue);
         }
         else {
-          console.log(_cue);
+          // console.log(_cue);
           createCueFunc(_cue);
           action_setCue(_cue);
           // createCueFunc(video_info.subtitleList);

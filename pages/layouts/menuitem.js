@@ -59,7 +59,7 @@ export default function MenuItem() {
                                 )}
                             </Menu.Item>
                         </div>
-                        <div className="px-1 py-1">
+                        {/* <div className="px-1 py-1">
                             <Menu.Item>
                                 {({ active }) => (
                                     <button onClick={async (e) => {
@@ -79,7 +79,7 @@ export default function MenuItem() {
                                     </button>
                                 )}
                             </Menu.Item>
-                        </div>
+                        </div> */}
                         <div className="px-1 py-1">
                             <Menu.Item>
                                 {({ active }) => (
