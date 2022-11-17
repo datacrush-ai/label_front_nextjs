@@ -266,6 +266,15 @@ const CompleteTask = ({list, summary, utilDate}) => {
             month_list.push({key, value});
         }
     }
+    
+    // render_list.map((arr, idx) => {
+    //     console.log(`영상 ${arr.title} => ${arr.totalTime}`)
+    // })
+
+    // summary.map((arr, idx) => {
+    //     console.log(`자막 ${arr.yyyyMmDd} => ${arr.subHrMs}`)
+    // })
+
 
     return(
         <>
