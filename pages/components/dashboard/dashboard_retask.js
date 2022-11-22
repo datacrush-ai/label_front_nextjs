@@ -158,26 +158,6 @@ export default function Dashboard({response, param}) {
   data.video_position = 'right';
   data.EP_AIN = '1';
   data.PRG_AIN = '1';
-  data.shortcut = [
-    {
-      key: 'F8',
-      description: '[파형막대 기준] 뒤에있는 파형에서 가장 가까운 시작시간을 현재 파형막대의 위치에 이동합니다.'
-    },
-    {
-      key: 'F9',
-      description: '[파형막대 기준] 가장 가까운 파형의 종료시간을 현재 파형막대의 위치에 이동합니다.'
-    },
-    { key: 'Shift + Enter', description: '임시저장을 합니다.' },
-    { key: 'Ctrl + Enter', description: '다음 자막과 병합을 합니다.' },
-    { key: 'Alt + Enter', description: '커서 기준으로 자막 분할을 합니다.' },
-    { key: 'Ctrl + ,', description: '영상의 배속을 0.1배 감소 시킵니다.' },
-    { key: 'Ctrl + .', description: '영상의 배속을 0.1배 증가 시킵니다.' },
-    { key: '=', description: '영상의 현재 시간에 피드백을 작성합니다.' },
-    {
-      key: '방향키 왼쪽, 오른쪽',
-      description: '파형을 클릭 한 후, 방향키 왼쪽과 오른쪽으로 영상의 시간을 변경합니다.'
-    }
-  ];
 
   return (
     <SWRConfig value={{data}}>
