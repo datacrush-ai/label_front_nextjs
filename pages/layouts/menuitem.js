@@ -4,6 +4,7 @@ import { Fragment, useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { getCue } from '../../store/nia_layout/StoreCueSlice';
 import { sendFetch, ToastMsg } from '../common/common_script';
+import { convertValueKey } from '../common/searchbox_autocomplete';
 import { getTmpJSON } from '../common/video_layout';
 
 export default function MenuItem() {
@@ -59,18 +60,66 @@ export default function MenuItem() {
                                 )}
                             </Menu.Item>
                         </div>
-                        {/* <div className="px-1 py-1">
+                        <div className="px-1 py-1">
                             <Menu.Item>
                                 {({ active }) => (
                                     <button onClick={async (e) => {
-                                        // console.log(subtitleList)
+
+                                        console.log(param.subtitleList);
+
+
+                                        let subtitle_edit_layout = document.querySelector('#subtitle_edit_layout').children[0];
+                                        let subtitle_edit_layout_length = subtitle_edit_layout.childElementCount-1;
+                                        for(let idx=0; idx<subtitle_edit_layout_length; idx++) {
+                                            let target_subtitle_component = subtitle_edit_layout.children[idx].children[0].children[0];
+                                            
+                                            //발화자 연령 value
+                                            let speaker_age_value = target_subtitle_component.children[3].children[1].selectedOptions[0].textContent;
+                                            //발화자 연령 key
+                                            let speaker_age_key = target_subtitle_component.children[3].children[1].selectedOptions[0].value;
+
+                                            //성별 value
+                                            let speaker_sex_value = target_subtitle_component.children[4].children[1].selectedOptions[0].textContent;
+                                            //성별 key
+                                            let speaker_sex_key = target_subtitle_component.children[4].children[1].selectedOptions[0].value;
+                                            
+                                            //중첩음 value
+                                            let speaker_voc_value = target_subtitle_component.children[7].children[1].selectedOptions[0].textContent;
+                                            //중첩음 key
+                                            let speaker_voc_key = target_subtitle_component.children[7].children[1].selectedOptions[0].value;
+
+
+                                            //장소 value
+                                            let place_value = target_subtitle_component.children[5].children[1].children[0].value;
+                                            //장소 key
+                                            let place_key = convertValueKey(place_value);
+                                            
+                                            //화자 value
+                                            let speaker_value = target_subtitle_component.children[6].children[1].children[0].value;
+                                            //화자 key
+                                            let speaker_key = convertValueKey(speaker_value);
+                                            
+                                            param.subtitleList[idx].subtileSelLabelInfo.placeType.labelCd = place_key;
+                                            param.subtitleList[idx].subtileSelLabelInfo.placeType.labelNm = place_value;
+                                            param.subtitleList[idx].subtileSelLabelInfo.speaker.labelCd = speaker_key;
+                                            param.subtitleList[idx].subtileSelLabelInfo.speaker.labelNm = speaker_value;
+                                            param.subtitleList[idx].subtileSelLabelInfo.speakerAge.labelCd = speaker_age_key;
+                                            param.subtitleList[idx].subtileSelLabelInfo.speakerAge.labelNm = speaker_age_value;
+                                            param.subtitleList[idx].subtileSelLabelInfo.speakerOvrVoc.labelCd = speaker_voc_key;
+                                            param.subtitleList[idx].subtileSelLabelInfo.speakerOvrVoc.labelNm = speaker_voc_value;
+                                            param.subtitleList[idx].subtileSelLabelInfo.speakerSex.labelCd = speaker_sex_key;
+                                            param.subtitleList[idx].subtileSelLabelInfo.speakerSex.labelNm = speaker_sex_value;
+                                        }
+                                        
+                                        //console.log(param.subtitleList);
+
                                         const context = '/labeltool/tmpSaveLabelJob';
                                         setTimeout(async() => {
                                             await sendFetch(context, param, {method:"POST"})
                                             .then(res => {
                                                 ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
                                             });
-                                        }, 500);
+                                        }, 1000);
                                     }}
                                     className={`${active ? 'bg-blue-500 text-white' : 'text-gray-900'
                                             } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
@@ -79,7 +128,7 @@ export default function MenuItem() {
                                     </button>
                                 )}
                             </Menu.Item>
-                        </div> */}
+                        </div>
                         <div className="px-1 py-1">
                             <Menu.Item>
                                 {({ active }) => (
