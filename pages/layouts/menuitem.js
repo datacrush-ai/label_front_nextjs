@@ -64,10 +64,6 @@ export default function MenuItem() {
                             <Menu.Item>
                                 {({ active }) => (
                                     <button onClick={async (e) => {
-
-                                        console.log(param.subtitleList);
-
-
                                         let subtitle_edit_layout = document.querySelector('#subtitle_edit_layout').children[0];
                                         let subtitle_edit_layout_length = subtitle_edit_layout.childElementCount-1;
                                         for(let idx=0; idx<subtitle_edit_layout_length; idx++) {
