@@ -120,7 +120,7 @@ export default function MenuItem() {
                                             }
                                             else {
                                                 const hook_param = {
-                                                    'text': `[저장하기 버튼] - 비정상적 행동 감지\n\n이름: ${param.userInfo.prtNm}\n이메일: ${param.userInfo.prtEml}\n작업정보: epNm=${param.episodDTO.epNm}, prtAin=${param.episodDTO.prtAin}, epAin=${param.episodDTO.epAin}, epVdoSnm=${param.episodDTO.epVdoSnm}\n저장을_시도한_자막갯수: ${param.subtitleList.length}\n저장을_시도한_자막정보: ${param.subtitleList}`
+                                                    'text': `[저장하기 버튼] - 비정상적 행동 감지\n\n이름: ${param.userInfo.prtNm}\n이메일: ${param.userInfo.prtEml}\n작업정보: epNm=${param.episodDTO.epNm}, prtAin=${param.episodDTO.prtAin}, epAin=${param.episodDTO.epAin}, epVdoSnm=${param.episodDTO.epVdoSnm}\n저장을_시도한_자막갯수: ${param.subtitleList.length}\n저장을_시도한_자막정보: ${JSON.stringify(param.subtitleList)}`
                                                 }
                                                 sendSwitWebHook(hook_param);
                                                 ToastMsg('비정상적 행동이 감지되었습니다.\n확인을 위해 관리자에게 작업결과가 전달됩니다.', 3000, null, null, 'warn');
@@ -195,7 +195,7 @@ export default function MenuItem() {
                                             }
                                             else {
                                                 const hook_param = {
-                                                    'text': `[작업 완료 버튼, 중간저장] - 비정상적 행동 감지\n\n이름: ${param.userInfo.prtNm}\n이메일: ${param.userInfo.prtEml}\n작업정보: epNm=${param.episodDTO.epNm}, prtAin=${param.episodDTO.prtAin}, epAin=${param.episodDTO.epAin}, epVdoSnm=${param.episodDTO.epVdoSnm}\n저장을_시도한_자막갯수: ${param.subtitleList.length}\n저장을_시도한_자막정보: ${param.subtitleList}`
+                                                    'text': `[작업 완료 버튼, 중간저장] - 비정상적 행동 감지\n\n이름: ${param.userInfo.prtNm}\n이메일: ${param.userInfo.prtEml}\n작업정보: epNm=${param.episodDTO.epNm}, prtAin=${param.episodDTO.prtAin}, epAin=${param.episodDTO.epAin}, epVdoSnm=${param.episodDTO.epVdoSnm}\n저장을_시도한_자막갯수: ${param.subtitleList.length}\n저장을_시도한_자막정보: ${JSON.stringify(param.subtitleList)}`
                                                 }
                                                 sendSwitWebHook(hook_param);
                                                 ToastMsg('비정상적 행동이 감지되었습니다.\n확인을 위해 관리자에게 작업결과가 전달됩니다.', 3000, null, null, 'warn');
@@ -273,7 +273,7 @@ export default function MenuItem() {
                                                     }
                                                     else {
                                                         const hook_param = {
-                                                            'text': `[작업 완료 버튼, 최종완료] - 비정상적 행동 감지\n\n이름: ${param.userInfo.prtNm}\n이메일: ${param.userInfo.prtEml}\n작업정보: epNm=${param.episodDTO.epNm}, prtAin=${param.episodDTO.prtAin}, epAin=${param.episodDTO.epAin}, epVdoSnm=${param.episodDTO.epVdoSnm}\n저장을_시도한_자막갯수: ${param.subtitleList.length}\n저장을_시도한_자막정보: ${param.subtitleList}`
+                                                            'text': `[작업 완료 버튼, 최종완료] - 비정상적 행동 감지\n\n이름: ${param.userInfo.prtNm}\n이메일: ${param.userInfo.prtEml}\n작업정보: epNm=${param.episodDTO.epNm}, prtAin=${param.episodDTO.prtAin}, epAin=${param.episodDTO.epAin}, epVdoSnm=${param.episodDTO.epVdoSnm}\n저장을_시도한_자막갯수: ${param.subtitleList.length}\n저장을_시도한_자막정보: ${JSON.stringify(param.subtitleList)}`
                                                         }
                                                         sendSwitWebHook(hook_param);
                                                         ToastMsg('비정상적 행동이 감지되었습니다.\n확인을 위해 관리자에게 작업결과가 전달됩니다.', 3000, null, null, 'warn');
