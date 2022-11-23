@@ -575,7 +575,7 @@ export default function CommonScript({url}) {
                     }
                     else {
                         const hook_param = {
-                            'text': `[shift+enter] - 비정상적 행동 감지\n\n이름: ${tmpJSON.userInfo.prtNm}\n이메일: ${tmpJSON.userInfo.prtEml}\n작업정보: epNm=${tmpJSON.episodDTO.epNm}, prtAin=${tmpJSON.episodDTO.prtAin}, epAin=${tmpJSON.episodDTO.epAin}, epVdoSnm=${tmpJSON.episodDTO.epVdoSnm}\n저장을_시도한_자막갯수: ${tmpJSON.subtitleList.length}\n저장을_시도한_자막정보: ${JSON.stringify(tmpJSON.subtitleList)}`
+                            'text': `[shift+enter] - 비정상적 행동 감지\n\n이름: ${tmpJSON.userInfo.prtNm}\n이메일: ${tmpJSON.userInfo.prtEml}\n작업정보: epNm=${tmpJSON.episodDTO.epNm}, prgAin=${tmpJSON.episodDTO.prgAin}, epAin=${tmpJSON.episodDTO.epAin}, epVdoSnm=${tmpJSON.episodDTO.epVdoSnm}\n저장을_시도한_자막갯수: ${tmpJSON.subtitleList.length}\n저장을_시도한_자막정보: ${JSON.stringify(tmpJSON.subtitleList)}`
                         }
                         sendSwitWebHook(hook_param);
                         ToastMsg('비정상적 행동이 감지되었습니다.\n확인을 위해 관리자에게 작업결과가 전달됩니다.', 3000, null, null, 'warn');
