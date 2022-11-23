@@ -267,9 +267,9 @@ const CompleteTask = ({list, summary, utilDate}) => {
         }
     }
     
-    // render_list.map((arr, idx) => {
-    //     console.log(`영상 ${arr.title} => ${arr.totalTime}`)
-    // })
+    render_list.map((arr, idx) => {
+        console.log(`영상 ${arr.title} => ${arr.totalTime}`)
+    })
 
     // summary.map((arr, idx) => {
     //     console.log(`자막 ${arr.yyyyMmDd} => ${arr.subHrMs}`)
@@ -387,9 +387,9 @@ export default function PayPage() {
         
         if( user_info.prtEml.includes('@datacrush.ai') ) {
             const complete = await sendFetch(EPLIST_COMPLETE, param, {method: 'POST'});
-            const summary = await sendFetch(SUMMARY_URL, param, {method: 'POST'});
+            // const summary = await sendFetch(SUMMARY_URL, param, {method: 'POST'});
             setResponse(_.sortBy(complete?.epListJobCpl, ['jobLstEndDt']).reverse());
-            setSummary(_.sortBy(summary?.summaryList, ['jobPrrSttScd']));
+            // setSummary(_.sortBy(summary?.summaryList, ['jobPrrSttScd']));
         }
     }, []);
 
