@@ -51,6 +51,23 @@ export const sendFetch = async(context, param, options) => {
     return result;
 };
 
+export const sendSwitWebHook = async(param) => {
+    const swit_webhook_url = 'https://hook.swit.io/idea/221123053757352nvge/DzXBMUJc1DhnXwqadAMJ';
+    if( param.text == undefined ) {
+        param = {
+            'text': '비정상적 행동 감지'
+        }
+    };
+
+    fetch(swit_webhook_url, {
+        headers: { 
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(param),
+        method: 'POST',
+    })
+}
+
 export const getCookieToDecode = (data) => {
     return decodeURIComponent(getCookies(data));
 }
@@ -552,9 +569,16 @@ export default function CommonScript({url}) {
                 setCookie('speakerdependency', JSON.stringify(episodSpeakerDependencyValue));
 
                 setTimeout(() => {
-                    if( tmpJSON.subtitleList.length > 0 ) {
+                    if( tmpJSON.subtitleList.length > 5 ) {
                         sendFetch('/labeltool/tmpSaveLabelJob', tmpJSON, {method: 'POST'})
                         ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
+                    }
+                    else {
+                        const hook_param = {
+                            'text': `[shift+enter] - 비정상적 행동 감지\n\n이름: ${tmpJSON.userInfo.prtNm}\n이메일: ${tmpJSON.userInfo.prtEml}\n작업정보: epNm=${tmpJSON.episodDTO.epNm}, prtAin=${tmpJSON.episodDTO.prtAin}, epAin=${tmpJSON.episodDTO.epAin}, epVdoSnm=${tmpJSON.episodDTO.epVdoSnm}\n저장을_시도한_자막갯수: ${tmpJSON.subtitleList.length}\n저장을_시도한_자막정보: ${JSON.stringify(tmpJSON.subtitleList)}`
+                        }
+                        sendSwitWebHook(hook_param);
+                        ToastMsg('비정상적 행동이 감지되었습니다.\n확인을 위해 관리자에게 작업결과가 전달됩니다.', 3000, null, null, 'warn');
                     }
                 }, 500);
 

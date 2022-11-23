@@ -3,7 +3,7 @@ import { deleteCookie } from 'cookies-next';
 import { Fragment, useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { getCue } from '../../store/nia_layout/StoreCueSlice';
-import { sendFetch, ToastMsg } from '../common/common_script';
+import { sendFetch, sendSwitWebHook, ToastMsg } from '../common/common_script';
 import { convertValueKey } from '../common/searchbox_autocomplete';
 import { getTmpJSON } from '../common/video_layout';
 
@@ -112,10 +112,19 @@ export default function MenuItem() {
 
                                         const context = '/labeltool/tmpSaveLabelJob';
                                         setTimeout(async() => {
-                                            await sendFetch(context, param, {method:"POST"})
-                                            .then(res => {
-                                                ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
-                                            });
+                                            if( param.subtitleList.length > 5 ) {
+                                                await sendFetch(context, param, {method:"POST"})
+                                                .then(res => {
+                                                    ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
+                                                });
+                                            }
+                                            else {
+                                                const hook_param = {
+                                                    'text': `[저장하기 버튼] - 비정상적 행동 감지\n\n이름: ${param.userInfo.prtNm}\n이메일: ${param.userInfo.prtEml}\n작업정보: epNm=${param.episodDTO.epNm}, prtAin=${param.episodDTO.prtAin}, epAin=${param.episodDTO.epAin}, epVdoSnm=${param.episodDTO.epVdoSnm}\n저장을_시도한_자막갯수: ${param.subtitleList.length}\n저장을_시도한_자막정보: ${JSON.stringify(param.subtitleList)}`
+                                                }
+                                                sendSwitWebHook(hook_param);
+                                                ToastMsg('비정상적 행동이 감지되었습니다.\n확인을 위해 관리자에게 작업결과가 전달됩니다.', 3000, null, null, 'warn');
+                                            }
                                         }, 1000);
                                     }}
                                     className={`${active ? 'bg-blue-500 text-white' : 'text-gray-900'
@@ -178,10 +187,19 @@ export default function MenuItem() {
 
                                         const context = '/labeltool/tmpSaveLabelJob';
                                         setTimeout(async() => {
-                                            await sendFetch(context, param, {method:"POST"})
-                                            .then(res => {
-                                                ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
-                                            });
+                                            if( param.subtitleList.length > 5 ) {
+                                                await sendFetch(context, param, {method:"POST"})
+                                                .then(res => {
+                                                    ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
+                                                });
+                                            }
+                                            else {
+                                                const hook_param = {
+                                                    'text': `[작업 완료 버튼, 중간저장] - 비정상적 행동 감지\n\n이름: ${param.userInfo.prtNm}\n이메일: ${param.userInfo.prtEml}\n작업정보: epNm=${param.episodDTO.epNm}, prtAin=${param.episodDTO.prtAin}, epAin=${param.episodDTO.epAin}, epVdoSnm=${param.episodDTO.epVdoSnm}\n저장을_시도한_자막갯수: ${param.subtitleList.length}\n저장을_시도한_자막정보: ${JSON.stringify(param.subtitleList)}`
+                                                }
+                                                sendSwitWebHook(hook_param);
+                                                ToastMsg('비정상적 행동이 감지되었습니다.\n확인을 위해 관리자에게 작업결과가 전달됩니다.', 3000, null, null, 'warn');
+                                            }
                                         }, 1000);
 
                                         
@@ -242,15 +260,24 @@ export default function MenuItem() {
                                             else {
                                                 if(confirm('최종 완료를 하시겠습니까?')){
                                                     const context = '/labeltool/reqComplLabelJob';
-                                                    await sendFetch(context, param, {method:"POST"})
-                                                    .then(res => {
-                                                        ToastMsg('작업을 완료했습니다.\n잠시 후 창이 닫힙니다.', 2000, null, function() {
-                                                            setTimeout(function() {
-                                                                window.close();
-                                                            },3000);
-                                                        }, 'pass');
-            
-                                                    });
+                                                    if( param.subtitleList.length > 5 ) {
+                                                        await sendFetch(context, param, {method:"POST"})
+                                                        .then(res => {
+                                                            ToastMsg('작업을 완료했습니다.\n잠시 후 창이 닫힙니다.', 2000, null, function() {
+                                                                setTimeout(function() {
+                                                                    window.close();
+                                                                },3000);
+                                                            }, 'pass');
+                
+                                                        });
+                                                    }
+                                                    else {
+                                                        const hook_param = {
+                                                            'text': `[작업 완료 버튼, 최종완료] - 비정상적 행동 감지\n\n이름: ${param.userInfo.prtNm}\n이메일: ${param.userInfo.prtEml}\n작업정보: epNm=${param.episodDTO.epNm}, prtAin=${param.episodDTO.prtAin}, epAin=${param.episodDTO.epAin}, epVdoSnm=${param.episodDTO.epVdoSnm}\n저장을_시도한_자막갯수: ${param.subtitleList.length}\n저장을_시도한_자막정보: ${JSON.stringify(param.subtitleList)}`
+                                                        }
+                                                        sendSwitWebHook(hook_param);
+                                                        ToastMsg('비정상적 행동이 감지되었습니다.\n확인을 위해 관리자에게 작업결과가 전달됩니다.', 3000, null, null, 'warn');
+                                                    }
                                                 }
                                             }
                                         }, 3000);
