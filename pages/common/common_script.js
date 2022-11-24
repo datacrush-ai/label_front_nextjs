@@ -565,12 +565,11 @@ export default function CommonScript({url}) {
                     episodSpeakerDependencyValue.push({ memo, speaker, ageidx, agecd, sexidx, sexcd });
                 }
 
-                // localStorage.setItem(episodSpeakerDependencyKey, JSON.stringify(episodSpeakerDependencyValue));
                 setCookie('speakerdependency', JSON.stringify(episodSpeakerDependencyValue));
 
                 setTimeout(() => {
                     let tmpSaveUrl = '/labeltool/tmpSaveLabelJob';
-                    if(location.search.indexOf('jobStat=ERR_ING') != -1) {
+                    if(location.search.indexOf('jobStat=ERR') != -1 || location.search.indexOf('jobStat=ERR_ING') != -1) {
                         tmpSaveUrl = '/labeltool/tmpSaveExceptionLabelJob';
                     }
                     if( tmpJSON.subtitleList.length > 5 ) {
