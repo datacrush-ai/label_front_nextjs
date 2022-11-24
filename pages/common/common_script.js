@@ -337,7 +337,6 @@ export const ToastMsg = (text, duration, clickCallback, callback, color, options
         }
         
     }
-
     if (color == 'warn') {
         background = 'linear-gradient(to right, #b0004b, #c93d3d)'
         options.style.background = background;

@@ -293,6 +293,7 @@ export default function MenuItem() {
     
                                             if( unable_save_list.length > 0 ) {
                                                 ToastMsg(`저장하지 못했습니다.\n사유: 선택하지 않은 라벨이 존재합니다.\n${unable_save_idx}`, 10000, function() {
+                                                    let subtitle_edit_layout = document.querySelector('#subtitle_edit_layout');
                                                     let line = parseInt(unable_save_idx[0]) - 1;
                                                     subtitle_edit_layout.scrollTop = 120 * line;
                                                 }, null, 'warn');
