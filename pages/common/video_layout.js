@@ -281,7 +281,10 @@ export default function VideoLayout({ video_info }) {
         'subtitleList': cue,
       };
   
-      const tmpSaveLabelUrl = '/labeltool/tmpSaveLabelJob';
+      let tmpSaveLabelUrl = '/labeltool/tmpSaveLabelJob';
+      if(location.search.indexOf('jobStat=ERR') != -1 || location.search.indexOf('jobStat=ERR_ING') != -1) {
+        tmpSaveLabelUrl = '/labeltool/tmpSaveExceptionLabelJob';
+      }
       const tmpSave = async () => {
         return await sendFetch(tmpSaveLabelUrl, tmpSaveLabelJSON, {method:"POST"});
       }

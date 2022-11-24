@@ -1,4 +1,4 @@
-import { getCookies, setCookie } from "cookies-next";
+import { getCookie, getCookies, setCookie } from "cookies-next";
 import _, { isNumber } from "lodash";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -337,7 +337,6 @@ export const ToastMsg = (text, duration, clickCallback, callback, color, options
         }
         
     }
-
     if (color == 'warn') {
         background = 'linear-gradient(to right, #b0004b, #c93d3d)'
         options.style.background = background;
@@ -565,12 +564,15 @@ export default function CommonScript({url}) {
                     episodSpeakerDependencyValue.push({ memo, speaker, ageidx, agecd, sexidx, sexcd });
                 }
 
-                // localStorage.setItem(episodSpeakerDependencyKey, JSON.stringify(episodSpeakerDependencyValue));
                 setCookie('speakerdependency', JSON.stringify(episodSpeakerDependencyValue));
 
                 setTimeout(() => {
+                    let tmpSaveUrl = '/labeltool/tmpSaveLabelJob';
+                    if(location.search.indexOf('jobStat=ERR') != -1 || location.search.indexOf('jobStat=ERR_ING') != -1) {
+                        tmpSaveUrl = '/labeltool/tmpSaveExceptionLabelJob';
+                    }
                     if( tmpJSON.subtitleList.length > 5 ) {
-                        sendFetch('/labeltool/tmpSaveLabelJob', tmpJSON, {method: 'POST'})
+                        sendFetch(tmpSaveUrl, tmpJSON, {method: 'POST'})
                         ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
                     }
                     else {

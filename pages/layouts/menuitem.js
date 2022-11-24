@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react'
-import { deleteCookie } from 'cookies-next';
+import { deleteCookie, setCookie } from 'cookies-next';
 import { Fragment, useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { getCue } from '../../store/nia_layout/StoreCueSlice';
@@ -64,7 +64,25 @@ export default function MenuItem() {
                             <Menu.Item>
                                 {({ active }) => (
                                     <button onClick={async (e) => {
+                                        const speakerDependency = document.getElementById('speaker-dependency');
+                                        let episodSpeakerDependencyValue = [];
                                         
+                                        for(let depend_idx=0; depend_idx<9; depend_idx++) {
+                                            //메모
+                                            let memo = speakerDependency.children[depend_idx].children[0].children[0].value;
+                                            //화자
+                                            let speaker = speakerDependency.children[depend_idx].children[1].children[0].children[1].children[0].value;
+                                            //발화자 연령
+                                            let ageidx = speakerDependency.children[depend_idx].children[2].children[0].children[1].selectedIndex;
+                                            let agecd = speakerDependency.children[depend_idx].children[2].children[0].children[1].children[ageidx].value;
+                                            //성별
+                                            let sexidx = speakerDependency.children[depend_idx].children[3].children[0].children[1].selectedIndex;
+                                            let sexcd = speakerDependency.children[depend_idx].children[3].children[0].children[1].children[sexidx].value;
+                                            episodSpeakerDependencyValue.push({ memo, speaker, ageidx, agecd, sexidx, sexcd });
+                                        }
+
+                                        setCookie('speakerdependency', JSON.stringify(episodSpeakerDependencyValue));
+
                                         let subtitle_edit_layout = document.querySelector('#subtitle_edit_layout').children[0];
                                         let subtitle_edit_layout_length = subtitle_edit_layout.childElementCount-1;
                                         for(let idx=0; idx<subtitle_edit_layout_length; idx++) {
@@ -108,9 +126,10 @@ export default function MenuItem() {
                                             param.subtitleList[idx].subtileSelLabelInfo.speakerSex.labelNm = speaker_sex_value;
                                         }
                                         
-                                        //console.log(param.subtitleList);
-
-                                        const context = '/labeltool/tmpSaveLabelJob';
+                                        let context = '/labeltool/tmpSaveLabelJob';
+                                        if(location.search.indexOf('jobStat=ERR') != -1 || location.search.indexOf('jobStat=ERR_ING') != -1) {
+                                            context = '/labeltool/tmpSaveExceptionLabelJob';
+                                        }
                                         setTimeout(async() => {
                                             if( param.subtitleList.length > 5 ) {
                                                 await sendFetch(context, param, {method:"POST"})
@@ -139,6 +158,24 @@ export default function MenuItem() {
                             <Menu.Item>
                                 {({ active }) => (
                                     <button onClick={(e) => {
+                                        const speakerDependency = document.getElementById('speaker-dependency');
+                                        let episodSpeakerDependencyValue = [];
+                                        
+                                        for(let depend_idx=0; depend_idx<9; depend_idx++) {
+                                            //메모
+                                            let memo = speakerDependency.children[depend_idx].children[0].children[0].value;
+                                            //화자
+                                            let speaker = speakerDependency.children[depend_idx].children[1].children[0].children[1].children[0].value;
+                                            //발화자 연령
+                                            let ageidx = speakerDependency.children[depend_idx].children[2].children[0].children[1].selectedIndex;
+                                            let agecd = speakerDependency.children[depend_idx].children[2].children[0].children[1].children[ageidx].value;
+                                            //성별
+                                            let sexidx = speakerDependency.children[depend_idx].children[3].children[0].children[1].selectedIndex;
+                                            let sexcd = speakerDependency.children[depend_idx].children[3].children[0].children[1].children[sexidx].value;
+                                            episodSpeakerDependencyValue.push({ memo, speaker, ageidx, agecd, sexidx, sexcd });
+                                        }
+
+                                        setCookie('speakerdependency', JSON.stringify(episodSpeakerDependencyValue));
 
                                         let subtitle_edit_layout = document.querySelector('#subtitle_edit_layout').children[0];
                                         let subtitle_edit_layout_length = subtitle_edit_layout.childElementCount-1;
@@ -185,7 +222,11 @@ export default function MenuItem() {
                                         
                                         //console.log(param.subtitleList);
 
-                                        const context = '/labeltool/tmpSaveLabelJob';
+                                        // const context = '/labeltool/tmpSaveLabelJob';
+                                        let context = '/labeltool/tmpSaveLabelJob';
+                                        if(location.search.indexOf('jobStat=ERR') != -1 || location.search.indexOf('jobStat=ERR_ING') != -1) {
+                                            context = '/labeltool/tmpSaveExceptionLabelJob';
+                                        }
                                         setTimeout(async() => {
                                             if( param.subtitleList.length > 5 ) {
                                                 await sendFetch(context, param, {method:"POST"})
@@ -252,6 +293,7 @@ export default function MenuItem() {
     
                                             if( unable_save_list.length > 0 ) {
                                                 ToastMsg(`저장하지 못했습니다.\n사유: 선택하지 않은 라벨이 존재합니다.\n${unable_save_idx}`, 10000, function() {
+                                                    let subtitle_edit_layout = document.querySelector('#subtitle_edit_layout');
                                                     let line = parseInt(unable_save_idx[0]) - 1;
                                                     subtitle_edit_layout.scrollTop = 120 * line;
                                                 }, null, 'warn');
@@ -259,7 +301,11 @@ export default function MenuItem() {
                                             }
                                             else {
                                                 if(confirm('최종 완료를 하시겠습니까?')){
-                                                    const context = '/labeltool/reqComplLabelJob';
+                                                    let context = '/labeltool/reqComplLabelJob';
+                                                    if(location.search.indexOf('jobStat=ERR') != -1 || location.search.indexOf('jobStat=ERR_ING') != -1) {
+                                                        context = '/labeltool/reqComplExceptionLabelJob';
+                                                    }
+                                                    
                                                     if( param.subtitleList.length > 5 ) {
                                                         await sendFetch(context, param, {method:"POST"})
                                                         .then(res => {
