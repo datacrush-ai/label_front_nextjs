@@ -80,7 +80,7 @@ const LayoutPosition = (info) => {
               <span>{''}</span>
             </div>
         </section>
-        <SelectItem key={`${category_list.title}`} response={category_list} setitem={info.data.scenarioSelLabelInfo.category}></SelectItem>
+        <SelectItem key={`${category_list?.title}`} response={category_list} setitem={info.data?.scenarioSelLabelInfo?.category}></SelectItem>
         {/* <SelectItem key={`${sub_category_list.title}`} response={sub_category_list} setitem={info.data.scenarioSelLabelInfo.subCategory}></SelectItem> */}
         <SearchBoxAutoComplete key={`${sub_category_list.title}`} placeholder={'하위카테고리를 입력하세요'} dataListName={'subcategory-options'} dataList={sub_category_list} index={''} setItem={info.data.scenarioSelLabelInfo.subCategory} title={'하위 카테고리'} minWidth={'250px'} titleMinWidth={'120px'}></SearchBoxAutoComplete>
         {/* <SelectItem key={`${keyword_list.title}`} response={keyword_list} setitem={info.data.scenarioSelLabelInfo.keyword}></SelectItem> */}
@@ -312,7 +312,7 @@ export default function Edit({ data }) {
           <span className={'mr-3 ml-3'} style={{'color': 'var(--theme-blue-color)'}}>
             매크로 지정: 해당 라인 마우스 우클릭
             <br></br>
-            {data.label_info.episodDTO.prgNm}-{data.label_info.episodDTO.epNm}-{data.label_info.episodDTO.epVdoSnm}화
+            {data.label_info?.episodDTO?.prgNm}-{data.label_info?.episodDTO?.epNm}-{data.label_info?.episodDTO?.epVdoSnm}화
             <br></br>
             <MacroLayer></MacroLayer>
             {/* {`2번매크로: ${macro['2']?.speakerAge?.labelNm}-${macro['2']?.speakerSex?.labelNm}-${macro['2']?.placeType?.labelNm}-${macro['2']?.speaker?.labelNm}-${macro['2']?.speakerOvrVoc?.labelNm}`} */}
@@ -366,22 +366,42 @@ export async function getServerSideProps(context) {
       'epVdoSnm': epVdoSnm,
     }
   }
-  
+
   let label_url = '/labeltool/getLabelJobForScenario';
 
   if( jobStat == 'ING') {
     label_url = '/labeltool/getLabelJobIngForScenario';
   }
-
+  else if( jobStat == 'ERR') {
+    label_url = '/labeltool/getExceptionEp';
+  }
+  else if( jobStat == 'ERR_ING') {
+    label_url = '/labeltool/getExceptionEpJobIng';
+  }
+  
   const label_info = await sendFetch(label_url, label_param, {method: 'POST'});
-
-  if( label_info.subtitleList == null && jobStat != 'ING') {
+  
+  if( label_info.subtitleList == null && jobStat == 'ERR' ) {
+    const _aspath = `/common/edit?epAin=${epAin}&epVdoSnm=${epVdoSnm}&prgAin=${prgAin}&jobStat=ERR_ING`;
+    return {
+      redirect: {
+        permanent: false,
+        destination: _aspath,
+      }
+    }
+  }
+  else if( label_info.subtitleList == null && jobStat == 'NEW') {
     const _aspath = `/common/edit?epAin=${epAin}&epVdoSnm=${epVdoSnm}&prgAin=${prgAin}&jobStat=ING`;
     return {
       redirect: {
         permanent: false,
         destination: _aspath,
       }
+    }
+  }
+  else if( label_info.subtitleList == null && jobStat == 'ERR_ING') {
+    return {
+      notFound: true,
     }
   }
   else if( label_info.subtitleList == null && jobStat == 'ING') {
@@ -434,7 +454,7 @@ export async function getServerSideProps(context) {
   return { props: { data } }
 }
 
-Edit.title = 'VIVO_편집';
+Edit.title = 'NIA_편집';
 
 // export async function getStaticProps(context) {
 //   // const data = resize();  

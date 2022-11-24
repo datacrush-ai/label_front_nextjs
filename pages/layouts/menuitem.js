@@ -108,9 +108,10 @@ export default function MenuItem() {
                                             param.subtitleList[idx].subtileSelLabelInfo.speakerSex.labelNm = speaker_sex_value;
                                         }
                                         
-                                        //console.log(param.subtitleList);
-
-                                        const context = '/labeltool/tmpSaveLabelJob';
+                                        let context = '/labeltool/tmpSaveLabelJob';
+                                        if(location.search.indexOf('jobStat=ERR_ING') != -1) {
+                                            context = '/labeltool/tmpSaveExceptionLabelJob';
+                                        }
                                         setTimeout(async() => {
                                             if( param.subtitleList.length > 5 ) {
                                                 await sendFetch(context, param, {method:"POST"})
@@ -185,7 +186,11 @@ export default function MenuItem() {
                                         
                                         //console.log(param.subtitleList);
 
-                                        const context = '/labeltool/tmpSaveLabelJob';
+                                        // const context = '/labeltool/tmpSaveLabelJob';
+                                        let context = '/labeltool/tmpSaveLabelJob';
+                                        if(location.search.indexOf('jobStat=ERR_ING') != -1) {
+                                            context = '/labeltool/tmpSaveExceptionLabelJob';
+                                        }
                                         setTimeout(async() => {
                                             if( param.subtitleList.length > 5 ) {
                                                 await sendFetch(context, param, {method:"POST"})
@@ -259,7 +264,11 @@ export default function MenuItem() {
                                             }
                                             else {
                                                 if(confirm('최종 완료를 하시겠습니까?')){
-                                                    const context = '/labeltool/reqComplLabelJob';
+                                                    let context = '/labeltool/reqComplLabelJob';
+                                                    if(location.search.indexOf('jobStat=ERR_ING') != -1) {
+                                                        context = '/labeltool/reqComplExceptionLabelJob';
+                                                    }
+                                                    
                                                     if( param.subtitleList.length > 5 ) {
                                                         await sendFetch(context, param, {method:"POST"})
                                                         .then(res => {

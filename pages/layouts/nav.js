@@ -16,7 +16,7 @@ const Viewport = ({ info, isAdmin }) => {
   }
   for (let idx = 0; idx < viewInfo.length; idx++) {
     if (viewInfo[idx].props.children != undefined) {
-      if (viewInfo[idx].props.children?.props?.children == 'VIVO_편집') {
+      if (viewInfo[idx].props.children?.props?.children == 'NIA_편집') {
         return (
           <MenuItem></MenuItem>
         )
@@ -28,6 +28,13 @@ const Viewport = ({ info, isAdmin }) => {
     //admin일 경우
     return (
       <ul className={styles.tabbed_primary_navigation}>
+        <li className={styles.navigation_tab}>
+          <Link href="/">
+            <a onClick={(e) => {
+              location.href = 'https://wooki.vivo.best/components/dashboard/dashboard_retask';
+            }}>재작업 화면</a>
+          </Link>
+        </li>
         <li className={styles.navigation_tab}>
           <Link href="/">
             <a onClick={(e) => {
@@ -107,7 +114,7 @@ export default function NavBar({ info }) {
   }, [admin]);
   
   if(admin) {
-    minWidth = '450px';
+    minWidth = '550px';
   }
 
   return (

@@ -18,7 +18,7 @@ import styles from '../../../styles/Layout.module.css'
 import dynamic from 'next/dynamic';
 
 const fetcher = (url, param, options) => sendFetch(url, param, options);
-const DASHBOARD_API = '/labeltool/getBasicInfoForDashboard';
+const DASHBOARD_API = '/labeltool/getExceptionEpList';
 
 let _layerPopupRefElement;
 let _payLayerPopupRefElement;
@@ -121,10 +121,10 @@ export default function Dashboard({response, param}) {
   const CustomSetPopup = dynamic(() => import('../../common/custom_set_popup'), {
     ssr: false
   });
-  const UserProcessList = dynamic(() => import('./user_process_list'), {
+  const UserProcessList = dynamic(() => import('./user_process_list_retask'), {
     ssr: false
   });
-  const DetailLabelList = dynamic(() => import('./detail_label_list'), {
+  const DetailLabelList = dynamic(() => import('./detail_label_list_retask'), {
     ssr: false
   });
   
@@ -164,11 +164,13 @@ export default function Dashboard({response, param}) {
       <main className={"flex flex-row px-6 py-6 h-[95vh]"}>
         {/* 왼쪽 프로그램 목록 */}
         <section className={"w-1/3 min-w-[340px] px-3 py-3 bg-whiteblue100"}>
-          {/* <SearchBox></SearchBox> */}
           <div style={{'textAlign': 'center', 'height': '40px'}}>
             <span style={{'color': 'var(--theme-blue-color)', 'fontSize': '20px'}}>{response.userInfo.prtNm}</span>
-            님 환영합니다.</div>
-          <ProgramList response={data?.prgList}></ProgramList>
+            님 환영합니다.
+            <br></br>
+            해당화면은 재작업 화면 입니다.
+          </div>
+          {/* <ProgramList response={data?.prgList}></ProgramList> */}
         </section>
         
         {/* 오른쪽 */}
@@ -179,14 +181,14 @@ export default function Dashboard({response, param}) {
             
             {/* 차트 */}
             <section className={"w-1/2 mr-4 bg-whiteblue100"}>
-              <PieChart></PieChart>
+              {/* <PieChart></PieChart> */}
+              <h1 style={{'fontSize':'3rem', 'textAlign':'center'}}>재작업 화면</h1>
             </section>
             {/* 차트 끝 */}
             
             {/* 상세목록 */}
             <section className={"w-1/2 ml-4 bg-whiteblue100"}>
-              {/* <ConditionDetailList userinfo={userinfo} response={data?.epListJobIng}></ConditionDetailList> */}
-              <DetailLabelList response={data?.epListJobIng}></DetailLabelList>
+              <DetailLabelList response={data?.epListJobCpl}></DetailLabelList>
             </section>
             {/* 상세목록 끝 */}
 
@@ -195,8 +197,7 @@ export default function Dashboard({response, param}) {
 
           {/* 라벨 작업 중 목록 / 검수 작업 중 목록 */}
           <section className={"flex w-full mt-6 h-[35vh]"}>
-            {/* <ConditionProcessList userinfo={userinfo} response={data.epListJobIng}></ConditionProcessList> */}
-            <UserProcessList response={data?.epListJobIng}></UserProcessList>
+            <UserProcessList response={data?.epListJobIng} user_id={response.userInfo.prtNm}></UserProcessList>
           </section>
 
           {/* 검수 반려 목록 / 재검수 요청 목록 */}
@@ -205,9 +206,9 @@ export default function Dashboard({response, param}) {
           </section> */}
 
         </section>
-        <section ref={layerPopupRefElement} id={"help_layer_popup"} className={styles.layer_popup} style={{ "display": "none", 'zIndex': '40' }}>
-          <CustomSetPopup response={data?.epListJobCpl} utilDate={utilDate}></CustomSetPopup>
-        </section>
+        {/* <section ref={layerPopupRefElement} id={"help_layer_popup"} className={styles.layer_popup} style={{ "display": "none", 'zIndex': '40' }}> */}
+          {/* <CustomSetPopup response={data?.epListJobCpl} utilDate={utilDate}></CustomSetPopup> */}
+        {/* </section> */}
       </main>
     </SWRConfig>
   )
@@ -235,6 +236,16 @@ export async function getServerSideProps(context) {
   }
   // /*
   const user_info = JSON.parse(cookie);
+
+  if(user_info.prtEml.indexOf('@datacrush.ai') == -1) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/common/illegal'
+      }
+    }
+  }
+
   const param = {
     "userInfo": {
         "prtEml": user_info.prtEml
@@ -249,13 +260,8 @@ export async function getServerSideProps(context) {
   
   return { 
     props: { 
-      // cookie,
       param,
       response,
-      // 'complete_list': complete_list,
-      // fallback: {
-      //   DASHBOARD_API: param
-      // },
     } 
   }
 }

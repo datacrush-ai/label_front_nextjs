@@ -1,4 +1,4 @@
-import { getCookies, setCookie } from "cookies-next";
+import { getCookie, getCookies, setCookie } from "cookies-next";
 import _, { isNumber } from "lodash";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -569,8 +569,12 @@ export default function CommonScript({url}) {
                 setCookie('speakerdependency', JSON.stringify(episodSpeakerDependencyValue));
 
                 setTimeout(() => {
+                    let tmpSaveUrl = '/labeltool/tmpSaveLabelJob';
+                    if(location.search.indexOf('jobStat=ERR_ING') != -1) {
+                        tmpSaveUrl = '/labeltool/tmpSaveExceptionLabelJob';
+                    }
                     if( tmpJSON.subtitleList.length > 5 ) {
-                        sendFetch('/labeltool/tmpSaveLabelJob', tmpJSON, {method: 'POST'})
+                        sendFetch(tmpSaveUrl, tmpJSON, {method: 'POST'})
                         ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
                     }
                     else {

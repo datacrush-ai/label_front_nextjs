@@ -42,15 +42,9 @@ const ProgramListDetail = ({response}) => {
 }
 
 export default function DetailLabelList({response}) {
-    // console.log(response);
     const detail_list = useSelector(getDetailList);
-
-    // console.log('detail = ', response)
-    // console.log('detail_list = ', detail_list)
     useEffect(() => {
-        // console.log('detail RE = ', response)
-        // console.log(detail_list)
-    // }, [detail_list])
+
     }, [response, detail_list.epListPerPrg]);
     
     
