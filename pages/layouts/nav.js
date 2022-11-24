@@ -31,7 +31,7 @@ const Viewport = ({ info, isAdmin }) => {
         <li className={styles.navigation_tab}>
           <Link href="/">
             <a onClick={(e) => {
-              location.href = 'https://wooki.vivo.best/components/dashboard/dashboard_retask';
+              location.href = 'dashboard_retask';
             }}>재작업 화면</a>
           </Link>
         </li>
