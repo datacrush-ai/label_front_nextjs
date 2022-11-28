@@ -259,10 +259,10 @@ export default function MenuItem() {
                                                 }
     
                                                 if(  
-                                                    (subtitleList[idx].subtileSelLabelInfo.placeType.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.placeType.labelCd == '') ||
-                                                    (subtitleList[idx].subtileSelLabelInfo.speaker.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.speaker.labelCd == '') ||
-                                                    (subtitleList[idx].subtileSelLabelInfo.speakerAge.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.speakerAge.labelCd == '') ||
-                                                    (subtitleList[idx].subtileSelLabelInfo.speakerSex.labelCd == 'LBL_KND_00_000' || subtitleList[idx].subtileSelLabelInfo.speakerSex.labelCd == '')
+                                                    (subtitleList[idx].subtileSelLabelInfo.placeType.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.placeType.labelCd == '' || subtitleList[idx].subtileSelLabelInfo.placeType.labelNm == '') ||
+                                                    (subtitleList[idx].subtileSelLabelInfo.speaker.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.speaker.labelCd == '' ||  subtitleList[idx].subtileSelLabelInfo.speaker.labelNm == '') ||
+                                                    (subtitleList[idx].subtileSelLabelInfo.speakerAge.labelCd == 'LBL_KND_00_000' ||  subtitleList[idx].subtileSelLabelInfo.speakerAge.labelCd == '' ||  subtitleList[idx].subtileSelLabelInfo.speakerAge.labelNm == '') ||
+                                                    (subtitleList[idx].subtileSelLabelInfo.speakerSex.labelCd == 'LBL_KND_00_000' || subtitleList[idx].subtileSelLabelInfo.speakerSex.labelCd == '' ||  subtitleList[idx].subtileSelLabelInfo.speakerSex.labelNm == '')
                                                 ) {
                                                     unable_save_list.push(subtitleList[idx]);
                                                     unable_save_idx.push((parseInt(subtitleList[idx].subSnm)+ 1) + '라인 ');
