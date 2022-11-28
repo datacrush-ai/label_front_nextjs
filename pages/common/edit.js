@@ -281,13 +281,12 @@ export default function Edit({ data }) {
       const alarm_msg = await sendFetch(ALARM_URL, param, {method: 'POST'});
       const alarm = getAlarm();
 
-      // if( (alarm?.start != alarm_msg?.notice?.ntcVldBgnDt) || (alarm?.end != alarm_msg?.notice?.ntcVldEndDt) ) {
       if( (alarm?.start != alarm_msg?.notice?.ntcVldBgnDt) || (alarm?.end != alarm_msg?.notice?.ntcVldEndDt) && (alarm_msg.notice?.ntcTtl && alarm_msg.notice?.ntcCn)) {
         if( document.querySelector('body>div.toastify.on.toastify-right.toastify-bottom') ) {
           
           
         }
-        else {
+        else if(alarm_msg.rst.rstCd != '400') {
           ToastMsg(alarm_msg, 2000000, null, null, 'alert', '공지');
         }
       }
