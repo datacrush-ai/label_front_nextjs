@@ -6,6 +6,7 @@ import { getCue } from '../../store/nia_layout/StoreCueSlice';
 import { sendFetch, sendSwitWebHook, ToastMsg } from '../common/common_script';
 import { convertValueKey } from '../common/searchbox_autocomplete';
 import { getTmpJSON } from '../common/video_layout';
+import html2canvas from 'html2canvas';
 
 export default function MenuItem() {
     const subtitleList = useSelector(getCue);
@@ -36,11 +37,41 @@ export default function MenuItem() {
                         <div className="px-1 py-1 ">
                             <Menu.Item>
                                 {({ active }) => (
-                                    <button
-                                        className={`${active ? 'bg-blue-500 text-white' : 'text-gray-900'
+                                    <button className={`${active ? 'bg-blue-500 text-white' : 'text-gray-900'
                                             } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                                     >
                                         설정
+                                    </button>
+                                )}
+                            </Menu.Item>
+                        </div>
+                        <div className="px-1 py-1 ">
+                            <Menu.Item>
+                                {({ active }) => (
+                                    <button
+                                        className={`${active ? 'bg-blue-500 text-white' : 'text-gray-900'
+                                            } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                                        onClick={async (e) => {
+                                            window.open('/common/keyword_guide');
+                                        }}
+                                    >
+                                        키워드 가이드
+                                    </button>
+                                )}
+                            </Menu.Item>
+                        </div>
+                        <div className="px-1 py-1 ">
+                            <Menu.Item>
+                                {({ active }) => (
+                                    <button
+                                        className={`${active ? 'bg-blue-500 text-white' : 'text-gray-900'
+                                            } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                                        onClick={async (e) => {
+                                            deleteCookie('speakerdependency');
+                                            ToastMsg('화자 매크로를 초기화 했습니다.', 3000, null, null, 'pass');
+                                        }}
+                                    >
+                                        화자 매크로 초기화
                                     </button>
                                 )}
                             </Menu.Item>
@@ -67,7 +98,7 @@ export default function MenuItem() {
                                         const speakerDependency = document.getElementById('speaker-dependency');
                                         let episodSpeakerDependencyValue = [];
                                         
-                                        for(let depend_idx=0; depend_idx<9; depend_idx++) {
+                                        for(let depend_idx=0; depend_idx<21; depend_idx++) {
                                             //메모
                                             let memo = speakerDependency.children[depend_idx].children[0].children[0].value;
                                             //화자
@@ -161,7 +192,7 @@ export default function MenuItem() {
                                         const speakerDependency = document.getElementById('speaker-dependency');
                                         let episodSpeakerDependencyValue = [];
                                         
-                                        for(let depend_idx=0; depend_idx<9; depend_idx++) {
+                                        for(let depend_idx=0; depend_idx<21; depend_idx++) {
                                             //메모
                                             let memo = speakerDependency.children[depend_idx].children[0].children[0].value;
                                             //화자

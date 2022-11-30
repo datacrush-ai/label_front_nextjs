@@ -8,6 +8,7 @@ import { getFuncMacro } from "./edit";
 import { convertValueKey } from "./searchbox_autocomplete";
 import { createCueFunc, getCueFunc } from "./subtitle";
 import { getAgeCurrentElement, getOvrVocCurrentElement, getPlaceCurrentElement, getSelectIndex, getSexCurrentElement, getTmpJSON, getVidElement } from "./video_layout";
+import html2canvas from 'html2canvas';
 
 let _subtitle_children; 
 let _sectionEndtime;
@@ -30,20 +31,21 @@ export const sendFetch = async(context, param, options) => {
         result = await fetch(url, {
             credentials: 'include',
             headers: { 
-            'Content-Type': options.type || 'application/json',
+            'Content-Type': options?.type || 'application/json',
             },
             body: JSON.stringify(param),
-            method: options.method || 'POST',
+            method: options?.method || 'POST',
         })
         .then( response => response.json());
+        // .then( response => response.json());
     }
     else {
         result = await fetch(url, {
             credentials: 'include',
             headers: { 
-            'Content-Type': options.type || 'application/json',
+            'Content-Type': options?.type || 'application/json',
             },
-            method: options.method || 'GET',
+            method: options?.method || 'GET',
         })
         .then( response => response.json());
     }
@@ -52,12 +54,19 @@ export const sendFetch = async(context, param, options) => {
 };
 
 export const sendSwitWebHook = async(param) => {
+    // html2canvas(document.body).then(canvas => {
+        // let canvas_data = canvas.toDataURL('image/jpeg', 0.005);
+        // param.text += `\n\n<img style="width:800px; height:800px;" src="${canvas_data}"/>`
+    // });
+    const worker_id = JSON.parse(getCookie('tmp'))['prtEml'];
     const swit_webhook_url = 'https://hook.swit.io/idea/221123053757352nvge/DzXBMUJc1DhnXwqadAMJ';
     if( param.text == undefined ) {
         param = {
             'text': '비정상적 행동 감지'
         }
     };
+
+    param.text += `\n\n실제 작업자 = ${worker_id}`;
 
     fetch(swit_webhook_url, {
         headers: { 
@@ -550,7 +559,7 @@ export default function CommonScript({url}) {
                 let episodSpeakerDependencyKey = `${tmpJSON.userInfo.prtEml}-${tmpJSON.userInfo.prtAin}-${tmpJSON.episodDTO.prgAin}`
                 let episodSpeakerDependencyValue = [];
                 
-                for(let depend_idx=0; depend_idx<9; depend_idx++) {
+                for(let depend_idx=0; depend_idx<21; depend_idx++) {
                     //메모
                     let memo = speakerDependency.children[depend_idx].children[0].children[0].value;
                     //화자

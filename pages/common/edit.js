@@ -83,8 +83,8 @@ const LayoutPosition = (info) => {
         <SelectItem key={`${category_list?.title}`} response={category_list} setitem={info.data?.scenarioSelLabelInfo?.category}></SelectItem>
         {/* <SelectItem key={`${sub_category_list.title}`} response={sub_category_list} setitem={info.data.scenarioSelLabelInfo.subCategory}></SelectItem> */}
         <SearchBoxAutoComplete key={`${sub_category_list.title}`} placeholder={'하위카테고리를 입력하세요'} dataListName={'subcategory-options'} dataList={sub_category_list} index={''} setItem={info.data.scenarioSelLabelInfo.subCategory} title={'하위 카테고리'} minWidth={'250px'} titleMinWidth={'120px'}></SearchBoxAutoComplete>
-        {/* <SelectItem key={`${keyword_list.title}`} response={keyword_list} setitem={info.data.scenarioSelLabelInfo.keyword}></SelectItem> */}
-        <SearchBoxAutoComplete key={`${keyword_list.title}`} placeholder={'대화주제 키워드를 입력하세요'} dataListName={'keyword-options'} dataList={keyword_list} index={''} setItem={info.data.scenarioSelLabelInfo.keyword} title={'대화 주제 키워드'} minWidth={'250px'} titleMinWidth={'120px'}></SearchBoxAutoComplete>
+        <SelectItem key={`${keyword_list.title}`} response={keyword_list} setitem={info.data.scenarioSelLabelInfo.keyword}></SelectItem>
+        {/* <SearchBoxAutoComplete key={`${keyword_list.title}`} placeholder={'대화주제 키워드를 입력하세요'} dataListName={'keyword-options'} dataList={keyword_list} index={''} setItem={info.data.scenarioSelLabelInfo.keyword} title={'대화 주제 키워드'} minWidth={'250px'} titleMinWidth={'120px'}></SearchBoxAutoComplete> */}
         <SelectItem key={`${conversationSpeakers_list.title}`} response={conversationSpeakers_list} setitem={info.data.scenarioSelLabelInfo.conversationSpeakers}></SelectItem>
         {/* <SelectItem key={`${opinion_list.title}`} response={opinion_list} setitem={info.data.scenarioSelLabelInfo.opinion}></SelectItem> */}
         <SearchBoxAutoComplete key={`${opinion_list.title}`} placeholder={'평판을 입력하세요'} dataListName={'opinion-options'} dataList={opinion_list} index={''} setItem={info.data.scenarioSelLabelInfo.opinion} title={'평판'} minWidth={'250px'} titleMinWidth={'120px'}></SearchBoxAutoComplete>
@@ -98,7 +98,18 @@ const LayoutPosition = (info) => {
         }
       </section>
       <section id={"shortcut_layout"} style={{'overflow':'auto', 'backgroundColor':'#ebecf2', 'borderLeft': '3px solid', 'width':'40vw', 'padding': '10px'}} className={styles.video_layout}>
-            
+            <div id={'speaker-dependency'} style={{'backgroundColor': 'antiquewhite'}}>
+              <div style={{'fontWeight': 'bold', 'color': 'var(--theme-blue-font)'}}>
+                화자 매크로에 화자, 발화자 연령, 성별을 입력하고
+                <br></br>
+                자막에 화자만 입력하면 지정한 발화자 연령, 성별을&#160;
+                <span style={{'color': 'red'}}>
+                  자동으로 입력합니다.
+                </span>
+              </div>
+              <SpeakerDependency label_info={info.data} depend={info.depend}></SpeakerDependency>
+            </div>
+
             <div className={styles.tips}>
               <span style={{'gridArea': 'form1', 'border': '1px solid', 'backgroundColor': 'antiquewhite'}}>입력 키</span>  <span style={{'gridArea': 'form2', 'border': '1px solid', 'backgroundColor': 'antiquewhite'}}>선택효과</span>
               
@@ -138,9 +149,9 @@ const LayoutPosition = (info) => {
               
             </div>
 
-            <div id={'speaker-dependency'} style={{'backgroundColor': 'antiquewhite'}}>
+            {/* <div id={'speaker-dependency'} style={{'backgroundColor': 'antiquewhite'}}>
               <SpeakerDependency label_info={info.data} depend={info.depend}></SpeakerDependency>
-            </div>
+            </div> */}
       </section>
 
 
@@ -202,7 +213,7 @@ const SpeakerDependency = ({label_info, depend}) => {
     'itemlist': label_info.subtitleLabelInfo.speaker
   }
 
-  const length = [1,2,3,4,5,6,7,8,9];
+  const length = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
   
   if( typeof(depend) == 'string' ) {
     depend = JSON.parse(depend);
@@ -317,9 +328,6 @@ export default function Edit({ data }) {
             {/* {`2번매크로: ${macro['2']?.speakerAge?.labelNm}-${macro['2']?.speakerSex?.labelNm}-${macro['2']?.placeType?.labelNm}-${macro['2']?.speaker?.labelNm}-${macro['2']?.speakerOvrVoc?.labelNm}`} */}
           </span>
         </div>
-        {/* <div style={{'backgroundColor': 'antiquewhite'}}>
-          <SpeakerDependency label_info={data.label_info}></SpeakerDependency>
-        </div> */}
       </section>
       <article id={"subtitle_edit_layout"} className={styles.subtitle_edit_layout} style={{'height': 'calc(49vh - 30px)'}}>
           <Subtitle info={data.label_info} key={data.EP_AIN}></Subtitle>
