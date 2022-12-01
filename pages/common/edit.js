@@ -72,7 +72,7 @@ const LayoutPosition = (info) => {
       <section id={"video_layout"} className={styles.video_layout} style={{'width': '40vw'}}>
         <VideoLayout video_info={info.data}></VideoLayout>
       </section>
-      <section id={"program_layout"} style={{'backgroundColor':'#ebecf2', 'borderLeft': '3px solid', 'width':'20vw', 'minWidth': '250px', 'minHeight': '350px'}} className={styles.video_layout}>
+      <section id={"program_layout"} style={{'width':'26vw', 'backgroundColor':'#ebecf2', 'borderLeft': '3px solid', 'minWidth': '250px', 'minHeight': '300px', 'overflow': 'auto'}} className={styles.video_layout}>
         <section className={styles.subtitle_edit_content_thumbnail} style={{'maxHeight':'40px'}}>
             <div style={{'minWidth':'150px'}}>시나리오 정보</div>
             <div style={{'width': '100%'}}>
@@ -83,8 +83,8 @@ const LayoutPosition = (info) => {
         <SelectItem key={`${category_list?.title}`} response={category_list} setitem={info.data?.scenarioSelLabelInfo?.category}></SelectItem>
         {/* <SelectItem key={`${sub_category_list.title}`} response={sub_category_list} setitem={info.data.scenarioSelLabelInfo.subCategory}></SelectItem> */}
         <SearchBoxAutoComplete key={`${sub_category_list.title}`} placeholder={'하위카테고리를 입력하세요'} dataListName={'subcategory-options'} dataList={sub_category_list} index={''} setItem={info.data.scenarioSelLabelInfo.subCategory} title={'하위 카테고리'} minWidth={'250px'} titleMinWidth={'120px'}></SearchBoxAutoComplete>
-        {/* <SelectItem key={`${keyword_list.title}`} response={keyword_list} setitem={info.data.scenarioSelLabelInfo.keyword}></SelectItem> */}
-        <SearchBoxAutoComplete key={`${keyword_list.title}`} placeholder={'대화주제 키워드를 입력하세요'} dataListName={'keyword-options'} dataList={keyword_list} index={''} setItem={info.data.scenarioSelLabelInfo.keyword} title={'대화 주제 키워드'} minWidth={'250px'} titleMinWidth={'120px'}></SearchBoxAutoComplete>
+        <SelectItem key={`${keyword_list.title}`} response={keyword_list} setitem={info.data.scenarioSelLabelInfo.keyword}></SelectItem>
+        {/* <SearchBoxAutoComplete key={`${keyword_list.title}`} placeholder={'대화주제 키워드를 입력하세요'} dataListName={'keyword-options'} dataList={keyword_list} index={''} setItem={info.data.scenarioSelLabelInfo.keyword} title={'대화 주제 키워드'} minWidth={'250px'} titleMinWidth={'120px'}></SearchBoxAutoComplete> */}
         <SelectItem key={`${conversationSpeakers_list.title}`} response={conversationSpeakers_list} setitem={info.data.scenarioSelLabelInfo.conversationSpeakers}></SelectItem>
         {/* <SelectItem key={`${opinion_list.title}`} response={opinion_list} setitem={info.data.scenarioSelLabelInfo.opinion}></SelectItem> */}
         <SearchBoxAutoComplete key={`${opinion_list.title}`} placeholder={'평판을 입력하세요'} dataListName={'opinion-options'} dataList={opinion_list} index={''} setItem={info.data.scenarioSelLabelInfo.opinion} title={'평판'} minWidth={'250px'} titleMinWidth={'120px'}></SearchBoxAutoComplete>
@@ -97,8 +97,17 @@ const LayoutPosition = (info) => {
           // })
         }
       </section>
-      <section id={"shortcut_layout"} style={{'overflow':'auto', 'backgroundColor':'#ebecf2', 'borderLeft': '3px solid', 'width':'40vw', 'padding': '10px'}} className={styles.video_layout}>
-            
+      <div style={{'fontWeight': 'bold', 'color': 'var(--theme-blue-font)', 'width': '11rem'}}>
+        화자 매크로에 화자, 발화자 연령, 성별을 입력하고
+        <br></br>
+        자막에 화자만 입력하면 
+        <br></br>
+        지정한 발화자 연령, 성별을&#160;
+        <span style={{'color': 'red'}}>
+          자동으로 입력합니다.
+        </span>
+      </div>
+      <section id={"shortcut_layout"} style={{'overflow':'auto', 'backgroundColor':'#ebecf2', 'borderLeft': '3px solid', 'width':'40vw', 'padding': '10px', 'flexDirection': 'column-reverse'}} className={styles.video_layout}>
             <div className={styles.tips}>
               <span style={{'gridArea': 'form1', 'border': '1px solid', 'backgroundColor': 'antiquewhite'}}>입력 키</span>  <span style={{'gridArea': 'form2', 'border': '1px solid', 'backgroundColor': 'antiquewhite'}}>선택효과</span>
               
@@ -119,6 +128,7 @@ const LayoutPosition = (info) => {
               <span style={{'gridArea': 'macro11', 'border': '1px solid'}}>6</span>  <span style={{'gridArea': 'macro12', 'border': '1px solid'}}>화자 매크로6</span>
               <span style={{'gridArea': 'macro13', 'border': '1px solid'}}>7</span>  <span style={{'gridArea': 'macro14', 'border': '1px solid'}}>화자 매크로7</span>
               <span style={{'gridArea': 'macro15', 'border': '1px solid'}}>8</span>  <span style={{'gridArea': 'macro16', 'border': '1px solid'}}>화자 매크로8</span>
+              <span style={{'gridArea': 'macro17', 'border': '1px solid'}}>9</span>  <span style={{'gridArea': 'macro18', 'border': '1px solid'}}>화자 매크로9</span>
               
               <span className={styles.header_tips} style={{'gridArea': 'place0'}}>장소</span>
               <span style={{'gridArea': 'place1', 'border': '1px solid'}}>a</span>  <span style={{'gridArea': 'place2', 'border': '1px solid'}}>집</span>
@@ -202,7 +212,7 @@ const SpeakerDependency = ({label_info, depend}) => {
     'itemlist': label_info.subtitleLabelInfo.speaker
   }
 
-  const length = [1,2,3,4,5,6,7,8,9];
+  const length = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
   
   if( typeof(depend) == 'string' ) {
     depend = JSON.parse(depend);
@@ -286,12 +296,14 @@ export default function Edit({ data }) {
           
           
         }
-        else if(alarm_msg.rst.rstCd != '400') {
+        else if(alarm_msg?.rst?.rstCd != '400') {
           ToastMsg(alarm_msg, 2000000, null, null, 'alert', '공지');
         }
       }
     }, 20000);
-
+    
+    const shortcut = document.getElementById('shortcut_layout');
+    shortcut.scrollTop = -(shortcut.scrollHeight);
     createLayerPopupElement(layerPopupRefElement);
     createReplacePopupElement(replacePopupRefElement);
     localStorage.setItem('episodDTO', JSON.stringify(data.label_info.episodDTO));
@@ -302,11 +314,11 @@ export default function Edit({ data }) {
   
   return (
     <>
-      <article id={"edit_top_layout"} className={styles.container} style={{'backgroundColor': '#ebecf2', 'overflow': 'auto'}}>
+      <article id={"edit_top_layout"} className={styles.container} style={{'backgroundColor': '#ebecf2', 'overflow': 'auto', 'height': '47vh'}}>
         <LayoutPosition video_position={data.video_position} data={data.label_info} depend={data.speakerdependency}></LayoutPosition>
       </article>
       {/* <section style={{'display': 'flex', 'justifyContent': 'center', 'maxHeight': '30px'}}> */}
-      <section style={{'display': 'flex', 'justifyContent': 'center', 'minHeight': 'calc(7vh)', 'maxHeight': 'calc(7vh)', 'overflow': 'auto', 'textAlign': 'center'}}>
+      <section style={{'display': 'flex', 'justifyContent': 'center', 'minHeight': 'calc(6vh)', 'maxHeight': 'calc(6vh)', 'overflow': 'auto', 'textAlign': 'center'}}>
         <div>
           <span className={'mr-3 ml-3'} style={{'color': 'var(--theme-blue-color)'}}>
             매크로 지정: 해당 라인 마우스 우클릭
@@ -317,11 +329,8 @@ export default function Edit({ data }) {
             {/* {`2번매크로: ${macro['2']?.speakerAge?.labelNm}-${macro['2']?.speakerSex?.labelNm}-${macro['2']?.placeType?.labelNm}-${macro['2']?.speaker?.labelNm}-${macro['2']?.speakerOvrVoc?.labelNm}`} */}
           </span>
         </div>
-        {/* <div style={{'backgroundColor': 'antiquewhite'}}>
-          <SpeakerDependency label_info={data.label_info}></SpeakerDependency>
-        </div> */}
       </section>
-      <article id={"subtitle_edit_layout"} className={styles.subtitle_edit_layout} style={{'height': 'calc(49vh - 30px)'}}>
+      <article id={"subtitle_edit_layout"} className={styles.subtitle_edit_layout} style={{'height': 'calc(43vh - 30px)'}}>
           <Subtitle info={data.label_info} key={data.EP_AIN}></Subtitle>
       </article>
     </>
