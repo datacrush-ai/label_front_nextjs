@@ -561,7 +561,7 @@ export default function CommonScript({url}) {
                 
                 for(let depend_idx=0; depend_idx<21; depend_idx++) {
                     //메모
-                    let memo = speakerDependency.children[depend_idx].children[0].children[0].value;
+                    let memo = speakerDependency.children[depend_idx].children[0].children[0]?.value;
                     //화자
                     let speaker = speakerDependency.children[depend_idx].children[1].children[0].children[1].children[0].value;
                     //발화자 연령
@@ -615,7 +615,7 @@ export default function CommonScript({url}) {
                 
                 if( getAgeCurrentElement() != undefined && getSexCurrentElement() != undefined && getPlaceCurrentElement() != undefined 
                     && !(nextid?.includes('comment') || nextid?.includes('speaker')) ) {
-                    if( e.key == '1' || e.key == '2' || e.key == '3' || e.key == '4' || e.key == '5' || e.key == '6' || e.key == '7' || e.key == '8') {
+                    if( e.key == '1' || e.key == '2' || e.key == '3' || e.key == '4' || e.key == '5' || e.key == '6' || e.key == '7' || e.key == '8' || e.key == '9') {
                         const child_idx = parseInt(e.key)-1;
                         const _cue = document.querySelectorAll('textarea');
                         const speakerDependency = document.getElementById('speaker-dependency');
