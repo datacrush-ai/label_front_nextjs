@@ -296,7 +296,7 @@ export default function Edit({ data }) {
           
           
         }
-        else if(alarm_msg.rst.rstCd != '400') {
+        else if(alarm_msg?.rst?.rstCd != '400') {
           ToastMsg(alarm_msg, 2000000, null, null, 'alert', '공지');
         }
       }
