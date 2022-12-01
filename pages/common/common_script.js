@@ -45,7 +45,7 @@ export const sendFetch = async(context, param, options) => {
             headers: { 
             'Content-Type': options?.type || 'application/json',
             },
-            method: options?.method || 'GET',
+            method: options.method || 'POST',
         })
         .then( response => response.json());
     }
