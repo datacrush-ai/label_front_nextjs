@@ -42,7 +42,7 @@ export default function SearchBoxAutoComplete({dataList, dataListName, placehold
             let cue = getCueFunc();
             
             const speakerDependency = document.getElementById('speaker-dependency');
-            for(let idx=0; idx<9; idx++) {
+            for(let idx=0; idx<21; idx++) {
                 //화자
                 let speaker = speakerDependency.children[idx].children[1].children[0].children[1].children[0].value;
                 //발화자 연령
