@@ -657,7 +657,7 @@ export default function CommonScript({url}) {
                     //     cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelCd = getSexCurrentElement().options[getSexCurrentElement().selectedIndex].value;
                     //     cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelNm = getSexCurrentElement().options[getSexCurrentElement().selectedIndex].textContent;
                     // }
-                    else if( e.key == 'a' || e.key == 's' || e.key == 'd' || e.key == 'f' || e.key == 'g' || e.key == 'h' || e.key == 'j') {
+                    else if( e.key == 'a' || e.key == 's' || e.key == 'd' || e.key == 'f' || e.key == 'g' || e.key == 'h' || e.key == 'j' || e.key == 'k' || e.key == 'l') {
                         let key = '';
                         let value = '';
                         const convertKey = {
@@ -668,6 +668,8 @@ export default function CommonScript({url}) {
                             'g': getTmpJSON().subtitleLabelInfo.placeType[5].labelNm,
                             'h': getTmpJSON().subtitleLabelInfo.placeType[6].labelNm,
                             'j': getTmpJSON().subtitleLabelInfo.placeType[7].labelNm,
+                            'k': getTmpJSON().subtitleLabelInfo.placeType[8].labelNm,
+                            'l': getTmpJSON().subtitleLabelInfo.placeType[9].labelNm,
                         };
                         const convertValue = {
                             'a': getTmpJSON().subtitleLabelInfo.placeType[1].labelCd,
@@ -677,6 +679,8 @@ export default function CommonScript({url}) {
                             'g': getTmpJSON().subtitleLabelInfo.placeType[5].labelCd,
                             'h': getTmpJSON().subtitleLabelInfo.placeType[6].labelCd,
                             'j': getTmpJSON().subtitleLabelInfo.placeType[7].labelCd,
+                            'k': getTmpJSON().subtitleLabelInfo.placeType[8].labelCd,
+                            'l': getTmpJSON().subtitleLabelInfo.placeType[9].labelCd,
                         };
                         
                         key = convertKey[e.key];
