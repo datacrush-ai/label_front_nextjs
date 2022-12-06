@@ -615,8 +615,32 @@ export default function CommonScript({url}) {
                 
                 if( getAgeCurrentElement() != undefined && getSexCurrentElement() != undefined && getPlaceCurrentElement() != undefined 
                     && !(nextid?.includes('comment') || nextid?.includes('speaker')) ) {
-                    if( e.key == '1' || e.key == '2' || e.key == '3' || e.key == '4' || e.key == '5' || e.key == '6' || e.key == '7' || e.key == '8' || e.key == '9') {
-                        const child_idx = parseInt(e.key)-1;
+                    if( e.key == '1' || e.key == '2' || e.key == '3' || e.key == '4' || e.key == '5' || e.key == '6' || e.key == '7' || e.key == '8' || e.key == '9' || e.key == '0' ||
+                        e.key == '!' || e.key == '@' || e.key == '#' || e.key == '$' || e.key == '%' || e.key == '^' || e.key == '&' || e.key == '*' || e.key == '(' || e.key == ')'
+                    ) {
+                        const convertValue = {
+                            '1': 1,
+                            '2': 2,
+                            '3': 3,
+                            '4': 4,
+                            '5': 5,
+                            '6': 6,
+                            '7': 7,
+                            '8': 8,
+                            '9': 9,
+                            '0': 10,
+                            '!': 11,
+                            '@': 12,
+                            '#': 13,
+                            '$': 14,
+                            '%': 15,
+                            '^': 16,
+                            '&': 17,
+                            '*': 18,
+                            '(': 19,
+                            ')': 20,
+                        };
+                        const child_idx = convertValue[e.key] - 1;
                         const _cue = document.querySelectorAll('textarea');
                         const speakerDependency = document.getElementById('speaker-dependency');
                         const ageidx = speakerDependency.children[child_idx]?.children[2].children[0].children[1].selectedIndex;
@@ -657,7 +681,7 @@ export default function CommonScript({url}) {
                     //     cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelCd = getSexCurrentElement().options[getSexCurrentElement().selectedIndex].value;
                     //     cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelNm = getSexCurrentElement().options[getSexCurrentElement().selectedIndex].textContent;
                     // }
-                    else if( e.key == 'a' || e.key == 's' || e.key == 'd' || e.key == 'f' || e.key == 'g' || e.key == 'h' || e.key == 'j') {
+                    else if( e.key == 'a' || e.key == 's' || e.key == 'd' || e.key == 'f' || e.key == 'g' || e.key == 'h' || e.key == 'j' || e.key == 'k' || e.key == 'l') {
                         let key = '';
                         let value = '';
                         const convertKey = {
@@ -668,6 +692,8 @@ export default function CommonScript({url}) {
                             'g': getTmpJSON().subtitleLabelInfo.placeType[5].labelNm,
                             'h': getTmpJSON().subtitleLabelInfo.placeType[6].labelNm,
                             'j': getTmpJSON().subtitleLabelInfo.placeType[7].labelNm,
+                            'k': getTmpJSON().subtitleLabelInfo.placeType[8].labelNm,
+                            'l': getTmpJSON().subtitleLabelInfo.placeType[9].labelNm,
                         };
                         const convertValue = {
                             'a': getTmpJSON().subtitleLabelInfo.placeType[1].labelCd,
@@ -677,6 +703,8 @@ export default function CommonScript({url}) {
                             'g': getTmpJSON().subtitleLabelInfo.placeType[5].labelCd,
                             'h': getTmpJSON().subtitleLabelInfo.placeType[6].labelCd,
                             'j': getTmpJSON().subtitleLabelInfo.placeType[7].labelCd,
+                            'k': getTmpJSON().subtitleLabelInfo.placeType[8].labelCd,
+                            'l': getTmpJSON().subtitleLabelInfo.placeType[9].labelCd,
                         };
                         
                         key = convertKey[e.key];
@@ -720,15 +748,15 @@ export default function CommonScript({url}) {
                         cue[getSelectIndex()].subtileSelLabelInfo = last_copy_subtileSelLabelInfo;
                         const paste_target = document.querySelector('#subtitle_edit_layout').children[0].children[getSelectIndex()].children[0].children[0];
                         //발화자 연령
-                        paste_target.children[3].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelCd;
+                        paste_target.children[3].children[1].value = cue[getSelectIndex()]?.subtileSelLabelInfo?.speakerAge?.labelCd;
                         //성별
-                        paste_target.children[4].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelCd;
+                        paste_target.children[4].children[1].value = cue[getSelectIndex()]?.subtileSelLabelInfo?.speakerSex?.labelCd;
                         //장소
-                        paste_target.children[5].children[1].children[0].value = cue[getSelectIndex()].subtileSelLabelInfo.placeType.labelNm;
+                        paste_target.children[5].children[1].children[0].value = cue[getSelectIndex()]?.subtileSelLabelInfo?.placeType?.labelNm;
                         //화자
-                        paste_target.children[6].children[1].children[0].value = cue[getSelectIndex()].subtileSelLabelInfo.speaker.labelNm;
+                        paste_target.children[6].children[1].children[0].value = cue[getSelectIndex()]?.subtileSelLabelInfo?.speaker?.labelNm;
                         //중첩음
-                        paste_target.children[7].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerOvrVoc.labelCd;
+                        paste_target.children[7].children[1].value = cue[getSelectIndex()]?.subtileSelLabelInfo?.speakerOvrVoc?.labelCd;
     
                         setTimeout(function() { 
                             dispatch(setCue({'cue': cue}));
@@ -787,42 +815,42 @@ export default function CommonScript({url}) {
                     e.preventDefault();
                     e.stopPropagation();
                 }
-                else if(e.key == '!' || e.key == '@' || e.key == '#' || e.key == '$' || e.key == '%' || e.key == '^' || e.key == '&' || e.key == '*') {
-                    const convertValue = {
-                        '!': 1,
-                        '@': 2,
-                        '#': 3,
-                        '$': 4,
-                        '%': 5,
-                        '^': 6,
-                        '&': 7,
-                        '*': 8,
-                    };
+                // else if(e.key == '!' || e.key == '@' || e.key == '#' || e.key == '$' || e.key == '%' || e.key == '^' || e.key == '&' || e.key == '*') {
+                //     const convertValue = {
+                //         '!': 1,
+                //         '@': 2,
+                //         '#': 3,
+                //         '$': 4,
+                //         '%': 5,
+                //         '^': 6,
+                //         '&': 7,
+                //         '*': 8,
+                //     };
                     
-                    if( getFuncMacro()[convertValue[e.key]] ) {
-                        cue[getSelectIndex()].subtileSelLabelInfo = getFuncMacro()[convertValue[e.key]];
-                        const paste_target = document.querySelector('#subtitle_edit_layout').children[0].children[getSelectIndex()].children[0].children[0];
-                        //발화자 연령
-                        paste_target.children[3].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelCd;
-                        //성별
-                        paste_target.children[4].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelCd;
-                        //장소
-                        paste_target.children[5].children[1].children[0].value = cue[getSelectIndex()].subtileSelLabelInfo.placeType.labelNm;
-                        //화자
-                        paste_target.children[6].children[1].children[0].value = cue[getSelectIndex()].subtileSelLabelInfo.speaker.labelNm;
-                        //중첩음
-                        paste_target.children[7].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerOvrVoc.labelCd;
+                //     if( getFuncMacro()[convertValue[e.key]] ) {
+                //         cue[getSelectIndex()].subtileSelLabelInfo = getFuncMacro()[convertValue[e.key]];
+                //         const paste_target = document.querySelector('#subtitle_edit_layout').children[0].children[getSelectIndex()].children[0].children[0];
+                //         //발화자 연령
+                //         paste_target.children[3].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerAge.labelCd;
+                //         //성별
+                //         paste_target.children[4].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerSex.labelCd;
+                //         //장소
+                //         paste_target.children[5].children[1].children[0].value = cue[getSelectIndex()].subtileSelLabelInfo.placeType.labelNm;
+                //         //화자
+                //         paste_target.children[6].children[1].children[0].value = cue[getSelectIndex()].subtileSelLabelInfo.speaker.labelNm;
+                //         //중첩음
+                //         paste_target.children[7].children[1].value = cue[getSelectIndex()].subtileSelLabelInfo.speakerOvrVoc.labelCd;
     
-                        setTimeout(function() { 
-                            dispatch(setCue({'cue': cue}));
-                        }, 100);
+                //         setTimeout(function() { 
+                //             dispatch(setCue({'cue': cue}));
+                //         }, 100);
 
-                        pasteAction();
-                        e.preventDefault();
-                        e.stopPropagation();
-                        createCueFunc(cue);
-                    }
-                }
+                //         pasteAction();
+                //         e.preventDefault();
+                //         e.stopPropagation();
+                //         createCueFunc(cue);
+                //     }
+                // }
             });
         }
 

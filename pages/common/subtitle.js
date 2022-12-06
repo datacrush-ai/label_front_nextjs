@@ -128,17 +128,17 @@ export default function Subtitle({ info }) {
                         style={{'minWidth': '480px'}}
                         // onClick={subtitleSectionElementClick}
                         onClick={(e) => {
-                          contextmenuRef.current.style.display = 'none';
+                          // contextmenuRef.current.style.display = 'none';
                           subtitleSectionElementClick(e);
                         }}
-                        onMouseLeave={(e) => {
-                          e.className = 'hidden';
-                        }}
-                        onContextMenu={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          subtitleContext(contextmenuRef, e);
-                        }}
+                        // onMouseLeave={(e) => {
+                        //   e.className = 'hidden';
+                        // }}
+                        // onContextMenu={(e) => {
+                        //   e.preventDefault();
+                        //   e.stopPropagation();
+                        //   subtitleContext(contextmenuRef, e);
+                        // }}
               >
                 <div className={styles.subtitle_edit_content}>
                   <div className={styles.subtitle_edit_content_row} datacrush-color={"nocolor"}>
@@ -164,7 +164,7 @@ export default function Subtitle({ info }) {
             )
           })
         }
-        <div ref={contextmenuRef} id={"subtitle-contextmenu"}> 
+        {/* <div ref={contextmenuRef} id={"subtitle-contextmenu"}> 
           <div className={"bg-white w-60 border border-gray-300 rounded-lg flex flex-col text-sm py-4 px-2 text-gray-500 shadow-lg"}>
             <div id={'macro_1'} 
                 onClick={(e) => { subtitleContextClick(contextmenuRef, e); }} 
@@ -207,7 +207,7 @@ export default function Subtitle({ info }) {
               <div id={'macro_8'}>8번 매크로 저장</div>
             </div>
           </div>
-        </div>
+        </div> */}
       </article>
     </>
   )
