@@ -129,6 +129,18 @@ const LayoutPosition = (info) => {
               <span style={{'gridArea': 'macro13', 'border': '1px solid'}}>7</span>  <span style={{'gridArea': 'macro14', 'border': '1px solid'}}>화자 매크로7</span>
               <span style={{'gridArea': 'macro15', 'border': '1px solid'}}>8</span>  <span style={{'gridArea': 'macro16', 'border': '1px solid'}}>화자 매크로8</span>
               <span style={{'gridArea': 'macro17', 'border': '1px solid'}}>9</span>  <span style={{'gridArea': 'macro18', 'border': '1px solid'}}>화자 매크로9</span>
+
+              <span style={{'gridArea': 'macro19', 'border': '1px solid'}}>0</span>  <span style={{'gridArea': 'macro20', 'border': '1px solid'}}>화자 매크로10</span>
+              <span style={{'gridArea': 'macro21', 'border': '1px solid'}}>&#33;</span>  <span style={{'gridArea': 'macro22', 'border': '1px solid'}}>화자 매크로11</span>
+              <span style={{'gridArea': 'macro23', 'border': '1px solid'}}>&#64;</span>  <span style={{'gridArea': 'macro24', 'border': '1px solid'}}>화자 매크로12</span>
+              <span style={{'gridArea': 'macro25', 'border': '1px solid'}}>&#35;</span>  <span style={{'gridArea': 'macro26', 'border': '1px solid'}}>화자 매크로13</span>
+              <span style={{'gridArea': 'macro27', 'border': '1px solid'}}>&#36;</span>  <span style={{'gridArea': 'macro28', 'border': '1px solid'}}>화자 매크로14</span>
+              <span style={{'gridArea': 'macro29', 'border': '1px solid'}}>&#37;</span>  <span style={{'gridArea': 'macro30', 'border': '1px solid'}}>화자 매크로15</span>
+              <span style={{'gridArea': 'macro31', 'border': '1px solid'}}>&#94;</span>  <span style={{'gridArea': 'macro32', 'border': '1px solid'}}>화자 매크로16</span>
+              <span style={{'gridArea': 'macro33', 'border': '1px solid'}}>&#38;</span>  <span style={{'gridArea': 'macro34', 'border': '1px solid'}}>화자 매크로17</span>
+              <span style={{'gridArea': 'macro35', 'border': '1px solid'}}>&#42;</span>  <span style={{'gridArea': 'macro36', 'border': '1px solid'}}>화자 매크로18</span>
+              <span style={{'gridArea': 'macro37', 'border': '1px solid'}}>&#40;</span>  <span style={{'gridArea': 'macro38', 'border': '1px solid'}}>화자 매크로19</span>
+              <span style={{'gridArea': 'macro39', 'border': '1px solid'}}>&#41;</span>  <span style={{'gridArea': 'macro40', 'border': '1px solid'}}>화자 매크로20</span>
               
               <span className={styles.header_tips} style={{'gridArea': 'place0'}}>장소</span>
               <span style={{'gridArea': 'place1', 'border': '1px solid'}}>a</span>  <span style={{'gridArea': 'place2', 'border': '1px solid'}}>집</span>
@@ -138,6 +150,8 @@ const LayoutPosition = (info) => {
               <span style={{'gridArea': 'place9', 'border': '1px solid'}}>g</span>  <span style={{'gridArea': 'place10', 'border': '1px solid'}}>교통수단</span>
               <span style={{'gridArea': 'place11', 'border': '1px solid'}}>h</span>  <span style={{'gridArea': 'place12', 'border': '1px solid'}}>세트장</span>
               <span style={{'gridArea': 'place13', 'border': '1px solid'}}>j</span>  <span style={{'gridArea': 'place14', 'border': '1px solid'}}>실외</span>
+              <span style={{'gridArea': 'place15', 'border': '1px solid'}}>k</span>  <span style={{'gridArea': 'place16', 'border': '1px solid'}}>유치원</span>
+              <span style={{'gridArea': 'place17', 'border': '1px solid'}}>l</span>  <span style={{'gridArea': 'place18', 'border': '1px solid'}}>해설녹음(더빙)</span>
               
               <span className={styles.header_tips} style={{'gridArea': 'ovr0'}}>중첩음</span>
               <span style={{'gridArea': 'ovr1', 'border': '1px solid'}}>q</span>  <span style={{'gridArea': 'ovr2', 'border': '1px solid'}}>없음</span>
@@ -321,8 +335,6 @@ export default function Edit({ data }) {
       <section style={{'display': 'flex', 'justifyContent': 'center', 'minHeight': 'calc(6vh)', 'maxHeight': 'calc(6vh)', 'overflow': 'auto', 'textAlign': 'center'}}>
         <div>
           <span className={'mr-3 ml-3'} style={{'color': 'var(--theme-blue-color)'}}>
-            매크로 지정: 해당 라인 마우스 우클릭
-            <br></br>
             {data.label_info?.episodDTO?.prgNm}-{data.label_info?.episodDTO?.epNm}-{data.label_info?.episodDTO?.epVdoSnm}화
             <br></br>
             <MacroLayer></MacroLayer>

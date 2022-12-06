@@ -463,7 +463,8 @@ export default function VideoLayout({ video_info }) {
             if (start <= _currentTime && end >= _currentTime) {
               createSelectIndex(idx);
               target.children[0].children[0].style.backgroundColor = "var(--theme-whiteblue-color)";
-              subtitle_edit_layout.scrollTop = target.offsetTop - (subtitle_edit_layout.clientHeight / 0.8);
+              // subtitle_edit_layout.scrollTop = target.offsetTop - (subtitle_edit_layout.clientHeight / 0.8);
+              subtitle_edit_layout.scrollTop = target.offsetTop - (subtitle_edit_layout.clientHeight / 0.6);
               createAgeCurrentElement(target.children[0].children[0].children[3].children[1]);
               createSexCurrentElement(target.children[0].children[0].children[4].children[1]);
               createPlaceCurrentElement(target.children[0].children[0].children[5].children[1]);
