@@ -392,7 +392,7 @@ export default function PayPage() {
             // setSummary(_.sortBy(summary?.summaryList, ['jobPrrSttScd']));
         }
     }, []);
-
+    
     useEffect(() => {
         /*
         let first_position_move = true;

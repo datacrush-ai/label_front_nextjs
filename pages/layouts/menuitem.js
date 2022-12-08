@@ -6,7 +6,6 @@ import { getCue } from '../../store/nia_layout/StoreCueSlice';
 import { sendFetch, sendSwitWebHook, ToastMsg } from '../common/common_script';
 import { convertValueKey } from '../common/searchbox_autocomplete';
 import { getTmpJSON } from '../common/video_layout';
-import html2canvas from 'html2canvas';
 
 export default function MenuItem() {
     const subtitleList = useSelector(getCue);
@@ -111,11 +110,10 @@ export default function MenuItem() {
                                             let sexcd = speakerDependency.children[depend_idx].children[3].children[0].children[1].children[sexidx].value;
                                             episodSpeakerDependencyValue.push({ memo, speaker, ageidx, agecd, sexidx, sexcd });
                                         }
-
                                         setCookie('speakerdependency', JSON.stringify(episodSpeakerDependencyValue));
 
                                         let subtitle_edit_layout = document.querySelector('#subtitle_edit_layout').children[0];
-                                        let subtitle_edit_layout_length = subtitle_edit_layout.childElementCount-1;
+                                        let subtitle_edit_layout_length = subtitle_edit_layout.childElementCount;
                                         for(let idx=0; idx<subtitle_edit_layout_length; idx++) {
                                             let target_subtitle_component = subtitle_edit_layout.children[idx].children[0].children[0];
                                             
@@ -209,7 +207,7 @@ export default function MenuItem() {
                                         setCookie('speakerdependency', JSON.stringify(episodSpeakerDependencyValue));
 
                                         let subtitle_edit_layout = document.querySelector('#subtitle_edit_layout').children[0];
-                                        let subtitle_edit_layout_length = subtitle_edit_layout.childElementCount-1;
+                                        let subtitle_edit_layout_length = subtitle_edit_layout.childElementCount;
                                         for(let idx=0; idx<subtitle_edit_layout_length; idx++) {
                                             let target_subtitle_component = subtitle_edit_layout.children[idx].children[0].children[0];
                                             
@@ -338,6 +336,7 @@ export default function MenuItem() {
                                                     }
                                                     
                                                     if( param.subtitleList.length > 5 ) {
+                                                        // console.log(param)
                                                         await sendFetch(context, param, {method:"POST"})
                                                         .then(res => {
                                                             ToastMsg('작업을 완료했습니다.\n잠시 후 창이 닫힙니다.', 2000, null, function() {

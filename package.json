@@ -20,7 +20,6 @@
     "axios": "^0.27.2",
     "cookies-next": "^2.1.1",
     "env-cmd": "^10.1.0",
-    "html2canvas": "^1.4.1",
     "lodash": "^4.17.21",
     "next": "12.2.5",
     "next-redux-wrapper": "^7.0.5",
