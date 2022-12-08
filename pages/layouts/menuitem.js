@@ -6,7 +6,6 @@ import { getCue } from '../../store/nia_layout/StoreCueSlice';
 import { sendFetch, sendSwitWebHook, ToastMsg } from '../common/common_script';
 import { convertValueKey } from '../common/searchbox_autocomplete';
 import { getTmpJSON } from '../common/video_layout';
-import html2canvas from 'html2canvas';
 
 export default function MenuItem() {
     const subtitleList = useSelector(getCue);

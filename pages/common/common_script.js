@@ -53,10 +53,6 @@ export const sendFetch = async(context, param, options) => {
 };
 
 export const sendSwitWebHook = async(param) => {
-    // html2canvas(document.body).then(canvas => {
-        // let canvas_data = canvas.toDataURL('image/jpeg', 0.005);
-        // param.text += `\n\n<img style="width:800px; height:800px;" src="${canvas_data}"/>`
-    // });
     const worker_id = JSON.parse(getCookie('tmp'))['prtEml'];
     const swit_webhook_url = 'https://hook.swit.io/idea/221123053757352nvge/DzXBMUJc1DhnXwqadAMJ';
     if( param.text == undefined ) {
