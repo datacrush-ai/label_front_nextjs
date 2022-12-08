@@ -8,7 +8,6 @@ import { getFuncMacro } from "./edit";
 import { convertValueKey } from "./searchbox_autocomplete";
 import { createCueFunc, getCueFunc } from "./subtitle";
 import { getAgeCurrentElement, getOvrVocCurrentElement, getPlaceCurrentElement, getSelectIndex, getSexCurrentElement, getTmpJSON, getVidElement } from "./video_layout";
-import html2canvas from 'html2canvas';
 
 let _subtitle_children; 
 let _sectionEndtime;
@@ -409,7 +408,7 @@ export default function CommonScript({url}) {
             setTimeout(() => {
                 let result = [];
                 let subtitle_edit_layout = document.querySelector('#subtitle_edit_layout').children[0];
-                let subtitle_edit_layout_length = subtitle_edit_layout.childElementCount-1;
+                let subtitle_edit_layout_length = subtitle_edit_layout.childElementCount;
                 for(let idx=0; idx<subtitle_edit_layout_length; idx++) {
                     let target_subtitle_component = subtitle_edit_layout.children[idx].children[0].children[0];
                     // 자막
@@ -552,6 +551,7 @@ export default function CommonScript({url}) {
                 */
 
 
+
                 const tmpJSON = getTmpJSON();
                 // tmpJSON.scenarioSelLabelInfo = getScenarioSelLabelInfo();
                 tmpJSON.subtitleList = result;
@@ -583,6 +583,7 @@ export default function CommonScript({url}) {
                     if( tmpJSON.subtitleList.length > 5 ) {
                         sendFetch(tmpSaveUrl, tmpJSON, {method: 'POST'})
                         ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
+                        console.log(tmpJSON)
                     }
                     else {
                         const hook_param = {
