@@ -583,7 +583,7 @@ export default function CommonScript({url}) {
                     if( tmpJSON.subtitleList.length > 5 ) {
                         sendFetch(tmpSaveUrl, tmpJSON, {method: 'POST'})
                         ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
-                        console.log(tmpJSON)
+                        // console.log(tmpJSON)
                     }
                     else {
                         const hook_param = {

@@ -337,15 +337,15 @@ export default function MenuItem() {
                                                     }
                                                     
                                                     if( param.subtitleList.length > 5 ) {
-                                                        console.log(param)
-                                                        // await sendFetch(context, param, {method:"POST"})
-                                                        // .then(res => {
-                                                        //     ToastMsg('작업을 완료했습니다.\n잠시 후 창이 닫힙니다.', 2000, null, function() {
-                                                        //         setTimeout(function() {
-                                                        //             window.close();
-                                                        //         },3000);
-                                                        //     }, 'pass');
-                                                        // });
+                                                        // console.log(param)
+                                                        await sendFetch(context, param, {method:"POST"})
+                                                        .then(res => {
+                                                            ToastMsg('작업을 완료했습니다.\n잠시 후 창이 닫힙니다.', 2000, null, function() {
+                                                                setTimeout(function() {
+                                                                    window.close();
+                                                                },3000);
+                                                            }, 'pass');
+                                                        });
                                                     }
                                                     else {
                                                         const hook_param = {
