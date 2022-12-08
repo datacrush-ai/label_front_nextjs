@@ -115,7 +115,7 @@ export default function MenuItem() {
                                         setCookie('speakerdependency', JSON.stringify(episodSpeakerDependencyValue));
 
                                         let subtitle_edit_layout = document.querySelector('#subtitle_edit_layout').children[0];
-                                        let subtitle_edit_layout_length = subtitle_edit_layout.childElementCount-1;
+                                        let subtitle_edit_layout_length = subtitle_edit_layout.childElementCount;
                                         for(let idx=0; idx<subtitle_edit_layout_length; idx++) {
                                             let target_subtitle_component = subtitle_edit_layout.children[idx].children[0].children[0];
                                             
@@ -209,7 +209,7 @@ export default function MenuItem() {
                                         setCookie('speakerdependency', JSON.stringify(episodSpeakerDependencyValue));
 
                                         let subtitle_edit_layout = document.querySelector('#subtitle_edit_layout').children[0];
-                                        let subtitle_edit_layout_length = subtitle_edit_layout.childElementCount-1;
+                                        let subtitle_edit_layout_length = subtitle_edit_layout.childElementCount;
                                         for(let idx=0; idx<subtitle_edit_layout_length; idx++) {
                                             let target_subtitle_component = subtitle_edit_layout.children[idx].children[0].children[0];
                                             
