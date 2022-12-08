@@ -111,7 +111,6 @@ export default function MenuItem() {
                                             let sexcd = speakerDependency.children[depend_idx].children[3].children[0].children[1].children[sexidx].value;
                                             episodSpeakerDependencyValue.push({ memo, speaker, ageidx, agecd, sexidx, sexcd });
                                         }
-
                                         setCookie('speakerdependency', JSON.stringify(episodSpeakerDependencyValue));
 
                                         let subtitle_edit_layout = document.querySelector('#subtitle_edit_layout').children[0];
