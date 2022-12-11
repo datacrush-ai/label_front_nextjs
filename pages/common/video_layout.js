@@ -289,7 +289,7 @@ export default function VideoLayout({ video_info }) {
         return await sendFetch(tmpSaveLabelUrl, tmpSaveLabelJSON, {method:"POST"});
       }
 
-      if( tmpSaveLabelJSON?.subtitleList?.length > 5 ) {
+      if( tmpSaveLabelJSON?.subtitleList?.length > 1 ) {
         tmpSave();
       }
     // }, 500);
