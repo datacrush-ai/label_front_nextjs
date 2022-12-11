@@ -160,7 +160,7 @@ export default function MenuItem() {
                                             context = '/labeltool/tmpSaveExceptionLabelJob';
                                         }
                                         setTimeout(async() => {
-                                            if( param.subtitleList.length > 5 ) {
+                                            if( param.subtitleList.length > 1 ) {
                                                 await sendFetch(context, param, {method:"POST"})
                                                 .then(res => {
                                                     ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
@@ -257,7 +257,7 @@ export default function MenuItem() {
                                             context = '/labeltool/tmpSaveExceptionLabelJob';
                                         }
                                         setTimeout(async() => {
-                                            if( param.subtitleList.length > 5 ) {
+                                            if( param.subtitleList.length > 1 ) {
                                                 await sendFetch(context, param, {method:"POST"})
                                                 .then(res => {
                                                     ToastMsg('작업을 저장 했습니다.', 3000, null, null, 'pass');
@@ -335,7 +335,7 @@ export default function MenuItem() {
                                                         context = '/labeltool/reqComplExceptionLabelJob';
                                                     }
                                                     
-                                                    if( param.subtitleList.length > 5 ) {
+                                                    if( param.subtitleList.length > 1 ) {
                                                         // console.log(param)
                                                         await sendFetch(context, param, {method:"POST"})
                                                         .then(res => {
